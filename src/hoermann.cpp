@@ -4,15 +4,6 @@
 
 #define SYNC_BYTE   0x55
 
-/*
-16 	ttyUSB0 	COM17
-17 	ttyUSB1 	COM18
-18 	ttyUSB2 	COM19
-19 	ttyUSB3 	COM20
-20 	ttyUSB4 	COM21
-21 	ttyUSB5 	COM22
-*/
-
 
 void Hoermann::loop(void)
 {
@@ -60,7 +51,7 @@ bool Hoermann::read_rs232(void)
     
     
 
-    uint8_t data = (uint8_t)buf;
+    uint8_t data = (uint8_t)buf[0];
     
     if ((data == SYNC_BYTE) && (counter == 0))
     {
