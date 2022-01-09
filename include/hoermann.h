@@ -30,7 +30,7 @@ class Hoermann
   public:
 
     void open_serial(char * serial_name, int boudrate);
-    Hoermann();
+    
     void loop();
     hoermann_state_t get_state();
     std::string get_state_string();
