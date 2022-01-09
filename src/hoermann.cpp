@@ -1,7 +1,7 @@
 // based on https://github.com/stephan192/hoermann_door
 
 #include "hoermann.h"
-
+#include <iostream>
 #define SYNC_BYTE   0x55
 
 
@@ -48,7 +48,7 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
     char buf[2]; 
     serial.serial_read(buf, 1, 1);
-    
+    std::cout << std::dec << buf << std::endl;
     
 
     uint8_t data = (uint8_t)buf[0];
