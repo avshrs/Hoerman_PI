@@ -7,7 +7,7 @@ hoermann_state_t last_door_state = hoermann_state_unkown;
 
 
 
-void main(){
+int main(){
    door.loop();
    current_door_state = door.get_state();
    std::string state = door.get_state_string();
@@ -15,5 +15,5 @@ void main(){
 std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
 
-
+return 1;
 }
