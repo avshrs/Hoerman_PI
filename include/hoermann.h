@@ -1,3 +1,5 @@
+// based on https://github.com/stephan192/hoermann_door
+
 #pragma once
 #include <string>
 #include "read.h"
