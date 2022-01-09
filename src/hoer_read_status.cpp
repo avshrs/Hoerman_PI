@@ -1,6 +1,6 @@
 #include "hoermann.h"
 #include <iostream>
-
+#include <unistd.h>
 Hoermann door;
 hoermann_state_t current_door_state = hoermann_state_unkown;
 hoermann_state_t last_door_state = hoermann_state_unkown;
@@ -18,7 +18,7 @@ int main(){
    
 std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
-   sleep(1)
+   sleep(1);
    }
 return 1;
 }
