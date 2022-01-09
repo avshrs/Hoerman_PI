@@ -8,6 +8,7 @@ hoermann_state_t last_door_state = hoermann_state_unkown;
 
 
 int main(){
+   while(1){
    char serial_name[] = "/dev/ttyUSB0";
    int boudrate = 19200;
    door.open_serial(serial_name, boudrate);
@@ -17,6 +18,7 @@ int main(){
    
 std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
-
+   sleep(1)
+   }
 return 1;
 }
