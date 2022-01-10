@@ -52,7 +52,7 @@ bool Hoermann::read_rs232(void)
 {
     while (1)
     {
-      serial.serial_read(buf, 4);
+      serial.serial_read(buf, 5);
        for(int i=0; i<5 ; i++){
     
         std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
