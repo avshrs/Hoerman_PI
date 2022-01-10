@@ -49,7 +49,7 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 bool Hoermann::read_rs232(void)
 {
-  
+    static uint8_t len = 0;
     char buf[40]; 
     serial.serial_read(buf, 40);
     for(int i=0; i<16 ; i++){
@@ -58,9 +58,18 @@ bool Hoermann::read_rs232(void)
     std::cout << std::endl;
 
           
-    if (buf[1]== 0x55 && buf[0] == 0x00) 
+    if (buf[0]== 0x55) 
     {
       std::cout<< std::endl<< std::endl << "found 0x55 in buffer "<< std::endl;
+      if (buf[3] < 16) 
+        len = buf[3] + 4;
+      else 
+      len = 16;
+    
+    if (calc_checksum(buf, len - 1) == buf[len])
+        {
+          return true;
+        }
     }
   return false;
 }
@@ -127,7 +136,7 @@ void Hoermann::send_command(void)
   serial.serial_send(&output_buffer_[0], 16);
 }
 
-uint8_t Hoermann::calc_checksum(uint8_t *p_data, uint8_t length)
+uint8_t Hoermann::calc_checksum(char *p_data, uint8_t length)
 {
   uint8_t i;
   uint8_t crc = 0;
