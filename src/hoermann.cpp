@@ -43,6 +43,7 @@ void Hoermann::trigger_action(hoermann_action_t action)
 
 void Hoermann::open_serial(char * serial_name, int boudrate)
 {
+  serial.serial_open2(serial_name, boudrate, false, NULL);
   serial.serial_open(serial_name, boudrate);
 }
 
