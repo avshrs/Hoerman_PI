@@ -55,22 +55,19 @@ bool Hoermann::read_rs232(void)
       serial.serial_read(buf, 5);
       if (buf[0] == 0x00 && buf[1] == 0x12 ) 
       {
-         for(int i=0; i<5 ; i++){
-    
-        std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-        } std::cout << std::endl;
+        //  for(int i=0; i<5 ; i++){
+        //   std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+        // } std::cout << std::endl;
          parse_input();
         std::cout << "actual state: " << get_state_string() << std:: endl; 
 
         if (calc_checksum(buf, 5) == buf[4])
         {
           return true;
-          
         }
       }
     }
   return false;
-
 } 
 
 void Hoermann::parse_input(void)
