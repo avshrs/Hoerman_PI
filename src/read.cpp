@@ -158,6 +158,7 @@ void Read::serial_send(char *data, int size)
 
 void Read::serial_read(char *data, int size)
 {
+  
      read(fd, data, size);
 }
 
