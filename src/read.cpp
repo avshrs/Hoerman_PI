@@ -66,9 +66,9 @@ void Read::serial_open(char *serial_name, int baud)
       newtermios.c_cc[VTIME]=0;
       cfsetospeed(&newtermios,baud);
       cfsetispeed(&newtermios,baud);
-      if (tcflush(fd,TCIFLUSH)==-1) return -1;
-      if (tcflush(fd,TCOFLUSH)==-1) return -1;
-      if (tcsetattr(fd,TCSANOW,&newtermios)==-1) return -1;
+      if (tcflush(fd,TCIFLUSH)==-1) std::cout << "error1" << std::endl;
+      if (tcflush(fd,TCOFLUSH)==-1) std::cout << "error2" << std::endl;
+      if (tcsetattr(fd,TCSANOW,&newtermios)==-1) std::cout << "error3" << std::endl;
       
 }   
 
