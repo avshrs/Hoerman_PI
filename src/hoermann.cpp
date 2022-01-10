@@ -23,7 +23,7 @@ void Hoermann::loop(void)
     send_command();
     actual_action = hoermann_action_none;
   }
-  usleep(1000000);
+  
 }
 
 hoermann_state_t Hoermann::get_state(void)
