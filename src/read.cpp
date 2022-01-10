@@ -12,7 +12,7 @@
 
 void Read::serial_open(char *serial_name, int baud)
 {
-  struct termios newtermios;
+  // struct termios newtermios;
   // fd = open(serial_name,O_RDWR | O_NOCTTY);
   // if (fd < 0) 
   // {
