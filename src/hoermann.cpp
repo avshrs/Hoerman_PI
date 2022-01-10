@@ -67,7 +67,7 @@ bool Hoermann::read_rs232(void)
 
     }
     
-        break;
+        
       }      
     
     
