@@ -36,9 +36,9 @@ void Hoermann::trigger_action(hoermann_action_t action)
   actual_action = action;
 }
 
-void Hoermann::open_serial(char * serial_name, int boudrate){
-
-  rs232 = serial.serial_open(serial_name, boudrate);
+void Hoermann::open_serial(char * serial_name, int boudrate)
+{
+  serial.serial_open(serial_name, boudrate);
 }
 
 
