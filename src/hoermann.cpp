@@ -134,7 +134,7 @@ void Hoermann::parse_input(void)
 
 void Hoermann::send_command(uint8_t i)
 {
-  output_buffer[0] = 0x55;
+  output_buffer[0] = 0x60;
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
   output_buffer[3] = i;

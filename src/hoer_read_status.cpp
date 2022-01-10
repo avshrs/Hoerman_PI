@@ -12,7 +12,7 @@ int main(){
    char serial_name[] = "/dev/ttyUSB0";
    int boudrate = 19200;
    door.open_serial(serial_name, boudrate);
-   door.send_command(0x01);
+   door.send_command(0x02);
    door.loop();
 
    current_door_state = door.get_state();
