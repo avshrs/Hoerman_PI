@@ -57,7 +57,7 @@ bool Hoermann::read_rs232(void)
     
     if ((data == 0x55) && (counter == 0))
     {
-      std::cout << "found 0x55 in buffer and counter = 0" << std::dec <<  (int)len << std::endl;
+      std::cout<< std::endl<< std::endl << "found 0x55 in buffer and counter = 0" << std::dec <<  (int)len << std::endl;
       rx_buffer[counter] = data;
       counter++;
       len = 0;
