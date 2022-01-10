@@ -56,10 +56,10 @@ bool Hoermann::read_rs232(void)
         buf[i] = 0xff;
       } 
       serial.serial_read(buf, 16);
-
+          if(buf[0] == 0x00 && buf[1]!=0xff){
          for(int i=0; i<16 ; i++){
-           if(buf[0] == 0x00 && buf[1]==0xff)
-           break;
+           
+          
            if(buf[i] == 0xff)
           std::cout << " 0x  ";
           else
@@ -67,6 +67,7 @@ bool Hoermann::read_rs232(void)
 
           
         } std::cout << std::endl;
+        }
       if (buf[0] == 0x00 && buf[1] == 0x12 ) 
       {
         //  for(int i=0; i<5 ; i++){
