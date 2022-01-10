@@ -12,7 +12,7 @@ void Hoermann::loop(void)
   if (read_rs232() == true)
   {
     parse_input();
-    std::cout << get_state_string() << std:: endl; 
+    std::cout << "actual state: " << get_state_string() << std:: endl; 
   }
 
   if (actual_action != hoermann_action_none)
@@ -57,7 +57,7 @@ bool Hoermann::read_rs232(void)
     
     if ((data == 0x55) && (counter == 0))
     {
-      std::cout << "found 0x55 in buffer and counter = 0" << std::endl;
+      // std::cout << "found 0x55 in buffer and counter = 0" << std::endl;
       rx_buffer[counter] = data;
       counter++;
       len = 0;
@@ -81,7 +81,7 @@ bool Hoermann::read_rs232(void)
       }
       else if (counter == len)
       {
-         std::cout << "counter == len | counter:" << counter << " len: " << len << std::endl;
+        //  std::cout << "counter == len | counter:" << counter << " len: " << len << std::endl;
 
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
