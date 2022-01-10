@@ -12,7 +12,7 @@ int main(){
    char serial_name[] = "/dev/ttyUSB0";
    int boudrate = 19200;
    door.open_serial(serial_name, boudrate);
-   door.loop();
+   //door.loop();
    current_door_state = door.get_state();
    
    std::string state = door.get_state_string();
