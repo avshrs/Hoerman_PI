@@ -50,7 +50,7 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 bool Hoermann::read_rs232(void)
 {
-    static uint8_t len = 0;
+    
     char buf[5] = {0}; 
       send_command(0x55);  
     int a =0;
