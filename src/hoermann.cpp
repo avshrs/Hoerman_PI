@@ -59,9 +59,13 @@ bool Hoermann::read_rs232(void)
     
         std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
         } std::cout << std::endl;
+         parse_input();
+        std::cout << "actual state: " << get_state_string() << std:: endl; 
+
         if (calc_checksum(buf, 5) == buf[4])
         {
           return true;
+          
         }
       }
     }
@@ -76,7 +80,7 @@ void Hoermann::parse_input(void)
         actual_state = hoermann_state_open;
         actual_state_string = "open";
       }
-      if ((buf[2] & 0x02) == 0x02)
+      else if ((buf[2] & 0x02) == 0x02)
       {
         actual_state = hoermann_state_open;
         actual_state_string = "close";
