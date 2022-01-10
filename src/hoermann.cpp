@@ -53,10 +53,6 @@ bool Hoermann::read_rs232(void)
     while (1)
     {
       serial.serial_read(buf, 5);
-       for(int i=0; i<5 ; i++){
-    
-        std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-        } std::cout << std::endl;
       if (buf[0] == 0x00 && buf[1] == 0x12 ) 
       {
          for(int i=0; i<5 ; i++){
@@ -75,10 +71,6 @@ bool Hoermann::read_rs232(void)
 
 void Hoermann::parse_input(void)
 {
-  if (buf[0] == 0x00)
-  {
-    if (buf[1] == 0x12)
-    {
       if ((buf[2] & 0x01) == 0x01)
       {
         actual_state = hoermann_state_open;
@@ -113,8 +105,6 @@ void Hoermann::parse_input(void)
       {
         actual_state = hoermann_state_stopped;
         actual_state_string = "stopped";
-      }
-    }
   }
 }
 /*
