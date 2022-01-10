@@ -151,7 +151,8 @@ void Read::serial_open2(const char *device, int baudrate, bool rtscts, struct te
 
 
 void Read::serial_send(char *data, int size)
-{
+{ 
+  std::cout << "mesage wa sent" << std::endl;
   write(fd, data, size);
 }
 
