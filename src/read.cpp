@@ -50,8 +50,8 @@ void Read::serial_open(char *serial_name, int baud)
 
   newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
-  cfsetispeed(&newtermios,B19200);
-  cfsetospeed(&newtermios, B19200);
+  cfsetispeed(&newtermios,baud);
+  cfsetospeed(&newtermios, baud);
 
 
 
