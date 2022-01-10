@@ -57,25 +57,25 @@ bool Hoermann::read_rs232(void)
     
     if ((data == 0x55) && (counter == 0))
     {
-      std::cout << "found 0x55 in buffer and counter = 0" << std::dec << len << std::endl;
+      std::cout << "found 0x55 in buffer and counter = 0" << std::dec <<  (int)len << std::endl;
       rx_buffer[counter] = data;
       counter++;
       len = 0;
     }
     else if (counter > 0)
     {
-      std::cout << "counter > 0 | " << counter << " len: " << std::dec << len << std::endl;
+      std::cout << "counter > 0 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
 
       rx_buffer[counter] = data;
       counter++;
       if (counter == 3)
       {
-        std::cout << "counter == 3 | " << counter << " len: " << std::dec << len << std::endl;
+        std::cout << "counter == 3 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
         if (data < 16)
         {
-          std::cout << "data  < 16 | " << counter << " len: " << std::dec << len << std::endl;
+          std::cout << "data  < 16 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
           len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
-          std::cout << "counter == 3 | " << counter << " len: " << std::dec << len << std::endl;
+          std::cout << "counter == 3 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
         }
         else
         {
@@ -84,7 +84,7 @@ bool Hoermann::read_rs232(void)
       }
       else if (counter == len)
       {
-        std::cout << "counter == len | counter:" << counter << " len: " << std::dec << len << std::endl;
+        std::cout << "counter == len | counter:" << counter << " len: " << std::dec << (int)len << std::endl;
 
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
