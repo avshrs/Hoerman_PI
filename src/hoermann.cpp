@@ -72,7 +72,6 @@ bool Hoermann::read_rs232(void)
       rx_buffer[counter] = data;
       counter++;
       len = 0;
-      serial.serial_read(buf, 1);
     }
     else if (counter > 0)
     {
