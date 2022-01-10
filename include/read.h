@@ -11,7 +11,7 @@ class Read
     uint8_t serial_read_byte(char *data, int timeout_usec);
     void serial_close();
     int convert_baudrate(unsigned int baudrate);
-    void dump(const char *buf, size_t len);
+    
 
 
 };
