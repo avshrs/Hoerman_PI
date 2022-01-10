@@ -62,7 +62,7 @@ bool Hoermann::read_rs232(void)
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     } std::cout << std::endl;
     a++; 
-    if (a == 10){
+    if (a == 50){
       break;
     }
     
