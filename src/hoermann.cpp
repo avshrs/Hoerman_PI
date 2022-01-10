@@ -82,12 +82,12 @@ bool Hoermann::read_rs232(void)
       if (counter == 3)
       {std::cout << " counter == 3" <<std::endl;
         if (data < 16)
-        {std::cout << " data < 16" <<std::endl;
+        {std::cout << " data < 16 " << std::dec <<data << std::endl;
           len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
         }
         else
         {
-          std::cout << "  counter = 0;" <<std::endl;
+          std::cout << "  counter = 0;" << std::dec <<data << std::endl;
           counter = 0;
         }
       }
