@@ -52,6 +52,8 @@ bool Hoermann::read_rs232(void)
     static uint8_t len = 0;
     char buf[16] = {0}; 
       send_command(0x00);  
+    
+    while (1){
       serial.serial_read(buf, 16);
       
       for(int i=0; i<16 ; i++){
@@ -61,7 +63,7 @@ bool Hoermann::read_rs232(void)
 
     
     
-        
+    }
       
     
     
