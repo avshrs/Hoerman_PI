@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <unistd.h>
 
-#define SYNC_BYTE   0x55
+#define SYNC_BYTE   0x60
 
 Hoermann::Hoermann(void)
 {
