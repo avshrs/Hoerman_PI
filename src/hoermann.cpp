@@ -48,7 +48,7 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
     char buf[2]; 
     serial.serial_read_byte(buf, 1);
-    std::cout << std::dec << buf << std::endl;
+    // std::cout << std::dec << buf << std::endl;
     
 
     uint8_t data = (uint8_t)buf[0];
