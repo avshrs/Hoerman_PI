@@ -80,18 +80,21 @@ bool Hoermann::read_rs232(void)
       rx_buffer[counter] = data;
       counter++;
       if (counter == 3)
-      {
+      {std::cout << " counter == 3" <<std::endl;
         if (data < 16)
-        {
+        {std::cout << " data < 16" <<std::endl;
           len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
         }
         else
         {
+          std::cout << "  counter = 0;" <<std::endl;
           counter = 0;
         }
       }
       else if (counter == len)
-      {std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data)<< std::endl;
+      
+      {std::cout << "  counter = len;" <<std::endl;
+         std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data)<< std::endl;
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
           counter = 0;
