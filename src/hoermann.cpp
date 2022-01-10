@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#define SYNC_BYTE   0x55
+#define SYNC_BYTE   0x05
 
 
 void Hoermann::loop(void)
