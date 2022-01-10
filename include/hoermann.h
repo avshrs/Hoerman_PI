@@ -36,7 +36,7 @@ class Hoermann
     hoermann_state_t get_state();
     std::string get_state_string();
     void trigger_action(hoermann_action_t action);
-  private:
+  
     int rs232;
     char buf[16] = {0}; 
     Read serial;
