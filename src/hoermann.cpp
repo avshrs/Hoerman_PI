@@ -124,7 +124,7 @@ void Hoermann::send_command(void)
       output_buffer_[i] = (char)output_buffer[i];
   }
   
-  serial.serial_send(&output_buffer_[0], 5);
+  serial.serial_send(&output_buffer_[0], 16);
 }
 
 uint8_t Hoermann::calc_checksum(uint8_t *p_data, uint8_t length)
