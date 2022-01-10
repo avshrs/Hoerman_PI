@@ -50,19 +50,21 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
     char buf[2]; 
     serial.serial_read_byte(buf, 1);
-    // std::cout << std::setw << std::hex << buf << std::endl;
-    std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
+    // std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
 
     uint8_t data = (uint8_t)buf[0];
     
-    if ((data == SYNC_BYTE) && (counter == 0))
+    if ((data == 0x55) && (counter == 0))
     {
+      std::cout << "found 0x55 in buffer and counter = 0" << std::endl;
       rx_buffer[counter] = data;
       counter++;
       len = 0;
     }
     else if (counter > 0)
     {
+      std::cout << "not found 0x55 in buffer, counter > 0 | " << counter << " len: " << len << std::endl;
+
       rx_buffer[counter] = data;
       counter++;
       if (counter == 3)
@@ -78,6 +80,8 @@ bool Hoermann::read_rs232(void)
       }
       else if (counter == len)
       {
+         std::cout << "counter == len | counter:" << counter << " len: " << len << std::endl;
+
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
           counter = 0;
