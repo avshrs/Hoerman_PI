@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
-#define SYNC_BYTE   0x05
+#define SYNC_BYTE   0x55
 
 
 void Hoermann::loop(void)
@@ -51,7 +51,7 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
     char buf[2]; 
     serial.serial_read_byte(buf, 1);
-    std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
+    // std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
 
     uint8_t data = (uint8_t)buf[0];
     
@@ -89,12 +89,12 @@ bool Hoermann::read_rs232(void)
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
           counter = 0;
-          std::cout << "check sum ok " << std::endl;
+          std::cout << "check sum ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl;
           return true;
           
         }
         else{
-          std::cout << "check sum NOT ok " << std::endl;
+          std::cout << "check sum NOT ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl;
         }
 
         counter = 0;
