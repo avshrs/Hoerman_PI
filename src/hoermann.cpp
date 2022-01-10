@@ -50,8 +50,8 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 bool Hoermann::read_rs232(void)
 {
     static uint8_t len = 0;
-    char buf[40]; 
-    serial.serial_read(buf, 40);
+    char buf[16]; 
+    serial.serial_read(buf, 16);
     for(int i=0; i<16 ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     }
