@@ -61,7 +61,7 @@ bool Hoermann::read_rs232(void)
     std::cout << std::endl;
 
           
-    if (buf[1] = 0x55) 
+    if (buf[1]== 0x55) 
     {
       std::cout<< std::endl<< std::endl << "found 0x55 in buffer "<< std::endl;
     }
