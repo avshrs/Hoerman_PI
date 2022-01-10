@@ -25,8 +25,8 @@ void Read::serial_open(char *serial_name, int baud)
 
   newtermios.c_cflag &= ~PARENB; // Clear parity bit, disabling parity (most common)
   // newtermios.c_cflag |= PARENB;  // Set parity bit, enabling parity
-  // newtermios.c_cflag &= ~CSTOPB; // Clear stop field, only one stop bit used in communication (most common)
-  newtermios.c_cflag |= CSTOPB;  // Set stop field, two stop bits used in communication
+  newtermios.c_cflag &= ~CSTOPB; // Clear stop field, only one stop bit used in communication (most common)
+  // newtermios.c_cflag |= CSTOPB;  // Set stop field, two stop bits used in communication
   newtermios.c_cflag &= ~CSIZE; // Clear all the size bits, then use one of the statements below
   // newtermios.c_cflag |= CS5; // 5 bits per byte
   // newtermios.c_cflag |= CS6; // 6 bits per byte
@@ -40,7 +40,7 @@ void Read::serial_open(char *serial_name, int baud)
   newtermios.c_lflag &= ~ECHOE; // Disable erasure
   newtermios.c_lflag &= ~ECHONL; // Disable new-line echo
   newtermios.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
-  // newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
+  newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
   newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
 
   newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
@@ -48,10 +48,10 @@ void Read::serial_open(char *serial_name, int baud)
   // tty.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
   // tty.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
-  newtermios.c_cc[VTIME] = 10;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
+  newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
-  cfsetispeed(&newtermios, baud);
-  cfsetospeed(&newtermios, baud);
+  cfsetispeed(&newtermios,B19200);
+  cfsetospeed(&newtermios, B19200);
 
 
 
