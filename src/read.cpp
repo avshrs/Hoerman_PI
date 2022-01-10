@@ -59,7 +59,7 @@ uint8_t Read::serial_read_byte(char *data, int timeout_usec)
 {
       fd_set fds;
       struct timeval timeout;
-      int count=0;
+      
       int ret;
       uint8_t n;
       FD_ZERO(&fds);
