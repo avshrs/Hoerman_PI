@@ -49,10 +49,7 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 bool Hoermann::read_rs232(void)
 {
-  static uint8_t counter = 0;
-  static uint8_t len = 0;
-  // 0x00 0x12 0x01 0x02 0x56
-
+  
     char buf[16]; 
     serial.serial_read(buf, 16);
     for(int i=0; i<16 ; i++){
