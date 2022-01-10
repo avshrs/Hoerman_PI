@@ -50,12 +50,15 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 bool Hoermann::read_rs232(void)
 {
-    char buf[5] = {0}; 
     while (1)
     {
       serial.serial_read(buf, 4);
       if (buf[0]== 0x00 && buf[0]== 0x12 ) 
       {
+         for(int i=0; i<5 ; i++){
+    
+        std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+        } std::cout << std::endl;
         if (calc_checksum(buf, 5) == buf[4])
         {
           return true;
@@ -68,36 +71,36 @@ bool Hoermann::read_rs232(void)
 
 void Hoermann::parse_input(void)
 {
-  if (rx_buffer[1] == 0x00)
+  if (buf[0] == 0x00)
   {
-    if (rx_buffer[2] == 0x12)
+    if (buf[1] == 0x12)
     {
-      if ((rx_buffer[3] & 0x01) == 0x01)
+      if ((buf[2] & 0x01) == 0x01)
       {
         actual_state = hoermann_state_open;
         actual_state_string = "open";
       }
-      if ((rx_buffer[3] & 0x02) == 0x02)
+      if ((buf[2] & 0x02) == 0x02)
       {
         actual_state = hoermann_state_open;
         actual_state_string = "close";
       }
-      else if ((rx_buffer[3] & 0x80) == 0x80)
+      else if ((buf[2] & 0x80) == 0x80)
       {
         actual_state = hoermann_state_venting;
         actual_state_string = "venting";
       }
-      else if ((rx_buffer[3] & 0x60) == 0x40)
+      else if ((buf[2] & 0x60) == 0x40)
       {
         actual_state = hoermann_state_opening;
         actual_state_string = "opening";
       }
-      else if ((rx_buffer[3] & 0x60) == 0x60)
+      else if ((buf[2] & 0x60) == 0x60)
       {
         actual_state = hoermann_state_closing;
         actual_state_string = "closing";
       }
-      else if ((rx_buffer[3] & 0x10) == 0x10)
+      else if ((buf[2] & 0x10) == 0x10)
       {
         actual_state = hoermann_state_error;
         actual_state_string = "error";
