@@ -8,19 +8,22 @@
 
 #define SYNC_BYTE   0x55
 
-
+Hoermann::Hoermann(void)
+{
+  actual_state = hoermann_state_unkown;
+  actual_state_string = "unkown";
+  actual_action = hoermann_action_none;
+}
 void Hoermann::loop(void)
 {
-  
   if (read_rs232() == true)
   {
     parse_input();
-    std::cout << "actual state: " << get_state_string() << std:: endl; 
   }
 
   if (actual_action != hoermann_action_none)
   {
-    // send_command(0x55);
+    send_command();
     actual_action = hoermann_action_none;
   }
   
@@ -44,65 +47,92 @@ void Hoermann::trigger_action(hoermann_action_t action)
 void Hoermann::open_serial(char * serial_name, int boudrate)
 {
   serial.serial_open2(serial_name, boudrate, false, NULL);
-  serial.serial_open(serial_name, boudrate);
+  //serial.serial_open(serial_name, boudrate);
 }
 
 
 bool Hoermann::read_rs232(void)
 {
-    while (1)
-    {
-      serial.serial_read(buf, 16);
-         for(int i=0; i<5 ; i++){
-          std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-          if (buf[i] == 0x00 && i > 0)
-            break;
-        } std::cout << std::endl;
-      if (buf[0] == 0x00 && buf[1] == 0x12 ) 
-      {
-        //  for(int i=0; i<5 ; i++){
-        //   std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-        // } std::cout << std::endl;
-        parse_input();
-        std::cout << "actual state: " << get_state_string() << std:: endl; 
+  static uint8_t counter = 0;
+  static uint8_t len = 0;
+  uint8_t data;
 
-        if (calc_checksum(buf, 5) == buf[4])
+  while (1)
+  {
+    // read the incoming byte:
+
+    serial.serial_read(buf, 1);
+    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]);
+    data = buf[0];
+
+    if ((data == SYNC_BYTE) && (counter == 0))
+    {
+      rx_buffer[counter] = data;
+      counter++;
+      len = 0;
+    }
+    else if (counter > 0)
+    {
+      rx_buffer[counter] = data;
+      counter++;
+      if (counter == 3)
+      {
+        if (data < 16)
         {
-          return true;
+          len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
+        }
+        else
+        {
+          counter = 0;
         }
       }
+      else if (counter == len)
+      {
+        if (calc_checksum(rx_buffer, len - 1) == data)
+        {
+          counter = 0;
+          return true;
+        }
+        counter = 0;
+      }
     }
+  }
+
   return false;
-} 
+}
 
 void Hoermann::parse_input(void)
 {
-      if ((buf[2] & 0x01) == 0x01)
+  if (rx_buffer[1] == 0x00)
+  {
+    if (rx_buffer[2] == 0x02)
+    {
+      if ((rx_buffer[3] & 0x01) == 0x01)
       {
         actual_state = hoermann_state_open;
         actual_state_string = "open";
       }
-      else if ((buf[2] & 0x02) == 0x02)
+      else if ((rx_buffer[3] & 0x02) == 0x02)
       {
-        actual_state = hoermann_state_open;
-        actual_state_string = "close";
+        actual_state = hoermann_state_closed;
+        actual_state_string = "closed";
       }
-      else if ((buf[2] & 0x80) == 0x80)
+      else if ((rx_buffer[3] & 0x80) == 0x80)
       {
         actual_state = hoermann_state_venting;
         actual_state_string = "venting";
       }
-      else if ((buf[2] & 0x60) == 0x40)
+      else if ((rx_buffer[3] & 0x60) == 0x40)
       {
         actual_state = hoermann_state_opening;
         actual_state_string = "opening";
       }
-      else if ((buf[2] & 0x60) == 0x60)
+      else if ((rx_buffer[3] & 0x60) == 0x60)
       {
         actual_state = hoermann_state_closing;
         actual_state_string = "closing";
       }
-      else if ((buf[2] & 0x10) == 0x10)
+      else if ((rx_buffer[3] & 0x10) == 0x10)
       {
         actual_state = hoermann_state_error;
         actual_state_string = "error";
@@ -110,7 +140,9 @@ void Hoermann::parse_input(void)
       else
       {
         actual_state = hoermann_state_stopped;
-        actual_state_string = "stopped";
+        actual_state_string = "Partially Open";
+      }
+    }
   }
 }
 /*
@@ -122,9 +154,9 @@ void Hoermann::parse_input(void)
 1 0 0 0  0 0 0 0 x80 venting
 */
 
-void Hoermann::send_command(uint8_t i)
+void Hoermann::send_command()
 {
-  output_buffer[0] = i;
+  output_buffer[0] = 0x55;
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
   output_buffer[3] = (uint8_t)actual_action;
@@ -132,11 +164,10 @@ void Hoermann::send_command(uint8_t i)
   for (int i =0 ; i<16; i++){
       output_buffer_[i] = (char)output_buffer[i];
   }
-  
-  serial.serial_send(&output_buffer_[0], 16);
+  serial.serial_send(&output_buffer_[0], 5);
 }
 
-uint8_t Hoermann::calc_checksum(char *p_data, uint8_t length)
+uint8_t Hoermann::calc_checksum(uint8_t *p_data, uint8_t length)
 {
   uint8_t i;
   uint8_t crc = 0;
