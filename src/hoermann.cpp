@@ -123,17 +123,12 @@ void Hoermann::parse_input(void)
         actual_state = hoermann_state_open;
         actual_state_string = "open";
       }
-      else if ((rx_buffer[3] & 0x02) == 0x02)
-      {
-        actual_state = hoermann_state_closed;
-        actual_state_string = "closed";
-      }
       else if ((rx_buffer[3] & 0x80) == 0x80)
       {
         actual_state = hoermann_state_venting;
         actual_state_string = "venting";
       }
-      else if ((rx_buffer[3] & 0x60) == 0x40)
+      else if ((rx_buffer[3] & 0x40) == 0x40)
       {
         actual_state = hoermann_state_opening;
         actual_state_string = "opening";
@@ -156,6 +151,14 @@ void Hoermann::parse_input(void)
     }
   }
 }
+/*
+1 1 1 1  1 1 1 1
+0 0 0 0  0 0 0 0 x01  
+0 0 0 1  0 0 0 0 x10
+0 1 0 1  0 0 0 0 x40
+0 1 1 0  0 0 0 0 x60
+1 0 0 0  0 0 0 0 x80
+*/
 
 void Hoermann::send_command(void)
 {
