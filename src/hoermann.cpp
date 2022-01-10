@@ -58,7 +58,7 @@ bool Hoermann::read_rs232(void)
       // if (buf[0] == 0x55)
       //   break;
       std::cout <<"For i: "<<  " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(i) <<std::endl;
-    if (i == buf[1]){
+    if (i == (uint8_t)buf[1]){
         std::cout <<"done  "<< std::endl;   
         for(int i=0; i<16 ; i++){
     
@@ -109,7 +109,7 @@ void Hoermann::parse_input(void)
         actual_state = hoermann_state_venting;
         actual_state_string = "venting";
       }
-      else if ((rx_buffer[3] & 0x40) == 0x40)
+      else if ((rx_buffer[3] & 0x60) == 0x40)
       {
         actual_state = hoermann_state_opening;
         actual_state_string = "opening";
@@ -134,11 +134,11 @@ void Hoermann::parse_input(void)
 }
 /*
 1 1 1 1  1 1 1 1
-0 0 0 0  0 0 0 0 x01  
-0 0 0 1  0 0 0 0 x10
-0 1 0 1  0 0 0 0 x40
-0 1 1 0  0 0 0 0 x60
-1 0 0 0  0 0 0 0 x80
+0 0 0 0  0 0 0 0 x01  open
+0 0 0 1  0 0 0 0 x10 error
+0 1 0 1  0 0 0 0 x40 opening
+0 1 1 0  0 0 0 0 x60 closing
+1 0 0 0  0 0 0 0 x80 venting
 */
 
 void Hoermann::send_command(uint8_t i)
