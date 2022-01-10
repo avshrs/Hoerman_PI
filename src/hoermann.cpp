@@ -12,6 +12,7 @@ void Hoermann::loop(void)
   if (read_rs232() == true)
   {
     parse_input();
+    std::cout << get_state_string() << std:: endl; 
   }
 
   if (actual_action != hoermann_action_none)
