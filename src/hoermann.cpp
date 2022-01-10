@@ -130,16 +130,16 @@ void Hoermann::parse_input(void)
 
 void Hoermann::send_command(uint8_t i)
 {
-  output_buffer[0] = i;
+  output_buffer[0] = 0x55;
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
-  output_buffer[3] = (uint8_t)actual_action;
+  output_buffer[3] = i;
   output_buffer[4] = output_buffer[0] + output_buffer[1] + output_buffer[2] + output_buffer[3];
   for (int i =0 ; i<16; i++){
       output_buffer_[i] = (char)output_buffer[i];
   }
   
-  serial.serial_send(&output_buffer_[0], 16);
+  serial.serial_send(&output_buffer_[0], 5);
 }
 
 uint8_t Hoermann::calc_checksum(char *p_data, uint8_t length)
