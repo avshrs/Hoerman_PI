@@ -51,18 +51,18 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 bool Hoermann::read_rs232(void)
 {
     static uint8_t len = 0;
-    char buf[6] = {0}; 
+    char buf[5] = {0}; 
       send_command(0x55);  
     int a =0;
     while (1){
       serial.serial_read(buf, 6);
       
-      for(int i=0; i<6 ; i++){
+      for(int i=0; i<5 ; i++){
     
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     } std::cout << std::endl;
     a++; 
-    if (a == 50){
+    if (a == 100){
       break;
     }
     
@@ -71,21 +71,17 @@ bool Hoermann::read_rs232(void)
       
     
     
-    for(int i=0; i<16 ; i++){
-    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-    }
-    std::cout << std::endl;
+    // for(int i=0; i<16 ; i++){
+    // std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+    // }
+    // std::cout << std::endl;
 
           
-    if (buf[0]== 0x55) 
+    if (buf[0]== 0x00 && buf[0]== 0x12 ) 
     {
-      std::cout<< std::endl<< std::endl << "found 0x55 in buffer "<< std::endl;
-      if (buf[3] < 16) 
-        len = buf[3] + 4;
-      else 
-      len = 16;
-    
-    if (calc_checksum(buf, len - 1) == buf[len])
+     
+      
+    if (calc_checksum(buf, 5) == buf[4])
         {
           return true;
         }
