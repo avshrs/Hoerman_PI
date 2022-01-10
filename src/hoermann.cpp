@@ -11,7 +11,7 @@
 
 void Hoermann::loop(void)
 {
-  send_command();
+  
   if (read_rs232() == true)
   {
     parse_input();
@@ -48,7 +48,7 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 
 bool Hoermann::read_rs232(void)
-{
+{send_command();
     static uint8_t len = 0;
     char buf[16] = {0}; 
     while(1){
