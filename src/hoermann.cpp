@@ -9,6 +9,7 @@
 
 void Hoermann::loop(void)
 {
+  send_command();
   if (read_rs232() == true)
   {
     parse_input();
@@ -47,6 +48,8 @@ bool Hoermann::read_rs232(void)
 {
   static uint8_t counter = 0;
   static uint8_t len = 0;
+  // 0x00 0x12 0x01 0x02 0x56
+
   while(1){
     // read the incoming byte:
     char buf[2]; 
