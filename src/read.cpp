@@ -159,24 +159,6 @@ void Read::serial_read(char *data, int size)
 {
      read(fd, data, size);
 }
-uint8_t Read::serial_read_byte(char *data, int timeout_usec)
-{
-      fd_set fds;
-      struct timeval timeout;
-      
-      int ret;
-      uint8_t n;
-      FD_ZERO(&fds);
-      FD_SET (fd, &fds);
-      timeout.tv_sec = 0;
-      timeout.tv_usec = timeout_usec;
-      ret = select (FD_SETSIZE,&fds, NULL, NULL, &timeout);
-      if (ret==1) {
-        n = read (fd, &data[0], 1);
-   }
- 
- return n;
-}
 
 void Read::serial_close()
 {
