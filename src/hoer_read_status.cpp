@@ -18,7 +18,7 @@ int main(){
    
 std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
-   
+   sleep(1);
    }
 return 1;
 }
