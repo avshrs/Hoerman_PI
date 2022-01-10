@@ -134,10 +134,10 @@ void Hoermann::parse_input(void)
 
 void Hoermann::send_command(uint8_t i)
 {
-  output_buffer[0] = i;
+  output_buffer[0] = 0x57;
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
-  output_buffer[3] = 2;
+  output_buffer[3] = i;
   output_buffer[4] = output_buffer[0] + output_buffer[1] + output_buffer[2] + output_buffer[3];
   for (int i =0 ; i<16; i++){
       output_buffer_[i] = (char)output_buffer[i];
