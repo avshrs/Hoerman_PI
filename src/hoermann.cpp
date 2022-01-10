@@ -90,12 +90,12 @@ bool Hoermann::read_rs232(void)
         if (calc_checksum(rx_buffer, len - 1) == data)
         {
           counter = 0;
-          std::cout << "check sum ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl;
+          std::cout << "check sum ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl<<std::endl<<std::endl;
           return true;
           
         }
         else{
-          std::cout << "check sum NOT ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl;
+          std::cout << "check sum NOT ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl<<std::endl<<std::endl;
         }
 
         counter = 0;
