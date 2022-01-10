@@ -20,7 +20,7 @@ void Hoermann::loop(void)
 
   if (actual_action != hoermann_action_none)
   {
-    send_command();
+    send_command(0x55);
     actual_action = hoermann_action_none;
   }
   
@@ -48,14 +48,17 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 
 bool Hoermann::read_rs232(void)
-{send_command();
+{
     static uint8_t len = 0;
     char buf[16] = {0}; 
-    while(1){
+    for(uint8_t i = 0 ;i<145 ; i++){
+      send_command(i);  
       serial.serial_read(buf, 16);
-      if (buf[0] == 0x55)
-        break;
-            for(int i=0; i<16 ; i++){
+      
+      // if (buf[0] == 0x55)
+      //   break;
+    for(int i=0; i<16 ; i++){
+      
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     } std::cout << std::endl;
     }
@@ -131,9 +134,9 @@ void Hoermann::parse_input(void)
 1 0 0 0  0 0 0 0 x80
 */
 
-void Hoermann::send_command(void)
+void Hoermann::send_command(uint8_t i)
 {
-  output_buffer[0] = 0x55;
+  output_buffer[0] = i;
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
   output_buffer[3] = (uint8_t)actual_action;

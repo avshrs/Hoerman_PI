@@ -46,7 +46,7 @@ class Hoermann
     char output_buffer_[16] = {0};
     bool read_rs232();
     void parse_input();
-    void send_command();
+    void send_command(uint8_t i);
     uint8_t calc_checksum(char *p_data, uint8_t length);
 };
 
