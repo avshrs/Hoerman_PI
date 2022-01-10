@@ -40,7 +40,7 @@ void Read::serial_open(char *serial_name, int baud)
   newtermios.c_lflag &= ~ECHOE; // Disable erasure
   newtermios.c_lflag &= ~ECHONL; // Disable new-line echo
   newtermios.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
-  newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
+  // newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
   newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
 
   newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
