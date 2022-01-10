@@ -58,7 +58,7 @@ bool Hoermann::read_rs232(void)
       // if (buf[0] == 0x55)
       //   break;
     for(int i=0; i<16 ; i++){
-      
+    std::cout <<"For i: "<<  " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(i);  
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     } std::cout << std::endl;
     }
