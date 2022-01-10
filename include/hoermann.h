@@ -41,9 +41,9 @@ class Hoermann
     hoermann_state_t actual_state;
     std::string actual_state_string;
     hoermann_action_t actual_action;
-    uint8_t rx_buffer[16];
-    uint8_t output_buffer[16];
-    char output_buffer_[16];
+    uint8_t rx_buffer[16] = {0};
+    uint8_t output_buffer[16] = {0};
+    char output_buffer_[16] = {0};
     bool read_rs232();
     void parse_input();
     void send_command();
