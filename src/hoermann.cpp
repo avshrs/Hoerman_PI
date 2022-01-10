@@ -93,6 +93,9 @@ bool Hoermann::read_rs232(void)
           return true;
           
         }
+        else{
+          std::cout << "check sum NOT ok " << std::endl;
+        }
 
         counter = 0;
       }
