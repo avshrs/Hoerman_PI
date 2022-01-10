@@ -86,7 +86,7 @@ bool Hoermann::read_rs232(void)
       {
         std::cout << "counter == len | counter:" << counter << " len: " << std::dec << (int)len << std::endl;
 
-        if (calc_checksum(rx_buffer, len - 1) == data)
+        if (calc_checksum(rx_buffer, len) == data)
         {
           counter = 0;
           std::cout << "check sum ok " << std::endl;
