@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <unistd.h>
+
 #define SYNC_BYTE   0x55
 
 
@@ -21,6 +23,7 @@ void Hoermann::loop(void)
     send_command();
     actual_action = hoermann_action_none;
   }
+  usleep(1000000);
 }
 
 hoermann_state_t Hoermann::get_state(void)
@@ -54,7 +57,7 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
     char buf[2]; 
     serial.serial_read_byte(buf, 1);
-    // std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
+    std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
 
     uint8_t data = (uint8_t)buf[0];
     
