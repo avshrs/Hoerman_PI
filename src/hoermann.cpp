@@ -64,6 +64,7 @@ bool Hoermann::read_rs232(void)
     }
     else if (counter > 0)
     {
+      std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
       std::cout << "counter > 0 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
 
       rx_buffer[counter] = data;
