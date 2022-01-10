@@ -53,8 +53,6 @@ bool Hoermann::read_rs232(void)
   static uint8_t len = 0;
   // 0x00 0x12 0x01 0x02 0x56
 
-  while(1){
-    // read the incoming byte:
     char buf[16]; 
     serial.serial_read(buf, 16);
     for(int i=0; i<16 ; i++){
@@ -62,56 +60,11 @@ bool Hoermann::read_rs232(void)
     }
     std::cout << std::endl;
 
-    uint8_t data = (uint8_t)buf[0];
-    
-    if ((data == 0x55) && (counter == 0))
-    {
-      // std::cout<< std::endl<< std::endl << "found 0x55 in buffer and counter = 0" << std::dec <<  (int)len << std::endl;
-      rx_buffer[counter] = data;
-      counter++;
-      len = 0;
-    }
-    else if (counter > 0)
-    {
-      // std::cout << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
-      // std::cout << "counter > 0 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
-
-      rx_buffer[counter] = data;
-      counter++;
-      if (counter == 3)
-      {
-        // std::cout << "counter == 3 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
-        if (data < 16)
-        {
-          // std::cout << "data  < 16 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
-          len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
-          // std::cout << "counter == 3 | " << counter << " len: " << std::dec <<  (int)len << std::endl;
-        }
-        else
-        {
-          counter = 0;
-        }
-      }
-      else if (counter == len)
-      {
-        // std::cout << "counter == len | counter:" << counter << " len: " << std::dec << (int)len << std::endl;
-
-        if (calc_checksum(rx_buffer, len - 1) == data)
-        {
-          counter = 0;
-          std::cout << "check sum ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl<<std::endl<<std::endl;
-          return true;
           
-        }
-        else{
-          std::cout << "check sum NOT ok " << std::setw(4) << std::setfill('0')<<std::hex << static_cast<int>(data) <<std::endl<<std::endl<<std::endl;
-        }
-
-        counter = 0;
-      }
+    if (buf[1] = 0x55) 
+    {
+      std::cout<< std::endl<< std::endl << "found 0x55 in buffer "<< std::endl;
     }
-  }
-
   return false;
 }
 
