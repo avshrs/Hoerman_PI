@@ -74,10 +74,10 @@ bool Hoermann::read_rs232(void)
         rx_buffer[i] = buf[i];
         
       }
-      std::cout << "rx  0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[4]) << std::endl;
-      std::cout << "rx  0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(calc_checksum(rx_buffer, 4)) << std::endl;
+      // std::cout << "rx  0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[4]) << std::endl;
+      // std::cout << "rx  0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(calc_checksum(rx_buffer, 4)) << std::endl;
       
-      if (calc_checksum(rx_buffer, 5) == rx_buffer[4])
+      if (calc_checksum(rx_buffer, 4) == rx_buffer[4])
         {
           std::cout << "dupa" << std::endl;
           return true;
