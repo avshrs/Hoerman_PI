@@ -19,8 +19,8 @@ int main(){
    int boudrate = 19200;
    door.open_serial(serial_name, boudrate);
    
-   while(1){
-      door.loop();
+   // while(1){
+   door.loop();
    current_door_state = door.get_state();
    
    std::string state = door.get_state_string();
@@ -32,6 +32,6 @@ int main(){
    sleep(10);
    door.trigger_action(hoermann_action_close);
    sleep(10);
-   }
+   // }
 return 1;
 }
