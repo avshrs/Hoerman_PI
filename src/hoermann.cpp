@@ -43,7 +43,7 @@ void Hoermann_pi::start_frame_listener()
               sync_seq_number = 1;
             }
         }
-        else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign)
+        else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign && in_bufer[0] == 0x00)
         {
             // std::cout << "broadcast Message"<<std::endl;
             // for(int i=0; i<5 ; i++)
