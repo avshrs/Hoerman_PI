@@ -91,36 +91,36 @@ bool Hoermann::read_rs232(void)
 
 void Hoermann::parse_input(void)
 {
-  if (rx_buffer[1] == 0x00)
+  if (rx_buffer[0] == 0x00)
   {
-    if (rx_buffer[2] == 0x02)
+    if (rx_buffer[1] == 0x12)
     {
-      if ((rx_buffer[3] & 0x01) == 0x01)
+      if ((rx_buffer[2] & 0x01) == 0x01)
       {
         actual_state = hoermann_state_open;
         actual_state_string = "open";
       }
-      else if ((rx_buffer[3] & 0x02) == 0x02)
+      else if ((rx_buffer[2] & 0x02) == 0x02)
       {
         actual_state = hoermann_state_closed;
         actual_state_string = "closed";
       }
-      else if ((rx_buffer[3] & 0x80) == 0x80)
+      else if ((rx_buffer[2] & 0x80) == 0x80)
       {
         actual_state = hoermann_state_venting;
         actual_state_string = "venting";
       }
-      else if ((rx_buffer[3] & 0x60) == 0x40)
+      else if ((rx_buffer[2] & 0x60) == 0x40)
       {
         actual_state = hoermann_state_opening;
         actual_state_string = "opening";
       }
-      else if ((rx_buffer[3] & 0x60) == 0x60)
+      else if ((rx_buffer[2] & 0x60) == 0x60)
       {
         actual_state = hoermann_state_closing;
         actual_state_string = "closing";
       }
-      else if ((rx_buffer[3] & 0x10) == 0x10)
+      else if ((rx_buffer[2] & 0x10) == 0x10)
       {
         actual_state = hoermann_state_error;
         actual_state_string = "error";
