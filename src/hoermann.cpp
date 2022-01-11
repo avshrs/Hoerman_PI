@@ -68,7 +68,6 @@ bool Hoermann::read_rs232(void)
     if ((data == SYNC_BYTE) && (counter == 0))
     {
       
-      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data) << std::endl;
 
       
       
