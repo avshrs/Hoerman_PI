@@ -14,14 +14,14 @@ class Hoermann_pi
   private:
     Mqtt mqtt;
     USB_serial serial;
-    const char master_id = 0x80;
-    const char device_id = 0x28;
-    const char sync_id = 0x55;
+    const uint8_t master_id = 0x80;
+    const uint8_t device_id = 0x28;
+    const uint8_t sync_id = 0x55;
     //broadcast message
-    const char broadcast_id = 0x00;
-    const char seq_mask = 0xf0;
-    const char seq_sign_mask = 0x0f;
-    const char seq_sign = 0x02;
+    const uint8_t broadcast_id = 0x00;
+    const uint8_t seq_mask = 0xf0;
+    const uint8_t seq_sign_mask = 0x0f;
+    const uint8_t seq_sign = 0x02;
 
     std::string bufferred_state;
 
