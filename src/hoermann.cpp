@@ -90,7 +90,7 @@ bool Hoermann::read_rs232(void)
   {
     // read the incoming byte:
     for(int i=0; i<16 ; i++)
-      buf[i] == 0x00;
+      buf[i] = 0x00;
     serial.serial_read(buf, 16);
     for(int i=0; i<16 ; i++){
         if(buf[i] ==0)
