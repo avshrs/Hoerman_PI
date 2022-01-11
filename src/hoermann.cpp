@@ -105,19 +105,24 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
 { 
   uint8_t final_len= len + 1; 
   char *buf = new char[final_len];
-  
-  for(int i = 0 ; i< len; i++)
+  char crc = static_cast<char>(calc_checksum(frame, len));
+  for(int i = 0 ; i < final_len; i++)
   {
-    buf[i] = frame[i];
+    buf[i] = static_cast<char>(frame[i]);
+    if(i==len)
+    {
+       buf[i] = crc;
+    }
   }
-  buf[final_len] = static_cast<char>(calc_checksum(frame, len));
+  
+
   std::cout << "command send: ";
     for(int i=0; i<final_len ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     }
     std::cout << std::endl;
 
-  serial.serial_send(&buf[0], len+1);
+  serial.serial_send(&buf[0], final_len);
   delete[] buf;
 }
 
