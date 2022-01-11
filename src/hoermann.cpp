@@ -93,7 +93,7 @@ std::string Hoermann_pi::parse_state(char data)
 
 void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
 { 
-  char buf[(len+1)]={0};
+  char buf[16]={0};
   for(int i = 0 ; i< len; i++)
   {
     buf[i] = frame[i];
