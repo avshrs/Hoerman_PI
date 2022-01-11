@@ -103,7 +103,7 @@ std::string Hoermann_pi::parse_state(char data)
 void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
 { 
   uint8_t final_len= len + 1; 
-  char buf[final_len]={0};
+  char *buf = new char[final_len];
   
   for(int i = 0 ; i< len; i++)
   {
@@ -117,6 +117,7 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
     std::cout << std::endl;
 
   serial.serial_send(&buf[0], len+1);
+  delete[] buf;
 }
 
 
