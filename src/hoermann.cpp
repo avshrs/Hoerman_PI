@@ -53,19 +53,14 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 
 bool Hoermann::read_rs232(void)
 {
-  static uint8_t counter = 0;
-  static uint8_t len = 0;
-  uint8_t data;
 
   while (1)
   {
     // read the incoming byte:
 
-    serial.serial_read(buf, 1);
+    serial.serial_read(buf, 2);
     
-    data = buf[0];
-
-    if ((data == SYNC_BYTE) && (counter == 0))
+    if (buf[0] == SYNC_BYTE)
     {
       
 
@@ -77,10 +72,8 @@ bool Hoermann::read_rs232(void)
       }
       if (calc_checksum(rx_buffer, 5) == rx_buffer[4])
         {
-          counter = 0;
           return true;
         }
-        counter = 0;
       }
   }      
 
