@@ -15,8 +15,8 @@ class Hoermann_pi
     const uint8_t sync_id = 0x55;
     //broadcast message
     const uint8_t broadcast_id = 0x00;
-    const uint8_t seq_mask = 0xf0;
-    const uint8_t seq_sign_mask = 0x0f;
+    const uint8_t seq_mask = 0x0f;
+    const uint8_t seq_sign_mask = 0xf0;
     const uint8_t seq_sign = 0x02;
 
     std::string bufferred_state;
