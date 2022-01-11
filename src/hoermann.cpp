@@ -20,7 +20,7 @@ void Hoermann_pi::start_frame_listener()
         serial.serial_read(in_bufer, 6);
         if(in_bufer[0] == device_id && in_bufer[3]== master_id)
         {
-          std::cout << "Ack Message"<<std::endl;
+          std::cout << "Ack Message: ";//<<std::endl;
           for(int i=0; i<5 ; i++){
           std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
           }
@@ -43,7 +43,8 @@ void Hoermann_pi::start_frame_listener()
               sync_seq_number = 1;
             }
         }
-        else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign)
+        //else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign)
+        else if (in_bufer[0] == broadcast_id )
         {
             std::cout << "broadcast Message"<<std::endl;
             for(int i=0; i<5 ; i++)
@@ -111,7 +112,7 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
   }
   buf[final_len] = calc_checksum(frame, len);
   std::cout << "command send: ";
-    for(int i=0; i<5 ; i++){
+    for(int i=0; i<final_len ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     }
     std::cout << std::endl;
