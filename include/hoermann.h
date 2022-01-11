@@ -54,7 +54,7 @@ class Hoermann_pi
     void publish_state_via_mqtt(std::string state);
     std::string parse_state(char data);
     void send_command(uint8_t* frame, uint8_t len);
-    char calc_checksum(char *p_data, uint8_t length);
+    uint8_t calc_checksum(uint8_t *p_data, uint8_t length);
 };
 
 

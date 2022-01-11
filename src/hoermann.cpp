@@ -107,7 +107,7 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
   {
     buf[i] = frame[i];
   }
-  buf[len+1] = calc_checksum(buf, len);
+  buf[len+1] = calc_checksum(frame, len);
   std::cout << "command send: ";
     for(int i=0; i<5 ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
@@ -118,10 +118,10 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
 }
 
 
-char Hoermann_pi::calc_checksum(char *p_data, uint8_t len)
+uint8_t Hoermann_pi::calc_checksum(uint8_t *p_data, uint8_t len)
 {
 size_t i;
-char crc = 0xF3;
+uint8_t crc = 0xF3;
     while(len--){
         crc ^= *p_data++;
         for(i = 0; i < 8; i++){
