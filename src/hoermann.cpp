@@ -64,11 +64,13 @@ bool Hoermann::read_rs232(void)
 
     if (buf[0] == SYNC_BYTE)
     {
+      serial.serial_read(buf, 1);
+   
       
-      serial.serial_read(buf, 6);
+      serial.serial_read(buf, 5);
       
       for (int i = 0 ; i < 5 ;i++){
-        rx_buffer[i] = buf[i+1];
+        rx_buffer[i] = buf[i];
       }
 
       
