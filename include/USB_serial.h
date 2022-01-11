@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-class Read
+class USB_serial
 {
   public:
     int fd;

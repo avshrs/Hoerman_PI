@@ -1,4 +1,4 @@
-#include "read.h"
+#include "USB_serial.h"
 #include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -24,7 +24,7 @@
 #include <linux/serial.h>
 #endif
 
-void Read::serial_open(char *serial_name, int baud)
+void USB_serial::serial_open(char *serial_name, int baud)
 {
   struct termios newtermios;
   fd = open(serial_name,O_RDWR | O_NOCTTY);
@@ -66,30 +66,11 @@ void Read::serial_open(char *serial_name, int baud)
   newtermios.c_cc[VMIN] = 0;
   cfsetispeed(&newtermios,baud);
   cfsetospeed(&newtermios, baud);
-
-
-
-
-    //   struct termios newtermios;
-    //   fd = open(serial_name,O_RDWR | O_NOCTTY);
-    //   newtermios.c_cflag= CBAUD | CS8 | CLOCAL | CREAD;
-    //   newtermios.c_iflag=IGNPAR;
-    //   newtermios.c_oflag=0;
-    //   newtermios.c_lflag=0;
-    //   newtermios.c_cc[VMIN]=1;
-    //   newtermios.c_cc[VTIME]=0;
-    //   cfsetospeed(&newtermios,baud);
-    //   cfsetispeed(&newtermios,baud);
-    //   if (tcflush(fd,TCIFLUSH)==-1) std::cout << "error1" << std::endl;
-    //   if (tcflush(fd,TCOFLUSH)==-1) std::cout << "error2" << std::endl;
-    //   if (tcsetattr(fd,TCSANOW,&newtermios)==-1) std::cout << "error3" << std::endl;
-      
-
-      
+    
 }   
 
 
-void Read::serial_open2(const char *device, int baudrate, bool rtscts, struct termios *old)
+void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, struct termios *old)
 {
 	struct termios new_ter;
 	int b;
@@ -150,24 +131,24 @@ void Read::serial_open2(const char *device, int baudrate, bool rtscts, struct te
 
 
 
-void Read::serial_send(char *data, int size)
+void USB_serial::serial_send(char *data, int size)
 { 
   std::cout << "mesage wa sent" << std::endl;
   write(fd, data, size);
 }
 
-void Read::serial_read(char *data, int size)
+void USB_serial::serial_read(char *data, int size)
 {
   
      read(fd, data, size);
 }
 
-void Read::serial_close()
+void USB_serial::serial_close()
 {
    close(fd);
 }
 
-int Read::convert_baudrate(unsigned int baudrate)
+int USB_serial::convert_baudrate(unsigned int baudrate)
 {
 	switch (baudrate) {
 		case 50: return B50;
