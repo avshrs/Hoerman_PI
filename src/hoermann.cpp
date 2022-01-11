@@ -143,7 +143,7 @@ void Hoermann::send_command()
   output_buffer[1] = 0x01;
   output_buffer[2] = 0x01;
   output_buffer[3] = (uint8_t)actual_action;
-  output_buffer[4] = output_buffer[0] + output_buffer[1] + output_buffer[2] + output_buffer[3];
+  output_buffer[4] = calc_checksum(output_buffer, 4);
   for (int i =0 ; i<16; i++){
       output_buffer_[i] = (char)output_buffer[i];
   }
