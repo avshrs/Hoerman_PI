@@ -25,7 +25,7 @@ int main(){
    
    std::string state = door.get_state_string();
    
-std::cout << current_door_state << std::endl;
+// std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
    sleep(1);
    // door.trigger_action(hoermann_action_venting);
