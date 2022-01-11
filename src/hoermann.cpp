@@ -102,12 +102,14 @@ std::string Hoermann_pi::parse_state(char data)
 
 void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
 { 
-  char buf[16]={0};
+  uint8_t final_len= len + 1; 
+  char buf[final_len]={0};
+  
   for(int i = 0 ; i< len; i++)
   {
     buf[i] = frame[i];
   }
-  buf[len+1] = calc_checksum(frame, len);
+  buf[final_len] = calc_checksum(frame, len);
   std::cout << "command send: ";
     for(int i=0; i<5 ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
@@ -133,7 +135,7 @@ uint8_t crc = 0xF3;
             }
         }
     }
-    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
+    //std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
     return(crc);
 }
 
