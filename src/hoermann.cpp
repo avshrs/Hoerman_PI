@@ -164,7 +164,7 @@ uint8_t crc = 0xF3;
         for(i = 0; i < 8; i++){
             if(crc & 0x80){
                 crc <<= 1;
-                crc ^= 0x9b;
+                crc ^= 0x07;
             } else {
                 crc <<= 1;
             }
