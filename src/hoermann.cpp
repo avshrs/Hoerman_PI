@@ -110,7 +110,7 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
   {
     buf[i] = frame[i];
   }
-  buf[final_len] = calc_checksum(frame, len);
+  buf[final_len] = static_cast<char>(calc_checksum(frame, len));
   std::cout << "command send: ";
     for(int i=0; i<final_len ; i++){
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
