@@ -28,10 +28,10 @@ int main(){
 std::cout << current_door_state << std::endl;
 std::cout << state << std::endl;
    sleep(1);
-   door.trigger_action(hoermann_action_venting);
-   sleep(10);
-   door.trigger_action(hoermann_action_close);
-   sleep(10);
+   // door.trigger_action(hoermann_action_venting);
+   // sleep(10);
+   // door.trigger_action(hoermann_action_close);
+   // sleep(10);
    }
 return 1;
 }
