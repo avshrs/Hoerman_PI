@@ -72,6 +72,7 @@ bool Hoermann::read_rs232(void)
       rx_buffer[counter] = data;
       counter++;
       len = 0;
+      serial.serial_read(buf, 1);
     }
     else if (counter > 0)
     {
@@ -80,7 +81,7 @@ bool Hoermann::read_rs232(void)
       counter++;
       if (counter == 3)
       {std::cout << " counter == 3" <<std::endl;
-        if (data < 16)
+        if (data < 0x16)
         {std::cout << " data < 16 " << std::dec <<(int)data << std::endl;
           len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
         }
