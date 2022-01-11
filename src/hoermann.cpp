@@ -18,7 +18,7 @@ void Hoermann_pi::start_frame_listener()
     while (1)
     {
         serial.serial_read(in_bufer, 6);
-        if(in_bufer[0] == device_id && in_bufer[3]== master_id)
+        if(in_bufer[0] == device_id && in_bufer[1]==0x02 && in_bufer[3]== master_id)
         {
           std::cout << "Ack Message: ";//<<std::endl;
           for(int i=0; i<5 ; i++){
