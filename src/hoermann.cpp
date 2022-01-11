@@ -29,7 +29,7 @@ void Hoermann_pi::start_frame_listener()
             //0x14 - device type?
 
             uint8_t frame[4] = {master_id, 
-                                ((sync_seq_number << 4) | seq_sign), 
+                                static_cast<uint8_t>(((sync_seq_number << 4) | seq_sign)), 
                                 0x14, 
                                 device_id};
             send_command(frame, 4);
