@@ -22,7 +22,7 @@ void Hoermann_pi::start_frame_listener()
         {
           std::cout << "Ack Message"<<std::endl;
           for(int i=0; i<5 ; i++){
-          std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+          std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
           }
           std::cout << std::endl;
 
@@ -48,7 +48,7 @@ void Hoermann_pi::start_frame_listener()
             std::cout << "broadcast Message"<<std::endl;
             for(int i=0; i<5 ; i++)
             {
-            std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+            std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
             }
             std::cout << std::endl;
             //0x00 0x12 0x02 0x00 0x56 Broadcast door close for supramatic e3 / my case
