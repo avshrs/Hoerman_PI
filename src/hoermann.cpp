@@ -62,50 +62,31 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
 
     serial.serial_read(buf, 1);
-    // std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]);
     
     data = buf[0];
 
     if ((data == SYNC_BYTE) && (counter == 0))
     {
-      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data) << std::endl;
-      rx_buffer[counter] = data;
-      counter++;
-      len = 0;
-      serial.serial_read(buf, 1);
-    }
-    else if (counter > 0)
-    {
-      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data)<< std::endl;
-      rx_buffer[counter] = data;
-      counter++;
-      if (counter == 3)
-      {std::cout << " counter == 3" <<std::endl;
-        if (data < 0x16)
-        {std::cout << " data < 16 " << std::dec <<(int)data << std::endl;
-          len = data + 4; //3 = SYNC + CMD + LEN + CHK, limit to 15 data bytes
-        }
-        else
-        {
-          std::cout << "  counter = 0;" << std::dec <<(int)data << std::endl;
-          counter = 0;
-        }
-      }
-      else if (counter == len)
       
-      {std::cout << "  counter = len;" <<std::endl;
-         std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data)<< std::endl;
-        if (calc_checksum(rx_buffer, len - 1) == data)
+      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(data) << std::endl;
+
+      
+      
+      serial.serial_read(buf, 5);
+      for (int i = 0 ; i < 5 ;i++){
+        rx_buffer[i] = buf[i];
+      }
+      if (calc_checksum(rx_buffer, 5) == rx_buffer[4])
         {
           counter = 0;
           return true;
         }
         counter = 0;
       }
-    }
-  }
+  }      
 
   return false;
+
 }
 
 void Hoermann::parse_input(void)
