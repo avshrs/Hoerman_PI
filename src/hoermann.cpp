@@ -52,6 +52,37 @@ void Hoermann::open_serial(char * serial_name, int boudrate)
 }
 
 
+// bool Hoermann::read_rs232(void)
+// {
+
+//   while (1)
+//   {
+//     // read the incoming byte:
+
+//     serial.serial_read(buf, 1);
+    
+
+//     if (buf[0] == SYNC_BYTE)
+//     {
+//       serial.serial_read(buf, 1);
+   
+      
+//       serial.serial_read(buf, 5);
+      
+//       for (int i = 0 ; i < 5 ;i++){
+//         rx_buffer[i] = buf[i];
+//       }
+
+      
+//       if (calc_checksum(rx_buffer, 4) == rx_buffer[4])
+//         {
+//           return true;
+//         }
+//       }
+//   }      
+//   return false;
+
+// }
 bool Hoermann::read_rs232(void)
 {
 
@@ -59,26 +90,14 @@ bool Hoermann::read_rs232(void)
   {
     // read the incoming byte:
 
-    serial.serial_read(buf, 1);
-    
+    serial.serial_read(buf, 16);
+    for(int i=0; i<16 ; i++){
+        if(buf[i] ==0)
+        std::cout << " 0x  ";
+        else
+        std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+        } std::cout << std::endl;
 
-    if (buf[0] == SYNC_BYTE)
-    {
-      serial.serial_read(buf, 1);
-   
-      
-      serial.serial_read(buf, 5);
-      
-      for (int i = 0 ; i < 5 ;i++){
-        rx_buffer[i] = buf[i];
-      }
-
-      
-      if (calc_checksum(rx_buffer, 4) == rx_buffer[4])
-        {
-          return true;
-        }
-      }
   }      
   return false;
 
