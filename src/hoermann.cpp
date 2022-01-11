@@ -1,5 +1,3 @@
-// based on https://github.com/stephan192/hoermann_door
-
 #include "hoermann.h"
 #include <iostream>
 #include <string>

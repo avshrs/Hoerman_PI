@@ -1,5 +1,3 @@
-// based on https://github.com/stephan192/hoermann_door
-
 #pragma once
 #include <string>
 #include "USB_serial.h"
@@ -9,8 +7,6 @@ class Mqtt{
 };
 class Hoermann_pi
 {
-  public:
-    Hoermann_pi();
   private:
     Mqtt mqtt;
     USB_serial serial;
