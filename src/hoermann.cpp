@@ -64,7 +64,7 @@ bool Hoermann::read_rs232(void)
     if (buf[0] == SYNC_BYTE)
     {
       serial.serial_read(buf, 1);
-      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
+   
       
       serial.serial_read(buf, 5);
       
@@ -74,11 +74,12 @@ bool Hoermann::read_rs232(void)
       }
       if (calc_checksum(rx_buffer, 5) == rx_buffer[4])
         {
+          std::cout << "dupa" << std::endl;
           return true;
         }
       }
   }      
-
+  std::cout << "dupa1" << std::endl;
   return false;
 
 }
