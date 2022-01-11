@@ -19,7 +19,13 @@ void Hoermann_pi::start_frame_listener()
     {
         serial.serial_read(in_bufer, 6);
         if(in_bufer[0] == device_id && in_bufer[3]== master_id)
-        {std::cout << "Ack Message"<<std::endl;
+        {
+          std::cout << "Ack Message"<<std::endl;
+          for(int i=0; i<5 ; i++){
+          std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+          }
+          std::cout << std::endl;
+
             //0x28 0x02 0x01 0x80 0x0D - master requet frame
             //0x28 0x82 0x01 0x80 0x0D - master requet frame ? also?
             //------------------------------------------------------
@@ -40,10 +46,15 @@ void Hoermann_pi::start_frame_listener()
         else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign)
         {
             std::cout << "broadcast Message"<<std::endl;
+            for(int i=0; i<5 ; i++)
+            {
+            std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+            }
+            std::cout << std::endl;
             //0x00 0x12 0x02 0x00 0x56 Broadcast door close for supramatic e3 / my case
             std::string active_status = parse_state(in_bufer[2]);
             
-            std::cout<< active_status << std::endl;
+            std::cout<<"active status is: "<< active_status << std::endl;
 
             if (bufferred_state != active_status)
             {
