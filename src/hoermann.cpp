@@ -133,6 +133,7 @@ uint8_t crc = 0xF3;
             }
         }
     }
+    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
     return(crc);
 }
 
