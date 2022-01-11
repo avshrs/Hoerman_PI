@@ -45,19 +45,20 @@ void Hoermann_pi::start_frame_listener()
         }
         else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign)
         {
-            std::cout << "broadcast Message"<<std::endl;
-            for(int i=0; i<5 ; i++)
-            {
-            std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
-            }
-            std::cout << std::endl;
+            // std::cout << "broadcast Message"<<std::endl;
+            // for(int i=0; i<5 ; i++)
+            // {
+            // std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
+            // }
+            // std::cout << std::endl;
             //0x00 0x12 0x02 0x00 0x56 Broadcast door close for supramatic e3 / my case
             std::string active_status = parse_state(in_bufer[2]);
             
-            std::cout<<"active status is: "<< active_status << std::endl;
+            
 
             if (bufferred_state != active_status)
             {
+                std::cout<<"active status is: "<< active_status << std::endl;
                 // mqtt.publish_state(active_status);  
                 bufferred_state = active_status;
             }
@@ -120,7 +121,7 @@ void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
     }
     std::cout << std::endl;
-
+  
   serial.serial_send(&buf[0], final_len);
   delete[] buf;
 }
