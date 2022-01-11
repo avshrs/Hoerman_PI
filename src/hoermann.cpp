@@ -59,7 +59,7 @@ bool Hoermann::read_rs232(void)
     // read the incoming byte:
 
     serial.serial_read(buf, 1);
-    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[0]) << std::endl;
+    
 
     if (buf[0] == SYNC_BYTE)
     {
