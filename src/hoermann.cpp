@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #define SYNC_BYTE   0x55
+typedef unsigned char BYTE;
 
 Hoermann::Hoermann(void)
 {
@@ -150,16 +151,59 @@ void Hoermann::send_command()
   serial.serial_send(&output_buffer_[0], 5);
 }
 
-uint8_t Hoermann::calc_checksum(uint8_t *p_data, uint8_t length)
+uint8_t Hoermann::calc_checksum(uint8_t *p_data, uint8_t len)
 {
-  uint8_t i;
-  uint8_t crc = 0;
-
-  for (i = 0; i < length; i++)
-  {
-    crc += *p_data;
-    p_data++;
-  }
-
-  return crc;
+size_t i;
+uint8_t crc = 0xF3;
+    while(len--){
+        crc ^= *p_data++;
+        for(i = 0; i < 8; i++){
+            if(crc & 0x80){
+                crc <<= 1;
+                crc ^= 0x9b;
+            } else {
+                crc <<= 1;
+            }
+        }
+    }
+    return(crc);
 }
+
+
+
+
+// uint8_t gencrc1(uint8_t *bfr, size_t len)
+// {
+// size_t i;
+// uint8_t crc = 0x00;
+//     while(len--){
+//         crc ^= *bfr++;
+//         for(i = 0; i < 8; i++){
+//             if(crc & 0x80){
+//                 crc <<= 1;
+//                 crc ^= 0x07;
+//             } else {
+//                 crc <<= 1;
+//             }
+//         }
+//     }
+//     return(crc);
+// }
+
+// uint8_t gencrc2(uint8_t *bfr, size_t len)
+// {
+// size_t i;
+// uint8_t crc = 0xF3;
+//     while(len--){
+//         crc ^= *bfr++;
+//         for(i = 0; i < 8; i++){
+//             if(crc & 0x80){
+//                 crc <<= 1;
+//                 crc ^= 0x9b;
+//             } else {
+//                 crc <<= 1;
+//             }
+//         }
+//     }
+//     return(crc);
+// }
