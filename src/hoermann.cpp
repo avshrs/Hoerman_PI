@@ -20,7 +20,7 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 
 
 void Hoermann_pi::run_loop(void)
-
+{
     while (1)
     {
         serial.serial_read(rx_buffer, 16);
