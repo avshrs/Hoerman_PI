@@ -33,13 +33,13 @@ void Hoermann_pi::run_loop(void)
         usleep(30000);
         if(rx_message_ready)
         {
-            std::cout << "in Message"<<std::endl;
+            std::cout << "rx_message_ready in Message"<<std::endl;
             for(int i=0; i<tx_length ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
             std::cout << std::endl;
-            std::cout << "out Message"<<std::endl;
+            std::cout << "rx_message_ready out Message"<<std::endl;
             for(int i=0; i<tx_length ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
@@ -52,13 +52,13 @@ void Hoermann_pi::run_loop(void)
         if(tx_message_ready)
         {
 
-            std::cout << "in Message"<<std::endl;
+            std::cout << "tx_message_ready in Message"<<std::endl;
             for(int i=0; i<5 ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
             std::cout << std::endl;
-            std::cout << "out Message"<<std::endl;
+            std::cout << "tx_message_ready out Message"<<std::endl;
             for(int i=0; i<tx_length ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
@@ -91,7 +91,7 @@ void Hoermann_pi::parse_message(void)
   {
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
-    {
+    {std::cout << "Bus scan command?" << get_state <<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x02 | counter;
       tx_buffer[2] = UAP1_TYPE;
@@ -102,7 +102,7 @@ void Hoermann_pi::parse_message(void)
     }
     /* Slave status request command? */
     if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
-    {
+    {std::cout << "Slave status request command?" << get_state<<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x03 | counter;
       tx_buffer[2] = CMD_SLAVE_STATUS_RESPONSE;
