@@ -23,7 +23,7 @@ void Hoermann_pi::run_loop(void)
 {
     while (1)
     {
-        serial.serial_read(rx_buffer, 18);
+        serial.serial_read(rx_buffer, 6);
         std::cout << "in Message"<<std::endl;
         for(int i=0; i<tx_length ; i++)
         {
