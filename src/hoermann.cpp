@@ -20,7 +20,7 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 
 
 void Hoermann_pi::run_loop(void)
-{
+{   int count = 1000;
     while (1)
     {
         serial.serial_read(rx_buffer, 16);
@@ -29,9 +29,11 @@ void Hoermann_pi::run_loop(void)
 
         if(tx_message_ready)
         {
-            usleep(3000);
+            usleep(count);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
+            count += 100;
+            std::cout<<"count: " << count << std::endl;
         }
     }       
 }
