@@ -69,7 +69,7 @@ void Hoermann_pi::parse_message(void)
             std::cout<<std::endl;
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
-    {std::cout << "\nBus scan command?" << get_state() <<std::endl;
+    {
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x02 | counter;
       tx_buffer[2] = UAP1_TYPE;
