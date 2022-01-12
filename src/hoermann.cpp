@@ -60,10 +60,10 @@ void Hoermann_pi::parse_message(void)
     }
   }
   if(rx_buffer[0] == UAP1_ADDR)
-  {std::cout << "rx_message 0x28"<<std::endl;
+  {std::cout << "rx_message 0x28:  ";
             for(int i=0; i<tx_length ; i++)
             {
-                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
             std::cout<<std::endl;
     /* Bus scan command? */
