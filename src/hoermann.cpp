@@ -54,7 +54,7 @@ void Hoermann_pi::parse_message(void)
     if(length == 0x02)
     {
       broadcast_status = rx_buffer[2];
-      
+
       broadcast_status |= (uint16_t)rx_buffer[3] << 8;
     }
   }
@@ -87,7 +87,7 @@ void Hoermann_pi::parse_message(void)
   }
 }
 
-std::string Hoermann_pi::get_state(char data)
+std::string Hoermann_pi::get_state()
 {
   if ((broadcast_status & 0x01) == 0x01)
   {
