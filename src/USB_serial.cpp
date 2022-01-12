@@ -137,7 +137,7 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	{
 		buf[i] = static_cast<char>(data[i]);
 	}
-	write(fd, buf, size);
+	std::cout<< write(fd, buf, size) <<std::endl;
 }
 
 void USB_serial::serial_read(uint8_t *data, int size)
