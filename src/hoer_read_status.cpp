@@ -17,11 +17,7 @@ int main(){
    door.init(serial_name, boudrate);
    std::thread t3(th1);
    while(1){
-   sleep(60);
-   door.set_state("venting");
-   sleep(3000);
-   door.set_state("close");
-   sleep(10);
+   sleep(1);
    }
 return 1;
 }
