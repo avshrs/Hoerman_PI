@@ -2,12 +2,14 @@
 #include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
+#include <string>
 #include <termios.h>
+#include <iomanip>
 
 #include <iostream>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -137,7 +139,13 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	{
 		buf[i] = static_cast<char>(data[i]);
 	}
-	std::cout<< write(fd, buf, size) <<std::endl;
+
+	            for(int i=0; i<size ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+            }
+            std::cout<<std::endl;
+	write(fd, buf, size);
 }
 
 void USB_serial::serial_read(uint8_t *data, int size)
