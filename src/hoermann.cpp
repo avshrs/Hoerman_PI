@@ -23,17 +23,39 @@ void Hoermann_pi::run_loop(void)
 {
     while (1)
     {
-        serial.serial_read(rx_buffer, 15);
+        serial.serial_read(rx_buffer, 18);
         parse_message();
         usleep(3000);
         if(rx_message_ready)
         {
+            std::cout << "in Message"<<std::endl;
+            for(int i=0; i<6 ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+            }
+            std::cout << "out Message"<<std::endl;
+            for(int i=0; i<tx_length ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
+            }
+            std::cout << std::endl;
             serial.serial_send(tx_buffer, tx_length);
             rx_message_ready = false;
         }
         
         if(tx_message_ready)
         {
+
+            std::cout << "in Message"<<std::endl;
+            for(int i=0; i<6 ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+            }
+            std::cout << "out Message"<<std::endl;
+            for(int i=0; i<tx_length ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
+            }
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
         }
@@ -128,22 +150,27 @@ void Hoermann_pi::set_state(std::string action)
 
     if(action == "stop")
     {
+      std::cout<<"cmd stop"<<std::endl;
       slave_respone_data = RESPONSE_STOP;
     }
     else if(action == "open")
     {
       slave_respone_data = RESPONSE_OPEN;
+      std::cout<<"cmd open"<<std::endl;
     }
     else if(action == "close")
     {
+      std::cout<<"cmd close"<<std::endl;
       slave_respone_data = RESPONSE_CLOSE;
     }
     else if(action == "venting")
     {
+      std::cout<<"cmd venting"<<std::endl;
       slave_respone_data = RESPONSE_VENTING;
     }
     else if(action == "toggle_light")
     {
+      std::cout<<"cmd toggle_light"<<std::endl;
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
     }
     
