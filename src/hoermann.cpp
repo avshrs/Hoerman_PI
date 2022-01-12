@@ -33,6 +33,7 @@ void Hoermann_pi::run_loop(void)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
+            std::cout << std::endl;
             std::cout << "out Message"<<std::endl;
             for(int i=0; i<tx_length ; i++)
             {
@@ -51,11 +52,13 @@ void Hoermann_pi::run_loop(void)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
+            std::cout << std::endl;
             std::cout << "out Message"<<std::endl;
             for(int i=0; i<tx_length ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
             }
+            std::cout << std::endl;
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
         }
