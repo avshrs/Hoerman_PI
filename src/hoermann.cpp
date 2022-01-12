@@ -27,7 +27,7 @@ void Hoermann_pi::run_loop(void)
 
         if(tx_message_ready)
         {   
-            std::cout<<tx_length<<std::endl;
+            std::cout<<std::dec<<tx_length<<std::endl;
             usleep(count);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
