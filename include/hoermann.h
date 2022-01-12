@@ -4,7 +4,7 @@
 
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
-#define UAP1_ADDR                 0x28
+#define UAP1_ADDR                 0x27
 
 #define UAP1_TYPE                 0x14
 
