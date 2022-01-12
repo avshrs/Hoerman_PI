@@ -1,60 +1,63 @@
-#pragma once
-#include <string>
 #include "USB_serial.h"
-// #include "Mosquitto.h"
-class Mqtt{
-
-};
-class Hoermann_pi
-{
-  private:
-    Mqtt mqtt;
-    USB_serial serial;
-    const uint8_t master_id = 0x80;
-    const uint8_t device_id = 0x28;
-    const uint8_t sync_id = 0x55;
-    //broadcast message
-    const uint8_t broadcast_id = 0x00;
-    const uint8_t seq_mask = 0x0f;
-    const uint8_t seq_sign_mask = 0xf0;
-    const uint8_t seq_sign = 0x02;
-
-    std::string bufferred_state;
-
-    uint8_t sync_seq_number = 1;
+#include <unistd.h>
 
 
-    const std::string states[8] = {"stoped/partially open", 
-                                   "open", 
-                                   "closed", 
-                                   "venting", 
-                                   "opening", 
-                                   "closing", 
-                                   "error", 
-                                   "unknown" };
-    const std::string actions[7] = {"stop", 
-                                    "open", 
-                                    "close", 
-                                    "venting", 
-                                    "toggle_light", 
-                                    "none" };
+#define BROADCAST_ADDR            0x00
+#define MASTER_ADDR               0x80
+#define UAP1_ADDR                 0x28
 
-    char in_bufer[16] = {0}; 
+#define UAP1_TYPE                 0x14
 
-  public:
-    void open_serial(char * serial_name, int boudrate);
-    void start_frame_listener();
-    void register_mqtt_client(Mqtt* mqtt);
-    void send_action(std::string action);
-    std::string get_state();
-  private:
+#define CMD_SLAVE_SCAN            0x01
+#define CMD_SLAVE_STATUS_REQUEST  0x20
+#define CMD_SLAVE_STATUS_RESPONSE 0x29
+
+#define RESPONSE_DEFAULT          0x1000
+#define RESPONSE_STOP             0x0000
+#define RESPONSE_OPEN             0x1001
+#define RESPONSE_CLOSE            0x1002
+#define RESPONSE_VENTING          0x1010
+#define RESPONSE_TOGGLE_LIGHT     0x1008
+
+#define CRC8_INITIAL_VALUE        0xF3
+
+class Hoermann_pi{
+    private:
+        USB_serial serial;
     
-    bool read_frames_loop();
-    void responce_to_master();
-    void publish_state_via_mqtt(std::string state);
-    std::string parse_state(char data);
-    void send_command(uint8_t* frame, uint8_t len);
-    uint8_t calc_checksum(uint8_t *p_data, uint8_t length);
+    private:
+        const std::string actions[7] = {"stop", 
+                                        "open", 
+                                        "close", 
+                                        "venting", 
+                                        "toggle_light", 
+                                        "none" };
+        const std::string states[8] = {"stoped/partially open", 
+                                        "open", 
+                                        "closed", 
+                                        "venting", 
+                                        "opening", 
+                                        "closing", 
+                                        "error", 
+                                        "unknown" };
+
+        uint8_t rx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        bool rx_message_ready = false;
+        uint8_t tx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        bool tx_message_ready = false;
+        uint8_t tx_length = 0;
+        uint16_t slave_respone_data = RESPONSE_DEFAULT;
+        uint16_t broadcast_status = 0;
+
+        
+    public:
+        void init(char* serial_name, int boudrate);
+        void run_loop(void);
+        std::string get_state(char data);
+        void set_state(std::string action);
+
+    private:
+        uint8_t calc_crc8(uint8_t *p_data, uint8_t length);
+        void parse_message(void);
+
 };
-
-

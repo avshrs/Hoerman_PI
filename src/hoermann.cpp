@@ -1,98 +1,119 @@
+
+#include <stdint.h>
+#include <stdbool.h>
 #include "hoermann.h"
 #include <iostream>
 #include <string>
 #include <iomanip>
 #include <unistd.h>
+#include "USB_serial.h"
 
 
 
-void Hoermann_pi::open_serial(char * serial_name, int boudrate)
+
+
+
+void Hoermann_pi::init(char* serial_name, int boudrate)
 {
-    //serial.serial_open(serial_name, boudrate, false, NULL);
     serial.serial_open(serial_name, boudrate);
 }
 
 
-void Hoermann_pi::start_frame_listener()
-{   
+void Hoermann_pi::run_loop(void)
+{
     while (1)
     {
-        serial.serial_read(in_bufer, 6);
-        if(in_bufer[0] == device_id && in_bufer[1]==0x02 && in_bufer[3]== master_id)
+        serial.serial_read(rx_buffer, 15);
+        parse_message();
+        usleep(3000);
+        if(rx_message_ready)
         {
-          std::cout << "Ack Message: ";//<<std::endl;
-          for(int i=0; i<5 ; i++){
-          std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
-          }
-          std::cout << std::endl;
-
-            //0x28 0x02 0x01 0x80 0x0D - master requet frame
-            //0x28 0x82 0x01 0x80 0x0D - master requet frame ? also?
-            //------------------------------------------------------
-            //0x80 0x12 0x14 0x28 0xA7 - sleve responce frame
-            //0x14 - device type?
-
-            uint8_t frame[4] = {master_id, 
-                                static_cast<uint8_t>(((sync_seq_number << 4) | seq_sign)), 
-                                0x14, 
-                                device_id};
-            send_command(frame, 4);
-            sync_seq_number ++; 
-            if(sync_seq_number == 16) 
-            {
-              sync_seq_number = 1;
-            }
+            serial.serial_send(tx_buffer, tx_length);
+            rx_message_ready = false;
         }
-        else if (in_bufer[0] == broadcast_id && (in_bufer[1] & seq_mask) == seq_sign && in_bufer[3] == 0x00)
+        
+        if(tx_message_ready)
         {
-            // std::cout << "broadcast Message"<<std::endl;
-            // for(int i=0; i<5 ; i++)
-            // {
-            // std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(in_bufer[i]);
-            // }
-            // std::cout << std::endl;
-            //0x00 0x12 0x02 0x00 0x56 Broadcast door close for supramatic e3 / my case
-            std::string active_status = parse_state(in_bufer[2]);
-            
-            
-
-            if (bufferred_state != active_status)
-            {
-                std::cout<<"active status is: "<< active_status << std::endl;
-                // mqtt.publish_state(active_status);  
-                bufferred_state = active_status;
-            }
+            serial.serial_send(tx_buffer, tx_length);
+            tx_message_ready = false;
         }
-    }
+    }       
 }
 
-std::string Hoermann_pi::parse_state(char data)
+
+void Hoermann_pi::parse_message(void)
 {
-  if ((data & 0x01) == 0x01)
+  uint8_t length;
+  uint8_t counter;
+  
+  length = rx_buffer[1] & 0x0F;
+  counter = (rx_buffer[1] & 0xF0) + 0x10;
+  
+  if(rx_buffer[0] == BROADCAST_ADDR)
+  {
+    if(length == 0x02)
+    {
+      broadcast_status = rx_buffer[2];
+      
+      broadcast_status |= (uint16_t)rx_buffer[3] << 8;
+    }
+  }
+  if(rx_buffer[0] == UAP1_ADDR)
+  {
+    /* Bus scan command? */
+    if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
+    {
+      tx_buffer[0] = MASTER_ADDR;
+      tx_buffer[1] = 0x02 | counter;
+      tx_buffer[2] = UAP1_TYPE;
+      tx_buffer[3] = UAP1_ADDR;
+      tx_buffer[4] = calc_crc8(tx_buffer, 4);
+      tx_length = 5;
+      tx_message_ready = true;
+    }
+    /* Slave status request command? */
+    if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
+    {
+      tx_buffer[0] = MASTER_ADDR;
+      tx_buffer[1] = 0x03 | counter;
+      tx_buffer[2] = CMD_SLAVE_STATUS_RESPONSE;
+      tx_buffer[3] = (uint8_t)slave_respone_data;
+      tx_buffer[4] = (uint8_t)(slave_respone_data>>8);
+      slave_respone_data = RESPONSE_DEFAULT;
+      tx_buffer[5] = calc_crc8(tx_buffer, 5);
+      tx_length = 6;
+      tx_message_ready = true;
+    }    
+  }
+}
+
+std::string Hoermann_pi::get_state(char data)
+{
+  if ((broadcast_status & 0x01) == 0x01)
   {
     return states[1];
   }
-  else if ((data & 0x02) == 0x02)
+  else if ((broadcast_status & 0x02) == 0x02)
   {
     return states[2];
   }
-  else if ((data & 0x80) == 0x80)
+  else if ((broadcast_status & 0x80) == 0x80)
   {
     return states[3];
   }
-  else if ((data & 0x60) == 0x40)
+  else if ((broadcast_status & 0x60) == 0x40)
   {
     return  states[4];
   }
-  else if ((data & 0x60) == 0x60)
+  else if ((broadcast_status & 0x60) == 0x60)
   {
     return  states[5];
   }
-  else if ((data & 0x10) == 0x10)
+  else if ((broadcast_status & 0x10) == 0x10)
   {
     return states[6];
   }
-  else if (data == 0x00)
+  else if (broadcast_status == 0x00)
   {
     return states[0];
   }
@@ -101,36 +122,39 @@ std::string Hoermann_pi::parse_state(char data)
  
 }
 
-void Hoermann_pi::send_command(uint8_t* frame, uint8_t len)
-{ 
-  uint8_t final_len= len + 1; 
-  char *buf = new char[final_len];
-  char crc = static_cast<char>(calc_checksum(frame, len));
-  for(int i = 0 ; i < final_len; i++)
-  {
-    buf[i] = static_cast<char>(frame[i]);
-    if(i==len)
-    {
-       buf[i] = crc;
-    }
-  }
-  
 
-  std::cout << "command send: ";
-    for(int i=0; i<final_len ; i++){
-    std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
+void Hoermann_pi::set_state(std::string action)
+{
+
+    if(action == "stop")
+    {
+      slave_respone_data = RESPONSE_STOP;
     }
-    std::cout << std::endl;
-  
-  serial.serial_send(&buf[0], final_len);
-  delete[] buf;
+    else if(action == "open")
+    {
+      slave_respone_data = RESPONSE_OPEN;
+    }
+    else if(action == "close")
+    {
+      slave_respone_data = RESPONSE_CLOSE;
+    }
+    else if(action == "venting")
+    {
+      slave_respone_data = RESPONSE_VENTING;
+    }
+    else if(action == "toggle_light")
+    {
+      slave_respone_data = RESPONSE_TOGGLE_LIGHT;
+    }
+    
 }
 
 
-uint8_t Hoermann_pi::calc_checksum(uint8_t *p_data, uint8_t len)
+
+uint8_t Hoermann_pi::calc_crc8(uint8_t *p_data, uint8_t len)
 {
 size_t i;
-uint8_t crc = 0xF3;
+uint8_t crc = CRC8_INITIAL_VALUE;
     while(len--){
         crc ^= *p_data++;
         for(i = 0; i < 8; i++){
@@ -145,4 +169,3 @@ uint8_t crc = 0xF3;
     //std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
     return(crc);
 }
-

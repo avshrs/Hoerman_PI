@@ -6,18 +6,22 @@
 Hoermann_pi door;
 
 
-// void th1(){
-    
-// }
+void th1(){
+   door.run_loop();    
+}
 
 
 int main(){
    
    char serial_name[] = "/dev/ttyUSB0";
    int boudrate = 19200;
-   door.open_serial(serial_name, boudrate);
+   door.init(serial_name, boudrate);
    
-   door.start_frame_listener();
+   //door.start_frame_listener();
+   door.set_state("venting");
+   sleep(10);
+   door.set_state("close");
+
 
 return 1;
 }
