@@ -15,12 +15,12 @@
 
 void Hoermann_pi::init(char* serial_name, int boudrate)
 {
-    serial.serial_open(serial_name, boudrate);
+    serial.serial_open2(serial_name, boudrate, false, NULL);
 }
 
 
 void Hoermann_pi::run_loop(void)
-{   int count = 3000;
+{   int count = 0;
     while (1)
     {
         serial.serial_read(rx_buffer, 5);
