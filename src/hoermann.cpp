@@ -30,7 +30,7 @@ void Hoermann_pi::run_loop(void)
         //     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
         // }
         parse_message();
-        usleep(3000);
+        usleep(30000);
         if(rx_message_ready)
         {
             std::cout << "in Message"<<std::endl;
