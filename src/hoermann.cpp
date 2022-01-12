@@ -53,7 +53,7 @@ void Hoermann_pi::run_loop(void)
         {
 
             std::cout << "in Message"<<std::endl;
-            for(int i=0; i<6 ; i++)
+            for(int i=0; i<5 ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
