@@ -139,12 +139,6 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	{
 		buf[i] = static_cast<char>(data[i]);
 	}
-
-	            for(int i=0; i<size ; i++)
-            {
-                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(buf[i]);
-            }
-            std::cout<<std::endl;
 	write(fd, buf, size);
 }
 
