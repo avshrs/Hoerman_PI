@@ -1,6 +1,6 @@
 #include "USB_serial.h"
 #include <unistd.h>
-
+#include <string>
 
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
