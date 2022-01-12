@@ -91,7 +91,7 @@ void Hoermann_pi::parse_message(void)
   {
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
-    {std::cout << "Bus scan command?" << get_state <<std::endl;
+    {std::cout << "Bus scan command?" << get_state() <<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x02 | counter;
       tx_buffer[2] = UAP1_TYPE;
@@ -102,7 +102,7 @@ void Hoermann_pi::parse_message(void)
     }
     /* Slave status request command? */
     if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
-    {std::cout << "Slave status request command?" << get_state<<std::endl;
+    {std::cout << "Slave status request command?" << get_state() <<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x03 | counter;
       tx_buffer[2] = CMD_SLAVE_STATUS_RESPONSE;
