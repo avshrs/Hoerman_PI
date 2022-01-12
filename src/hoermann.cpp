@@ -29,10 +29,13 @@ void Hoermann_pi::run_loop(void)
         
         if(rx_message_ready)
         {   usleep(count);
+         std::cout<<"counter: 1 "<<count << std::endl;
             serial.serial_send(tx_buffer, tx_length);
+             std::cout<<"counter: 2 "<<count << std::endl;
             rx_message_ready = false;
+             std::cout<<"counter: 3 "<<count << std::endl;
             count +=100;
-            std::cout<<"counter: "<<count << std::endl;
+            std::cout<<"counter: 4 "<<count << std::endl;
         }
         
         if(tx_message_ready)
