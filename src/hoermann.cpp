@@ -24,13 +24,13 @@ void Hoermann_pi::run_loop(void)
     while (1)
     {
         serial.serial_read(rx_buffer, 6);
-        std::cout << "in Message"<<std::endl;
-        for(int i=0; i<tx_length ; i++)
-        {
-            std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
-        }
+        // std::cout << "in Message"<<std::endl;
+        // for(int i=0; i<tx_length ; i++)
+        // {
+        //     std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+        // }
         parse_message();
-        usleep(3000);
+        usleep(30000);
         if(rx_message_ready)
         {
             std::cout << "in Message"<<std::endl;
@@ -53,7 +53,7 @@ void Hoermann_pi::run_loop(void)
         {
 
             std::cout << "in Message"<<std::endl;
-            for(int i=0; i<6 ; i++)
+            for(int i=0; i<5 ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
