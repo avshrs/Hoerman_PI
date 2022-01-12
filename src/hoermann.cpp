@@ -77,6 +77,12 @@ void Hoermann_pi::parse_message(void)
       tx_buffer[4] = calc_crc8(tx_buffer, 4);
       tx_length = 5;
       tx_message_ready = true;
+      std::cout << "tx_message 0x28:  ";
+            for(int i=0; i<tx_length ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
+            }
+            std::cout<<std::endl;
     }
     /* Slave status request command? */
     if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
