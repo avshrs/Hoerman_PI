@@ -20,10 +20,10 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 
 
 void Hoermann_pi::run_loop(void)
-{   int count = 0;
+{   int count = 3000;
     while (1)
     {
-        serial.serial_read(rx_buffer, 16);
+        serial.serial_read(rx_buffer, 5);
 
         parse_message();
 
@@ -32,8 +32,7 @@ void Hoermann_pi::run_loop(void)
             usleep(count);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
-            count += 100;
-            std::cout<<"count: " << std::dec<<count << std::endl;
+            
         }
     }       
 }
@@ -64,7 +63,7 @@ void Hoermann_pi::parse_message(void)
             std::cout<<std::endl;
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
-    {
+    {std::cout << "Bus scan command?" << get_state() <<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x02 | counter;
       tx_buffer[2] = UAP1_TYPE;
@@ -72,16 +71,10 @@ void Hoermann_pi::parse_message(void)
       tx_buffer[4] = calc_crc8(tx_buffer, 4);
       tx_length = 5;
       tx_message_ready = true;
-      std::cout << "tx_message 0x28:  ";
-            for(int i=0; i<tx_length ; i++)
-            {
-                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(tx_buffer[i]);
-            }
-            std::cout<<std::endl;
-    }
+   }
     /* Slave status request command? */
     if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
-    {std::cout << "\nSlave status request command?" << get_state() <<std::endl;
+    {std::cout << "Slave status request command?" << get_state() <<std::endl;
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x03 | counter;
       tx_buffer[2] = CMD_SLAVE_STATUS_RESPONSE;
