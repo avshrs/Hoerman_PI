@@ -26,13 +26,12 @@ void Hoermann_pi::run_loop(void)
         parse_message();
 
         if(tx_message_ready)
-        {   
-            std::cout<<std::dec<<static_cast<uint16_t>(tx_length)<<std::dec<<count<<std::endl;
+        {
             usleep(count);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
-            count +=1000;
-            
+            count += 1000;
+            std::cout << std::dec<<count<<std::endl;
         }
     }       
 }
@@ -56,7 +55,11 @@ void Hoermann_pi::parse_message(void)
   }
   if(rx_buffer[0] == UAP1_ADDR)
   {
-      
+            for(int i=0; i<tx_length ; i++)
+            {
+                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+            }
+            std::cout<<std::endl;
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
     {
