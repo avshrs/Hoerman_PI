@@ -13,7 +13,7 @@
 
 void Hoermann_pi::init(char* serial_name, int boudrate)
 {
-    serial.serial_open2(serial_name, boudrate, false, NULL);
+    serial.serial_open(serial_name, boudrate);
 }
 
 
@@ -26,7 +26,8 @@ void Hoermann_pi::run_loop(void)
         parse_message();
 
         if(tx_message_ready)
-        {
+        {   
+            std::cout<<tx_length<<std::endl;
             usleep(count);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
