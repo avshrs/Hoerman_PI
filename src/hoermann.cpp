@@ -29,7 +29,10 @@ void Hoermann_pi::run_loop(void)
         std::cout<< "tx_message_ready: "<<std::endl;
 
         if(tx_message_ready)
-        {   duration2 = now.time_since_epoch();
+        
+        {
+          std::cout<< "tx_message_ready: in "<<std::endl;
+             duration2 = now.time_since_epoch();
             // while(1){
                duration2 = now.time_since_epoch();
                auto d = std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count();
