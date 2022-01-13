@@ -133,7 +133,7 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 		if (ss.baud_base / ss.custom_divisor != baudrate)
 			fprintf(stderr, "Baud rate set to %d\n", ss.baud_base / ss.custom_divisor);
 
-		b = B38400;
+		b = B19200;
 
 	}
 
