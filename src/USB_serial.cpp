@@ -73,6 +73,8 @@ struct serial_struct serial;
 
   newtermios.c_cc[VTIME] = 0;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 1;
+  newtermios.c_cc[VSTART] = 0x55;
+
   
   cfsetispeed(&newtermios,B19200);
   cfsetospeed(&newtermios, B19200);
