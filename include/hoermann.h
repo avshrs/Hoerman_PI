@@ -52,7 +52,16 @@ class Hoermann_pi{
         uint8_t lz = 0;
         uint8_t broadcast_lengh = 0x02; 
         uint8_t reguest_lengh = 0x01; 
-     
+        struct TX_Buffer{
+            uint8_t buf[6]={0};
+            uint8_t len=0;
+            std::chrono::high_resolution_clock received_time;
+        };
+        struct RX_Buffer{
+            uint8_t buf[6]={0};
+            std::chrono::high_resolution_clock received_time;
+        };
+
 
     public:
         void init(char* serial_name, int boudrate);
