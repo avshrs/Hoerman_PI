@@ -81,7 +81,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
           ICANON  : enable canonical input
           disable all echo functionality, and don't send signals to calling program
         */
-         newtio.c_lflag = ICANON;
+         newtio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
          
         /* 
           initialize all control characters 
@@ -92,7 +92,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
          newtio.c_cc[VQUIT]    = 0;     /* Ctrl-\ */
          newtio.c_cc[VERASE]   = 0;     /* del */
          newtio.c_cc[VKILL]    = 0;     /* @ */
-         newtio.c_cc[VEOF]     = 4;     /* Ctrl-d */
+         newtio.c_cc[VEOF]     = 0;     /* Ctrl-d */
          newtio.c_cc[VTIME]    = 0;     /* inter-character timer unused */
          newtio.c_cc[VMIN]     = 1;     /* blocking read until 1 character arrives */
          newtio.c_cc[VSWTC]    = 0;     /* '\0' */
