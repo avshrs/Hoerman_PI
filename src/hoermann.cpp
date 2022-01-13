@@ -50,8 +50,6 @@ void Hoermann_pi::run_loop(void)
 }
 
 
-
-
 void Hoermann_pi::parse_message(void)
 {
   uint8_t length;

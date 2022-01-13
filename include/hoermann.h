@@ -50,7 +50,7 @@ class Hoermann_pi{
         uint8_t tx_length = 0;
         uint16_t slave_respone_data = RESPONSE_DEFAULT;
         uint16_t broadcast_status = 0;
-        uint8_t lz = 1  ;
+        uint8_t lz = 0;
         
     public:
         void init(char* serial_name, int boudrate);
