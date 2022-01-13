@@ -67,7 +67,7 @@ if(baud){
 //   // newtermios.c_cflag |= PARENB;  // Set parity bit, enabling parity
 //   newtermios.c_cflag &= ~CSTOPB; // Clear stop field, only one stop bit used in communication (most common)
 //   // newtermios.c_cflag |= CSTOPB;  // Set stop field, two stop bits used in communication
-//   newtermios.c_cflag &= ~CSIZE; // Clear all the size bits, then use one of the statements below
+//   newtermios.c_cflag &= ~CSIZE | CRTSCTS; // Clear all the size bits, then use one of the statements below
 //   newtermios.c_cflag |= CS8; // 8 bits per byte (most common)
 //   newtermios.c_cflag &= ~CRTSCTS; // Disable RTS/CTS hardware flow control (most common)
 
@@ -142,7 +142,7 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 	if (rtscts)
 		new_ter.c_cflag |= CRTSCTS;
 	else
-		new_ter.c_cflag |= CLOCAL;
+		new_ter.c_cflag |= (CLOCAL | CSTOPB);
 
 	new_ter.c_iflag = IGNPAR;
 	new_ter.c_oflag |= ~(ONLCR |OPOST);
