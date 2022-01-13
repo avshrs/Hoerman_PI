@@ -33,10 +33,8 @@ if(baud){
 }
 struct serial_struct serial;
   struct termios newtermios;
-  fd = open(serial_name, O_RDWR | O_NOCTTY );
-  fcntl(fd, F_SETFL, 0);
-  serial.flags |= ASYNC_LOW_LATENCY;
-  ioctl(fd, TIOCGSERIAL, &serial);
+  fd = open(serial_name, O_RDWR | O_NOCTTY | O_SYNC);
+  
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
