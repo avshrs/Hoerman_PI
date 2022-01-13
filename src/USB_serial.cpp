@@ -43,7 +43,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
 
   int  res;
           struct termios oldtio,newtio;
-          char buf[255];
+        //   char buf[255];
         /* 
           Open modem device for reading and writing and not as controlling tty
           because we don't want to get killed if linenoise sends CTRL-C.
