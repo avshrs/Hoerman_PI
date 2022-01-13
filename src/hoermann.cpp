@@ -37,10 +37,9 @@ void Hoermann_pi::run_loop(void)
                 break;
             }
             usleep(10);
-          }
-        } 
-    }       
-}
+        }
+    } 
+}       
 
 
 uint8_t Hoermann_pi::get_length(uint8_t* buf)
@@ -118,31 +117,33 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
     std::cout<<std::endl;
 }
 
-Buffer Hoermann_pi::make_scan_responce_msg(uint8_t* buf)
+TX_Buffer Hoermann_pi::make_scan_responce_msg(RX_Buffer buf)
 {
-    Buffer tx_buf;
+    TX_Buffer tx_buf;
     
     tx_buf.buf[0] = MASTER_ADDR;
-    tx_buf.buf[1] = 0x02 | get_counter(buf);
+    tx_buf.buf[1] = 0x02 | get_counter(buf.buf);
     tx_buf.buf[2] = UAP1_TYPE;
     tx_buf.buf[3] = UAP1_ADDR;
-    tx_buf.buf[4] = calc_crc8(tx_buf, 4);
+    tx_buf.buf[4] = calc_crc8(tx_buf.buf, 4);
     tx_buf.len = 5;
+    tx_buf.received_time = buf.received_time;
     return tx_buf;
 }
 
-Buffer Hoermann_pi::make_status_req_msg(uint8_t* buf)
+TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 {
-    Buffer tx_buf;
+    TX_Buffer tx_buf;
     
     tx_buf.buf[0] = MASTER_ADDR;
-    tx_buf.buf[1] = 0x03 | get_counter(buf);
+    tx_buf.buf[1] = 0x03 | get_counter(buf.buf);
     tx_buf.buf[2] = CMD_SLAVE_STATUS_RESPONSE;
     tx_buf.buf[3] = (uint8_t)slave_respone_data;
     tx_buf.buf[4] = (uint8_t)(slave_respone_data>>8);
     slave_respone_data = RESPONSE_DEFAULT;
     tx_buf.buf[5] = calc_crc8( tx_buf.buf, 5 );
     tx_buf.len = 6;
+    tx_buf.received_time = buf.received_time; 
     return tx_buf;
 }
 
