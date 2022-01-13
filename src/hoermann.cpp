@@ -54,7 +54,11 @@ void Hoermann_pi::parse_message(void)
   
   length = rx_buffer[1] & 0x0F;
   counter = (rx_buffer[1] & 0xF0) + 0x10;
-  
+     for(int i=0; i<tx_length ; i++)
+    {
+      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+    }
+    std::cout<<std::endl;
   if(rx_buffer[0] == BROADCAST_ADDR)
   {
     if(length == 0x02)
