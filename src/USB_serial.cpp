@@ -31,7 +31,6 @@ void USB_serial::serial_open(char *serial_name, int baud)
 if(baud){
 
 }
-struct serial_struct serial;
   struct termios newtermios;
   fd = open(serial_name, O_RDWR | O_NOCTTY | O_SYNC);
   
