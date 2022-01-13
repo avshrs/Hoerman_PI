@@ -135,11 +135,11 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 
 void USB_serial::serial_send(uint8_t *data, int size)
 { 	char buf[15+3] = {0};
-	for(int i = 0; i< size+1; i++)
+	for(int i = 0; i< size; i++)
 	{
 		buf[i] = static_cast<char>(data[i]);
 	}
-	write(fd, buf, size);
+	write(fd, buf, size+1);
 }
 
 void USB_serial::serial_read(uint8_t *data, int size)
