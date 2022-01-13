@@ -38,7 +38,7 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 { 
 	if(baud){
-		
+
 	}
 
   int  res;
@@ -117,19 +117,19 @@ void USB_serial::serial_open(char *serial_name, int baud)
           In this example, inputting a 'z' at the beginning of a line will 
           exit the program.
         */
-         while (STOP==FALSE) {     /* loop until we have a terminating condition */
-         /* read blocks program execution until a line terminating character is 
-            input, even if more than 255 chars are input. If the number
-            of characters read is smaller than the number of chars available,
-            subsequent reads will return the remaining chars. res will be set
-            to the actual number of characters actually read */
-            res = read(fd,buf,255); 
-            buf[res]=0;             /* set end of string, so we can printf */
-            printf(":%s:%d\n", buf, res);
-            if (buf[0]=='z') STOP=TRUE;
-         }
-         /* restore the old port settings */
-         tcsetattr(fd,TCSANOW,&oldtio);
+        //  while (STOP==FALSE) {     /* loop until we have a terminating condition */
+        //  /* read blocks program execution until a line terminating character is 
+        //     input, even if more than 255 chars are input. If the number
+        //     of characters read is smaller than the number of chars available,
+        //     subsequent reads will return the remaining chars. res will be set
+        //     to the actual number of characters actually read */
+        //     res = read(fd,buf,255); 
+        //     buf[res]=0;             /* set end of string, so we can printf */
+        //     printf(":%s:%d\n", buf, res);
+        //     if (buf[0]=='z') STOP=TRUE;
+        //  }
+        //  /* restore the old port settings */
+        //  tcsetattr(fd,TCSANOW,&oldtio);
  }
 
 
