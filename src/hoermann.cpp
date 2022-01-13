@@ -40,7 +40,7 @@ void Hoermann_pi::run_loop(void)
                   tx_message_ready = false;
                   break;
             }
-            usleep(100);
+            usleep(10);
           }
         } 
     }       
