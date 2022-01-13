@@ -29,8 +29,8 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 {
   struct termios newtermios;
-  fd = open(serial_name, O_RDWR | O_NOCTTY | O_SYNC);
-  fcntl(fd, F_SETFL, O_ASYNC|O_NONBLOCK);
+  fd = open(serial_name, O_RDWR | O_NOCTTY );
+  fcntl(fd, F_SETFL, FNDELAY);
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
