@@ -55,57 +55,52 @@ void Hoermann_pi::parse_message(void)
   uint8_t length;
   uint8_t counter;
   
-  length = rx_buffer[1+lz] & 0x0F;
-  counter = (rx_buffer[1+lz] & 0xF0) + 0x10;
+  length = rx_buffer[1 ] & 0x0F;
+  counter = (rx_buffer[1 ] & 0xF0) + 0x10;
   
 
-  if(rx_buffer[0+lz] == BROADCAST_ADDR)
+  if(rx_buffer[0 ] == BROADCAST_ADDR)
   {
     if(length == 0x02)
     {
-      broadcast_status = rx_buffer[2+lz];
+      broadcast_status = rx_buffer[2 ];
 
-      broadcast_status |= (uint16_t)rx_buffer[3+lz] << 8;
+      broadcast_status |= (uint16_t)rx_buffer[3 ] << 8;
     }
   }
-  if(rx_buffer[0+lz] == UAP1_ADDR)
+  if(rx_buffer[0 ] == UAP1_ADDR)
   {
-            for(int i=0; i<5+lz ; i++)
+            for(int i=0; i<5  ; i++)
             {
                 std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
             }
             std::cout<<std::endl;
     /* Bus scan command? */
-    if((length == 0x02) && (rx_buffer[2+lz] == CMD_SLAVE_SCAN))
+    if((length == 0x02) && (rx_buffer[2 ] == CMD_SLAVE_SCAN))
     {
-      if (lz)
-      {
-        tx_buffer[0] = 0x00;
-      }
+
       
-      tx_buffer[0+lz] = MASTER_ADDR;
-      tx_buffer[1+lz] = 0x02 | counter;
-      tx_buffer[2+lz] = UAP1_TYPE;
-      tx_buffer[3+lz] = UAP1_ADDR;
-      tx_buffer[4+lz] = calc_crc8(tx_buffer, 4+lz);
-      tx_length = 5+lz;
+      tx_buffer[0 ] = MASTER_ADDR;
+      tx_buffer[1 ] = 0x02 | counter;
+      tx_buffer[2 ] = UAP1_TYPE;
+      tx_buffer[3 ] = UAP1_ADDR;
+      tx_buffer[4 ] = calc_crc8(tx_buffer, 4 );
+      tx_length = 5 ;
       tx_message_ready = true;
+      
    }
     /* Slave status request command? */
-    if((length == 0x01) && (rx_buffer[2+lz] == CMD_SLAVE_STATUS_REQUEST))
+    if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
     {
-      if (lz)
-      {
-        tx_buffer[0] = 0x00;
-      }
-      tx_buffer[0+lz] = MASTER_ADDR;
-      tx_buffer[1+lz] = 0x03 | counter;
-      tx_buffer[2+lz] = CMD_SLAVE_STATUS_RESPONSE;
-      tx_buffer[3+lz] = (uint8_t)slave_respone_data;
-      tx_buffer[4+lz] = (uint8_t)(slave_respone_data>>8);
+      
+      tx_buffer[0 ] = MASTER_ADDR;
+      tx_buffer[1 ] = 0x03 | counter;
+      tx_buffer[2 ] = CMD_SLAVE_STATUS_RESPONSE;
+      tx_buffer[3 ] = (uint8_t)slave_respone_data;
+      tx_buffer[4 ] = (uint8_t)(slave_respone_data>>8);
       slave_respone_data = RESPONSE_DEFAULT;
-      tx_buffer[5+lz] = calc_crc8(tx_buffer, 5+lz);
-      tx_length = 6+lz;
+      tx_buffer[5 ] = calc_crc8(tx_buffer, 5 );
+      tx_length = 6 ;
       tx_message_ready = true;
     }    
   }
