@@ -12,7 +12,7 @@ void th1(){
 
 
 int main(){
-   char serial_name[] = "/dev/ttyUSB1";
+   char serial_name[] = "/dev/ttyUSB0";
    int boudrate = 19200;
    door.init(serial_name, boudrate);
    std::thread t3(th1);
