@@ -29,11 +29,7 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 {
   struct termios newtermios;
-  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NDELAY);
-  fcntl(fd, F_SETFL, 0);
-  /* get the current options */
-  tcgetattr(fd, &newtermios);
-
+  fd = open(serial_name,O_RDWR | O_NOCTTY);
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
@@ -55,26 +51,24 @@ void USB_serial::serial_open(char *serial_name, int baud)
   newtermios.c_cflag &= ~CRTSCTS; // Disable RTS/CTS hardware flow control (most common)
   // newtermios.c_cflag |= CRTSCTS;  // Enable RTS/CTS hardware flow control
   newtermios.c_cflag |= CREAD | CLOCAL; // Turn on READ & ignore ctrl lines (CLOCAL = 1)
-//   newtermios.c_cflag |= TCSBRK;
   newtermios.c_lflag &= ~ICANON;
   newtermios.c_lflag &= ~ECHO; // Disable echo
   newtermios.c_lflag &= ~ECHOE; // Disable erasure
-//   newtermios.c_lflag &= ~ECHONL; // Disable new-line echo
-//   newtermios.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
-//   newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
-//   newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
-
-//   newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
-//   newtermios.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
-//   // tty.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
+  newtermios.c_lflag &= ~ECHONL; // Disable new-line echo
+  newtermios.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
+  newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
+  newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
+  
+  newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
+  newtermios.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
+  // tty.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
   // tty.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
-  newtermios.c_cc[VTIME] = 10;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
+  newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
+  newtermios.c_cc[VSTART] = 0x00;
   cfsetispeed(&newtermios,baud);
   cfsetospeed(&newtermios, baud);
-   tcsetattr(fd, TCSANOW, &newtermios);
-
     
 }   
 
@@ -89,7 +83,7 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 	if (fd == -1)
 		std::cout << "open port error" << std::endl;
 
-	fcntl(fd, F_SETFL, (fcntl(fd, F_GETFL) & ~O_NONBLOCK) & O_ASYNC);
+	fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) & ~O_NONBLOCK);
 
 	if (old != NULL)
 		tcgetattr(fd, old);
