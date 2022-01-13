@@ -63,7 +63,7 @@ void Hoermann_pi::parse_message(void)
       broadcast_status |= (uint16_t)rx_buffer[3] << 8;
     }
   }
-  if(rx_buffer[+0] == UAP1_ADDR)
+  if(rx_buffer[0] == UAP1_ADDR)
   {
     for(int i=0; i<tx_length ; i++)
     {
