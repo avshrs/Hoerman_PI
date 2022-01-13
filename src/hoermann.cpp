@@ -21,10 +21,13 @@ void Hoermann_pi::run_loop(void)
     auto start = timer.now();
     auto check = timer.now();
     using ms = std::chrono::duration<float, std::micro>;
+
     while (1)
     {   
         serial.serial_read(rx_buffer, 7);
+        
         start = timer.now();
+        
         parse_message();
 
         if(tx_message_ready)
@@ -33,7 +36,9 @@ void Hoermann_pi::run_loop(void)
           {
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<ms>(check - start).count();
-            if( deltaTime > 3110){
+           
+           if( deltaTime > 3110)
+           {
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
                   break;
@@ -75,25 +80,34 @@ void Hoermann_pi::parse_message(void)
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2+lz] == CMD_SLAVE_SCAN))
     {
-      tx_buffer[0] = MASTER_ADDR;
-      tx_buffer[1] = 0x02 | counter;
-      tx_buffer[2] = UAP1_TYPE;
-      tx_buffer[3] = UAP1_ADDR;
-      tx_buffer[4] = calc_crc8(tx_buffer, 4);
-      tx_length = 5;
+      if (lz)
+      {
+        tx_buffer[0] = 0x00;
+      }
+      
+      tx_buffer[0+lz] = MASTER_ADDR;
+      tx_buffer[1+lz] = 0x02 | counter;
+      tx_buffer[2+lz] = UAP1_TYPE;
+      tx_buffer[3+lz] = UAP1_ADDR;
+      tx_buffer[4+lz] = calc_crc8(tx_buffer, 4+lz);
+      tx_length = 5+lz;
       tx_message_ready = true;
    }
     /* Slave status request command? */
     if((length == 0x01) && (rx_buffer[2+lz] == CMD_SLAVE_STATUS_REQUEST))
     {
-      tx_buffer[0] = MASTER_ADDR;
-      tx_buffer[1] = 0x03 | counter;
-      tx_buffer[2] = CMD_SLAVE_STATUS_RESPONSE;
-      tx_buffer[3] = (uint8_t)slave_respone_data;
-      tx_buffer[4] = (uint8_t)(slave_respone_data>>8);
+      if (lz)
+      {
+        tx_buffer[0] = 0x00;
+      }
+      tx_buffer[0+lz] = MASTER_ADDR;
+      tx_buffer[1+lz] = 0x03 | counter;
+      tx_buffer[2+lz] = CMD_SLAVE_STATUS_RESPONSE;
+      tx_buffer[3+lz] = (uint8_t)slave_respone_data;
+      tx_buffer[4+lz] = (uint8_t)(slave_respone_data>>8);
       slave_respone_data = RESPONSE_DEFAULT;
-      tx_buffer[5] = calc_crc8(tx_buffer, 5);
-      tx_length = 6;
+      tx_buffer[5+lz] = calc_crc8(tx_buffer, 5+lz);
+      tx_length = 6+lz;
       tx_message_ready = true;
     }    
   }
