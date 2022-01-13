@@ -24,7 +24,7 @@ void Hoermann_pi::run_loop(void)
     while (1)
     {   
         serial.serial_read(rx_buf.buf, 7);
-        rx_buffer.received_time = timer.now();
+        rx_buf.received_time = timer.now();
         
         tx_buf = parse_message(rx_buf);
         while(1)
