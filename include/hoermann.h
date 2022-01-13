@@ -49,7 +49,7 @@ class Hoermann_pi{
         uint8_t tx_length = 0;
         uint16_t slave_respone_data = RESPONSE_DEFAULT;
         uint16_t broadcast_status = 0;
-
+        uint8_t lz = 1  ;
         
     public:
         void init(char* serial_name, int boudrate);
@@ -58,6 +58,8 @@ class Hoermann_pi{
         void set_state(std::string action);
 
     private:
+        void Hoermann_pi::check_rs_lid_zero();
+
         uint8_t calc_crc8(uint8_t *p_data, uint8_t length);
         void parse_message(void);
 
