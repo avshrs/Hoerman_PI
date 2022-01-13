@@ -62,12 +62,13 @@ void Hoermann_pi::parse_message(void)
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
     {
-      tx_buffer[0] = MASTER_ADDR;
-      tx_buffer[1] = 0x02 | counter;
-      tx_buffer[2] = UAP1_TYPE;
-      tx_buffer[3] = UAP1_ADDR;
-      tx_buffer[4] = calc_crc8(tx_buffer, 4);
-      tx_length = 5;
+      tx_buffer[0] = 0x00;
+      tx_buffer[1] = MASTER_ADDR;
+      tx_buffer[2] = 0x02 | counter;
+      tx_buffer[3] = UAP1_TYPE;
+      tx_buffer[4] = UAP1_ADDR;
+      tx_buffer[5] = calc_crc8(tx_buffer, 4);
+      tx_length = 6;
       tx_message_ready = true;
    }
     /* Slave status request command? */
