@@ -33,7 +33,8 @@ void Hoermann_pi::run_loop(void)
         {   duration2 = now.time_since_epoch();
             while(1){
                duration2 = now.time_since_epoch();
-              if(std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count() > 3000){
+              if(auto d = std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count() > 3000){
+                  std::cout<< "microseconds: "<<d<<std::endl;
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
               }
@@ -61,11 +62,11 @@ void Hoermann_pi::parse_message(void)
   }
   if(rx_buffer[st+0] == UAP1_ADDR)
   {
-            for(int i=0; i<tx_length ; i++)
-            {
-                std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
-            }
-            std::cout<<std::endl;
+    for(int i=0; i<tx_length ; i++)
+    {
+      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
+    }
+    std::cout<<std::endl;
     /* Bus scan command? */
     if((length == 0x02) && (rx_buffer[st+2] == CMD_SLAVE_SCAN))
     {
