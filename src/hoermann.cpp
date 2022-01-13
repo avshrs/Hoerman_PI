@@ -49,18 +49,15 @@ void Hoermann_pi::run_loop(void)
 
 void Hoermann_pi::parse_message(void)
 {
+   std::cout<< "parse_message: 1"<<std::endl;
   uint8_t length;
   uint8_t counter;
-  
+  std::cout<< "parse_message: 2"<<std::endl;
   length = rx_buffer[1] & 0x0F;
   counter = (rx_buffer[1] & 0xF0) + 0x10;
-     for(int i=0; i<tx_length ; i++)
-    {
-      std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
-    }
-    std::cout<<std::endl;
+  std::cout<< "parse_message: 3"<<std::endl;
   if(rx_buffer[0] == BROADCAST_ADDR)
-  {
+  {std::cout<< "parse_message: 4"<<std::endl;
     if(length == 0x02)
     {
       broadcast_status = rx_buffer[2];
@@ -68,7 +65,7 @@ void Hoermann_pi::parse_message(void)
     }
   }
   if(rx_buffer[0] == UAP1_ADDR)
-  {
+  {std::cout<< "parse_message: 5"<<std::endl;
     for(int i=0; i<tx_length ; i++)
     {
       std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(rx_buffer[i]);
