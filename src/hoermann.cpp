@@ -46,8 +46,6 @@ void Hoermann_pi::run_loop(void)
         if(tx_message_ready)
         {
             usleep(count);
-            uint8_t buf2[2] = {0x00};
-            serial.serial_send(buf2, 1);
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
             
