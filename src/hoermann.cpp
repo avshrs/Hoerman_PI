@@ -7,6 +7,18 @@
 #include <iomanip>
 #include <unistd.h>
 #include "USB_serial.h"
+#include <chrono>
+
+std::chrono::high_resolution_clock timer;
+struct TX_Buffer{
+        uint8_t buf[6]={0};
+        uint8_t len=0;
+        std::chrono::high_resolution_clock received_time = timer.now();
+    };
+struct RX_Buffer{
+        uint8_t buf[6]={0};
+        std::chrono::high_resolution_clock received_time = timer.now();
+    };
 
 
 void Hoermann_pi::init(char* serial_name, int boudrate)
