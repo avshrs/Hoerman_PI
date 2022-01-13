@@ -29,7 +29,7 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 {
   struct termios newtermios;
-  fd = open(serial_name,O_RDWR | O_NOCTTY);
+  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK));
   fcntl(fd, F_SETFL, O_ASYNC|O_NONBLOCK);
   if (fd < 0) 
   {
@@ -67,7 +67,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
 
   newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
-  newtermios.c_cc[VSTART] = 0x00;
+  
   cfsetispeed(&newtermios,baud);
   cfsetospeed(&newtermios, baud);
     
