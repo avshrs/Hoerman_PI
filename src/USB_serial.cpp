@@ -68,7 +68,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
   newtermios.c_cc[VMIN] = 0;
   newtermios.c_cc[VSTART] = 0x21;
   cfsetispeed(&newtermios,baud);
-  cfsetospeed(&newtermios, baud);
+  cfsetospeed(&newtermios, 9600);
     
 }   
 
