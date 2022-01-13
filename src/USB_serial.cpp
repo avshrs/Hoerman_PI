@@ -141,9 +141,10 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 
 	if (rtscts)
 		new_ter.c_cflag |= CRTSCTS;
-	else
+	else{
 		new_ter.c_cflag |= (CLOCAL | CSTOPB);
 		new_ter.c_cflag |= ~(PARENB);
+	}
 
 	new_ter.c_iflag = IGNPAR;
 	new_ter.c_oflag |= ~(ONLCR |OPOST);
