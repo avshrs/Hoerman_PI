@@ -28,16 +28,19 @@ void Hoermann_pi::run_loop(void)
         parse_message();
 
         if(tx_message_ready)
-        {  check = timer.now();
-            // while(1){
-               auto deltaTime = std::chrono::duration_cast<ms>(check - start).count();
+        {
+          while(1)
+          {
+            check = timer.now();
+            auto deltaTime = std::chrono::duration_cast<ms>(check - start).count();
+            if( deltaTime > 3000){
                std::cout<< "micro: "<<deltaTime<<std::endl;
-              // if( d > 3000){
+              
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
-              // }
+            }
             usleep(100);
-            // }
+          }
         } 
     }       
 }
