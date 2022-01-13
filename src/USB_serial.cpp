@@ -41,7 +41,7 @@ void USB_serial::serial_open(char *serial_name, int baud)
 
 	}
 
-  int  res;
+//   int  res;
           struct termios oldtio,newtio;
         //   char buf[255];
         /* 
