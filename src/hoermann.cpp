@@ -56,8 +56,6 @@ void Hoermann_pi::parse_message(void)
   counter = (rx_buffer[1+lz] & 0xF0) + 0x10;
   
 
-  
-
   if(rx_buffer[0+lz] == BROADCAST_ADDR)
   {
     if(length == 0x02)

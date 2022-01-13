@@ -58,8 +58,6 @@ class Hoermann_pi{
         void set_state(std::string action);
 
     private:
-        void Hoermann_pi::check_rs_lid_zero();
-
         uint8_t calc_crc8(uint8_t *p_data, uint8_t length);
         void parse_message(void);
 
