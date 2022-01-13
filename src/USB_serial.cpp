@@ -89,7 +89,7 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 	if (fd == -1)
 		std::cout << "open port error" << std::endl;
 
-	fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) & ~O_NONBLOCK);
+	fcntl(fd, F_SETFL, (fcntl(fd, F_GETFL) & ~O_NONBLOCK) & O_ASYNC);
 
 	if (old != NULL)
 		tcgetattr(fd, old);
