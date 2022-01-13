@@ -20,7 +20,7 @@ void Hoermann_pi::run_loop(void)
 {   
     auto start = timer.now();
     auto check = timer.now();
-    using ms = std::chrono::duration<float, std::milli>;
+    using ms = std::chrono::duration<float, std::micro>;
     while (1)
     {   
         serial.serial_read(rx_buffer, 7);
@@ -31,7 +31,7 @@ void Hoermann_pi::run_loop(void)
         {  check = timer.now();
             // while(1){
                auto deltaTime = std::chrono::duration_cast<ms>(check - start).count();
-               std::cout<< "microseconds: "<<deltaTime<<std::endl;
+               std::cout<< "micro: "<<deltaTime<<std::endl;
               // if( d > 3000){
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
