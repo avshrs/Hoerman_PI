@@ -27,10 +27,13 @@
 #endif
 
 void USB_serial::serial_open(char *serial_name, int baud)
-{
+{ 
+struct serial_struct serial;
   struct termios newtermios;
   fd = open(serial_name, O_RDWR | O_NOCTTY );
   fcntl(fd, F_SETFL, 0);
+  serial.flags |= ASYNC_LOW_LATENCY;
+  ioctl(fd, TIOCGSERIAL, &serial);
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
@@ -66,10 +69,10 @@ void USB_serial::serial_open(char *serial_name, int baud)
 //   newtermios.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
   newtermios.c_cc[VTIME] = 10;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
-  newtermios.c_cc[VMIN] = 0;
+  newtermios.c_cc[VMIN] = 16;
   
-  cfsetispeed(&newtermios,baud);
-  cfsetospeed(&newtermios, baud);
+  cfsetispeed(&newtermios,B19200);
+  cfsetospeed(&newtermios, B19200);
     
 }   
 
