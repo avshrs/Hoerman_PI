@@ -29,7 +29,7 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 { 
 if(baud){
-	
+
 }
 struct serial_struct serial;
   struct termios newtermios;
@@ -71,8 +71,8 @@ struct serial_struct serial;
 //   newtermios.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
 //   newtermios.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
-  newtermios.c_cc[VTIME] = 10;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
-  newtermios.c_cc[VMIN] = 16;
+  newtermios.c_cc[VTIME] = 0;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
+  newtermios.c_cc[VMIN] = 1;
   
   cfsetispeed(&newtermios,B19200);
   cfsetospeed(&newtermios, B19200);
