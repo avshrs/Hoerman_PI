@@ -25,8 +25,6 @@ void Hoermann_pi::run_loop(void)
     {
         serial.serial_read(rx_buffer, 7);
         duration = now.time_since_epoch();
-        
-        
         parse_message();
 
         if(tx_message_ready)
@@ -48,19 +46,19 @@ void Hoermann_pi::parse_message(void)
 {
   uint8_t length;
   uint8_t counter;
-  int st = 1;
-  length = rx_buffer[st+1] & 0x0F;
-  counter = (rx_buffer[st+1] & 0xF0) + 0x10;
   
-  if(rx_buffer[st+0] == BROADCAST_ADDR)
+  length = rx_buffer[1] & 0x0F;
+  counter = (rx_buffer[1] & 0xF0) + 0x10;
+  
+  if(rx_buffer[0] == BROADCAST_ADDR)
   {
     if(length == 0x02)
     {
-      broadcast_status = rx_buffer[st+2];
-      broadcast_status |= (uint16_t)rx_buffer[st+3] << 8;
+      broadcast_status = rx_buffer[2];
+      broadcast_status |= (uint16_t)rx_buffer[3] << 8;
     }
   }
-  if(rx_buffer[st+0] == UAP1_ADDR)
+  if(rx_buffer[+0] == UAP1_ADDR)
   {
     for(int i=0; i<tx_length ; i++)
     {
@@ -68,7 +66,7 @@ void Hoermann_pi::parse_message(void)
     }
     std::cout<<std::endl;
     /* Bus scan command? */
-    if((length == 0x02) && (rx_buffer[st+2] == CMD_SLAVE_SCAN))
+    if((length == 0x02) && (rx_buffer[2] == CMD_SLAVE_SCAN))
     {
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x02 | counter;
@@ -79,7 +77,7 @@ void Hoermann_pi::parse_message(void)
       tx_message_ready = true;
    }
     /* Slave status request command? */
-    if((length == 0x01) && (rx_buffer[st+2] == CMD_SLAVE_STATUS_REQUEST))
+    if((length == 0x01) && (rx_buffer[2] == CMD_SLAVE_STATUS_REQUEST))
     {
       tx_buffer[0] = MASTER_ADDR;
       tx_buffer[1] = 0x03 | counter;
