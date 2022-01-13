@@ -38,6 +38,7 @@ void Hoermann_pi::run_loop(void)
               
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
+                  break;
             }
             usleep(100);
           }
