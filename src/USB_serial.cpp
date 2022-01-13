@@ -167,7 +167,8 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	{
 		buf[i+1] = static_cast<char>(data[i]);
 	}
-	write(fd, buf, size);
+	buf[0] = 0x00;
+	write(fd, buf, size+1);
 }
 
 void USB_serial::serial_read(uint8_t *data, int size)
