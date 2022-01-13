@@ -29,15 +29,16 @@ void Hoermann_pi::run_loop(void)
 
         if(tx_message_ready)
         {   duration2 = now.time_since_epoch();
-            while(1){
+            // while(1){
                duration2 = now.time_since_epoch();
-              if(auto d = std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count() > 3000){
-                  std::cout<< "microseconds: "<<d<<std::endl;
+               auto d = std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count();
+               std::cout<< "microseconds: "<<d<<std::endl;
+              // if( d > 3000){
                   serial.serial_send(tx_buffer, tx_length);
                   tx_message_ready = false;
-              }
+              // }
             usleep(100);
-            }
+            // }
         } 
     }       
 }
