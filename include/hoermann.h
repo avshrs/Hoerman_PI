@@ -41,7 +41,8 @@ class Hoermann_pi{
                                         "closing", 
                                         "error", 
                                         "unknown" };
-        std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+        // std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+        std::chrono::high_resolution_clock timer;
         uint8_t rx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         bool rx_message_ready = false;
         uint8_t tx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
