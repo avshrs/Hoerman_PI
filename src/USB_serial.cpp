@@ -42,7 +42,7 @@ if(baud){
 }
 
         struct termios oldtio,newtio;
-        char buf[255];
+        // char buf[255];
         
         fd = open(serial_name, O_RDWR | O_NOCTTY ); 
         if (fd <0) {perror(serial_name); exit(-1); }
