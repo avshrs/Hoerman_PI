@@ -17,20 +17,28 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 
 
 void Hoermann_pi::run_loop(void)
-{   int count = 0;
+{   
+    auto duration = now.time_since_epoch();
+    auto duration2 = now.time_since_epoch();
+    auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration);
     while (1)
     {
         serial.serial_read(rx_buffer, 7);
-
+        duration = now.time_since_epoch();
+        
+        
         parse_message();
 
         if(tx_message_ready)
-        {
-            usleep(count);
-            serial.serial_send(tx_buffer, tx_length);
-            tx_message_ready = false;
-            count +=100;
-            
+        {   duration2 = now.time_since_epoch();
+            while(1){
+               duration2 = now.time_since_epoch();
+              if(std::chrono::duration_cast<std::chrono::microseconds>(duration2 - duration).count() > 3000){
+                  serial.serial_send(tx_buffer, tx_length);
+                  tx_message_ready = false;
+              }
+            usleep(100);
+            }
         } 
     }       
 }
