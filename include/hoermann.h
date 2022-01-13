@@ -42,12 +42,9 @@ class Hoermann_pi{
                                         "closing", 
                                         "error", 
                                         "unknown" };
-        // std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
+        
         std::chrono::high_resolution_clock timer;
-        // uint8_t rx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        // bool rx_message_ready = false;
-        // uint8_t tx_buffer[15+3] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        // bool tx_message_ready = false;
+        using mi = std::chrono::duration<float, std::micro>;
         uint8_t tx_length = 0;
         uint16_t slave_respone_data = RESPONSE_DEFAULT;
         
@@ -55,9 +52,14 @@ class Hoermann_pi{
         uint8_t lz = 0;
         uint8_t broadcast_lengh = 0x02; 
         uint8_t reguest_lengh = 0x01; 
-        struct Buffer{
+        struct TX_Buffer{
             uint8_t buf[6]={0};
             uint8_t len=0;
+            std::chrono::high_resolution_clock received_time;
+        };
+        struct RX_Buffer{
+            uint8_t buf[6]={0};
+            std::chrono::high_resolution_clock received_time;
         };
 
 
@@ -69,7 +71,7 @@ class Hoermann_pi{
 
     private:
         
-        uint8_t* parse_message(uint8_t* buf);
+        TX_Buffer parse_message(RX_Buffer buf);
         void update_broadcast_status(uint8_t* buf);
         
         uint8_t get_length(uint8_t* buf);

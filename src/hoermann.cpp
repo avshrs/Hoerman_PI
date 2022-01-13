@@ -18,30 +18,23 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 
 void Hoermann_pi::run_loop(void)
 {   
-    auto start = timer.now();
     auto check = timer.now();
-    using ms = std::chrono::duration<float, std::micro>;
-
+    RX_Buffer rx_buf;
+    TX_Buffer tx_buf;
     while (1)
     {   
-        serial.serial_read(rx_buffer, 7);
+        serial.serial_read(rx_buf.buf, 7);
+        rx_buffer.received_time = timer.now();
         
-        start = timer.now();
-        
-          
-
-        if(tx_message_ready)
+        tx_buf = parse_message(rx_buf);
+        while(1)
         {
-          while(1)
-          {
             check = timer.now();
-            auto deltaTime = std::chrono::duration_cast<ms>(check - start).count();
-           
-           if( deltaTime > 3110)
-           {
-                  serial.serial_send( tx_buf, tx_length);
-                  tx_message_ready = false;
-                  break;
+            auto deltaTime = std::chrono::duration_cast<mi>(check - tx_buf.received_time).count();
+            if( deltaTime > 3110)
+            {
+                serial.serial_send(tx_buf.buf, tx_buf.len);
+                break;
             }
             usleep(10);
           }
