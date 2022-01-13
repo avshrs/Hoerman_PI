@@ -145,8 +145,8 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 		new_ter.c_cflag |= CLOCAL ;
 
 	new_ter.c_iflag = IGNPAR;
-	new_ter.c_oflag |= ~(ONLCR |OPOST);
-	new_ter.c_lflag |= ~(ICANON | ECHO | ECHOE | ECHONL| ISIG);
+	new_ter.c_oflag = 0;
+	new_ter.c_lflag = 0;
 	new_ter.c_cc[VMIN] = 1;
 	new_ter.c_cc[VTIME] = 0;
 	tcflush(fd, TCIFLUSH);
