@@ -29,7 +29,7 @@
 void USB_serial::serial_open(char *serial_name, int baud)
 {
   struct termios newtermios;
-  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK));
+  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK);
   fcntl(fd, F_SETFL, O_ASYNC|O_NONBLOCK);
   if (fd < 0) 
   {
