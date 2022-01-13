@@ -22,11 +22,10 @@ void Hoermann_pi::run_loop(void)
     auto duration2 = now.time_since_epoch();
     auto microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration);
     while (1)
-    {   std::cout<< "tx_message_ready: "<<std::endl;
+    {   
         serial.serial_read(rx_buffer, 7);
         duration = now.time_since_epoch();
         parse_message();
-        std::cout<< "tx_message_ready: "<<std::endl;
 
         if(tx_message_ready)
         {   duration2 = now.time_since_epoch();
