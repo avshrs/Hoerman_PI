@@ -81,7 +81,7 @@ if(baud){
 //   newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
   
 //   newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
-//   newtermios.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
+//   newtermios.c_oflag &= ~(ONLCR |OPOST); // Prevent conversion of newline to carriage return/line feed
 // //   newtermios.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
 // //   newtermios.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
@@ -145,8 +145,8 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 		new_ter.c_cflag |= CLOCAL;
 
 	new_ter.c_iflag = IGNPAR;
-	new_ter.c_oflag = 0;
-	new_ter.c_lflag = 0;
+	new_ter.c_oflag |= ~(ONLCR |OPOST);
+	new_ter.c_lflag |= ~(ICANON | ECHO | ECHOE | ECHONL| ISIG);
 	new_ter.c_cc[VMIN] = 1;
 	new_ter.c_cc[VTIME] = 0;
 	tcflush(fd, TCIFLUSH);
@@ -155,7 +155,11 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 	
 }
 
-
+//   newtermios.c_lflag &= ~ICANON;
+//   newtermios.c_lflag &= ~ECHO; // Disable echo
+//   newtermios.c_lflag &= ~ECHOE; // Disable erasure
+//   newtermios.c_lflag &= ~ECHONL; // Disable new-line echo
+//   newtermios.c_lflag &= ~ISIG; 
 
 void USB_serial::serial_send(uint8_t *data, int size)
 { 	char buf[15+3] = {0};
