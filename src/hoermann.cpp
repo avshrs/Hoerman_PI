@@ -31,7 +31,7 @@ static const uint8_t crctable[256] = {
 
 void Hoermann_pi::init(char* serial_name, int boudrate)
 {
-    serial.serial_open(serial_name, boudrate);
+    serial.serial_open2(serial_name, boudrate, true, NULL);
 }
 
 
