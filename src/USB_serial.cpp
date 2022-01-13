@@ -122,7 +122,7 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 			std::cout << "ioctl error" << std::endl;
 		}
 
-		// ss.flags = (ss.flags & ~ASYNC_SPD_MASK) | ASYNC_SPD_CUST;
+		ss.flags = (ss.flags & ~ASYNC_SPD_MASK) | ASYNC_SPD_CUST;
 		ss.custom_divisor = (ss.baud_base + (baudrate / 2)) / baudrate;
 
 		if (ioctl(fd, TIOCSSERIAL, &ss) == -1) {
