@@ -51,7 +51,7 @@ void Hoermann_pi::run_loop(void)
             serial.serial_send(tx_buffer, tx_length);
             tx_message_ready = false;
             
-        }
+        } 
     }       
 }
 
@@ -68,7 +68,6 @@ void Hoermann_pi::parse_message(void)
     if(length == 0x02)
     {
       broadcast_status = rx_buffer[2];
-
       broadcast_status |= (uint16_t)rx_buffer[3] << 8;
     }
   }
