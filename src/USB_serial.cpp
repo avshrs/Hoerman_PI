@@ -10,7 +10,7 @@
 #include <unistd.h> // write(), read(), close()
 #include <linux/serial.h>
 
-
+struct termios tty;
 void USB_serial::serial_open(const char *serial_name)
 {
   // Open the serial port. Change device path as needed (currently set to an standard FTDI USB-UART cable type device)
