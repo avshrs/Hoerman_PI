@@ -21,12 +21,11 @@ void Hoermann_pi::run_loop(void)
     {   
         RX_Buffer* rx_buf;
         TX_Buffer* tx_buf;
-        uint8_t* buffer;
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
-        buffer = new uint8_t(18);
 
-        serial.serial_read(buffer, 7);
+
+        serial.serial_read(rx_buf->buf.data(), 7);
        
         start = timer.now();
      
@@ -66,7 +65,6 @@ void Hoermann_pi::run_loop(void)
         }
         delete rx_buf;
         delete tx_buf;
-        delete buffer;
     } 
 }       
 
