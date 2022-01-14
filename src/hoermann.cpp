@@ -17,6 +17,7 @@ void Hoermann_pi::init(char* serial_name, int boudrate)
 void Hoermann_pi::run_loop(void)
 {   
     auto check = timer.now();
+    auto start = timer.now();
     RX_Buffer rx_buf;
     TX_Buffer tx_buf;
     bool is_broadcast_ = false; 
@@ -24,7 +25,7 @@ void Hoermann_pi::run_loop(void)
     {   
         is_broadcast_ = false; 
         serial.serial_read(rx_buf.buf, 7);
-        rx_buf.received_time = timer.now();
+        start = timer.now();
         if(is_broadcast(rx_buf.buf))
         {
             if(is_broadcast_lengh_correct(rx_buf.buf))
@@ -50,7 +51,7 @@ void Hoermann_pi::run_loop(void)
             while(1)
             {
                 check = timer.now();
-                auto deltaTime = std::chrono::duration_cast<mi>(check- tx_buf.received_time).count();
+                auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 
                 if( deltaTime > tx_buf.timeout)
                 {   
