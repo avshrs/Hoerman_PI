@@ -54,11 +54,12 @@ class Hoermann_pi{
         uint8_t lz = 0;
         uint8_t broadcast_lengh = 0x02; 
         uint8_t reguest_lengh = 0x01; 
-        const char* serial_name; 
-        int boudrate = 0;
+        const char* serial_name;
+        int boudrate;
+
     public:
         void init(const char* serial_name, int boudrate);
-        void run_loop();
+        void run_loop(void);
         std::string get_state();
         void set_state(std::string action);
         void print_buffer(uint8_t* buf, int len);

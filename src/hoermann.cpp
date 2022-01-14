@@ -6,28 +6,18 @@
 #include <iomanip>
 #include <unistd.h>
 
-// write
-    // port.update({
-    //     baudRate: 9600,
-    //     dataBits: 7,
-    //     parity: 'none',
-    //     stopBits: 1,
-//  read 
-    // const portOptions = {
-    // baudRate: 19200,
-    // dataBits: 8,
-    // parity: 'none',
-    // stopBits: 1,
-
 
 void Hoermann_pi::init(const char* serial_name_, int boudrate_)
 {
     serial_name = serial_name_;
     boudrate = boudrate_;
+    // serial.serial_open2(serial_name, boudrate, false, NULL);
+    serial.serial_open_db8(serial_name, boudrate);
 }
-void Hoermann_pi::run_loop()
+
+
+void Hoermann_pi::run_loop(void)
 {   
-    serial.serial_open_db8(serial_name, 19200);
     auto check = timer.now();
     auto start = timer.now();
     
@@ -41,7 +31,7 @@ void Hoermann_pi::run_loop()
         // serial.serial_read(rx_buf->buf.data(), 7);
         serial.serial_read(rx_buf->buf.data(), 18);
         start = timer.now();
-        print_buffer(rx_buf->buf.data(),7);
+        
         if(is_broadcast(rx_buf))
         {
            if(is_broadcast_lengh_correct(rx_buf))
@@ -52,10 +42,6 @@ void Hoermann_pi::run_loop()
         }
         else if(is_slave_query(rx_buf))
         {
-            
-            serial.serial_close();
-            serial.serial_open_db7(serial_name, 9600);
-
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
@@ -71,7 +57,7 @@ void Hoermann_pi::run_loop()
 
                 if( deltaTime > (tx_buf->timeout))
                 {   
-               
+                    print_buffer(rx_buf->buf.data(),7);
                     print_buffer(tx_buf->buf.data(),7);
                     std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl;
                     serial.serial_send(tx_buf->buf.data(), tx_buf->len);
@@ -82,7 +68,6 @@ void Hoermann_pi::run_loop()
         }
         delete rx_buf;
         delete tx_buf;
-        serial.serial_close();
     } 
 }       
 
