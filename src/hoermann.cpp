@@ -151,22 +151,22 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 
 
 
-uint8_t* Hoermann_pi::parse_message(uint8_t* buf)
+TX_Buffer Hoermann_pi::parse_message(RX_Buffer buf)
 {
-    if(is_broadcast(buf))
-        if(is_broadcast_lengh_correct(buf))
-            update_broadcast_status(buf);
+    if(is_broadcast(buf.buf))
+        if(is_broadcast_lengh_correct(buf.buf))
+            update_broadcast_status(buf.buf);
 
-    else if(is_slave_query(buf))
+    else if(is_slave_query(buf.buf))
     {
-        print_buffer(buf, 6);
-        if(is_slave_scan(buf))
+        print_buffer(buf.buf, 6);
+        if(is_slave_scan(buf.buf))
         {
-            return make_scan_responce_msg(buf);  
+            return make_scan_responce_msg(buf.buf);  
         }
-        if(is_slave_status_req(buf))
+        if(is_slave_status_req(buf.buf))
         {
-          return make_status_req_msg(buf);
+          return make_status_req_msg(buf.buf);
         }    
     }
 }
