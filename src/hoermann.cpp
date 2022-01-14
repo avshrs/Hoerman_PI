@@ -52,11 +52,11 @@ void Hoermann_pi::run_loop(void)
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 
-            if( deltaTime > tx_buf->timeout)
+            if( deltaTime > (tx_buf->timeout))
             {   
                 print_buffer(rx_buf->buf, 6);
                 print_buffer(tx_buf->buf, 6);
-                std::cout << deltaTime << std::endl;
+                std::cout << "time delta: " << deltaTime << "timeout: " << tx_buf->timeout<< std::endl;
                 serial.serial_send(tx_buf->buf, tx_buf->len);
                 break;
             }
