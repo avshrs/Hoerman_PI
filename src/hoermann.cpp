@@ -35,7 +35,7 @@ void Hoermann_pi::run_loop(void)
             print_buffer(rx_buf.buf, 6);
             if(is_slave_scan(rx_buf.buf))
             {
-                tx_buf = prepare_tx_buffer(rx_buf);
+                tx_buf = make_scan_responce_msg(rx_buf);
             }    
             else if(is_slave_status_req(rx_buf.buf))
             {
