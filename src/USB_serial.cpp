@@ -71,7 +71,9 @@ void USB_serial::serial_open(const char *serial_name)
     
 }   
 
-
+void USB_serial::clear_buffer(){
+    tcflush(fd,TCIOFLUSH);
+}
 
 void USB_serial::serial_send(uint8_t *data, int size)
 { 	char buf[15+3] = {0};
