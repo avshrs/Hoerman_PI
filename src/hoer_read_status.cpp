@@ -55,10 +55,10 @@ int main(){
       serial.serial_read(buf, 6);
       
 
-      if(buf[0] == 0x28){
+      if(buf[1] == 0x28){
          start = timer.now();
       }   
-      if(buf[0] == 0x80){
+      if(buf[1] == 0x80){
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<mi>(start - check).count();
             std::cout<< "Packet Delta = " << deltaTime ;
