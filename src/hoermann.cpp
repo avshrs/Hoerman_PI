@@ -48,7 +48,7 @@ void Hoermann_pi::run_loop(void)
         {
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<mi>(check - tx_buf.received_time).count();
-            if( deltaTime > 3110)
+            if( deltaTime > 21000)
             {
                 serial.serial_send(tx_buf.buf, tx_buf.len);
                 break;
