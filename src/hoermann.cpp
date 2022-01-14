@@ -27,17 +27,9 @@ void Hoermann_pi::run_loop(void)
         buffer = new uint8_t(18);
 
         serial.serial_read(buffer, 7);
-        for(int i=0 ; i < 7 ;i++ ){
-            rx_buf->buf.push_back(buffer[i]);
-            buffer[i] = 0;
-        }
-
        
         start = timer.now();
-        std::cout << "dupa" ;
-        print_buffer(rx_buf->buf.data(),7);
-        std::cout << "dupa2" ;
-        print_buffer(buffer,7);
+     
         if(is_broadcast(rx_buf))
         {
            if(is_broadcast_lengh_correct(rx_buf))

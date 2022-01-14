@@ -84,14 +84,10 @@ void USB_serial::serial_send(uint8_t *data, int size)
 
 void USB_serial::serial_read(uint8_t *data, int size)
 {	
-	char * buf = new char[size]; 
+    
 
-    read(fd, buf, size);
-	for(int i = 0; i< size; i++)
-	{
-		data[i] = static_cast<uint8_t>(buf[i]);
-	}
-	delete[] buf;
+    read(fd, data, size);
+
 }
 
 void USB_serial::serial_close()
