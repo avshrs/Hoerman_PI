@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 
-void Hoermann_pi::init(const char* serial_name_, int boudrate_)
+void Hoermann_pi::init(const char* serial_name)
 {
     serial.serial_open(serial_name);
 }
