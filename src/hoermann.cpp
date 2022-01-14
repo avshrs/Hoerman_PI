@@ -10,7 +10,7 @@
 
 void Hoermann_pi::run_loop(std::string serial_name)
 {   
-    serial.serial_open(serial_name, 119200);
+    serial.serial_open(serial_name, 19200);
     auto check = timer.now();
     auto start = timer.now();
     
