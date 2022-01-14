@@ -7,10 +7,15 @@
 #include <unistd.h>
 
 
+    // port.update({
+    //     baudRate: 9600,
+    //     dataBits: 7,
+    //     parity: 'none',
+    //     stopBits: 1,
 
 void Hoermann_pi::run_loop(std::string serial_name)
 {   
-    serial.serial_open(serial_name, 19200);
+    serial.serial_open_db8(serial_name, 19200);
     auto check = timer.now();
     auto start = timer.now();
     
@@ -35,8 +40,10 @@ void Hoermann_pi::run_loop(std::string serial_name)
         }
         else if(is_slave_query(rx_buf))
         {
+            
             serial.serial_close();
-            serial.serial_open(serial_name, 9600);
+            serial.serial_open_db7(serial_name, 9600);
+
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
