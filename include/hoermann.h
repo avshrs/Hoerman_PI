@@ -71,7 +71,7 @@ class Hoermann_pi{
         
         uint8_t get_length(uint8_t* buf);
         uint8_t get_counter(uint8_t* buf);
-        uint8_t get_master_address(uint8_t* buf);
+        uint8_t get_master_address();
         uint8_t calc_crc8(uint8_t* p_data, uint8_t length);
 
         bool is_broadcast(uint8_t* buf);

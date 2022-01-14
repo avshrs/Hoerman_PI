@@ -82,7 +82,7 @@ uint8_t Hoermann_pi::get_counter(uint8_t* buf)
 bool Hoermann_pi::is_broadcast(uint8_t* buf)
 {
     if(buf[0] == BROADCAST_ADDR && calc_crc8(buf, 4) == buf[4])
-    {   
+    {   std::cout << "broadcast" <<std::endl;
         if(master_address !=buf[3])
         {
             master_address = buf[3];
@@ -151,7 +151,7 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 }
 
 
-uint8_t Hoermann_pi::get_master_address(uint8_t* buf)
+uint8_t Hoermann_pi::get_master_address()
 {
     return master_address;
 }
