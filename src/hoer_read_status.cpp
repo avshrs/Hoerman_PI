@@ -46,7 +46,7 @@ int main(){
    auto start = timer.now();
    USB_serial serial;
    Hoermann_pi door;
-   char serial_name[] = "/dev/ttyUSB1";
+   char serial_name[] = "/dev/ttyUSB2";
    int boudrate = 19200;
    serial.serial_open(serial_name, boudrate);
    
