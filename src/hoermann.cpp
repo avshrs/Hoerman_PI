@@ -9,10 +9,7 @@
 
 void Hoermann_pi::init(const char* serial_name_, int boudrate_)
 {
-    serial_name = serial_name_;
-    boudrate = boudrate_;
-    // serial.serial_open2(serial_name, boudrate, false, NULL);
-    
+    serial.serial_open(serial_name);
 }
 
 
@@ -23,7 +20,7 @@ void Hoermann_pi::run_loop(void)
     
     while (1)
     {   
-        serial.serial_open_db8(serial_name, boudrate);
+        serial.set_cs8_19200();
         RX_Buffer* rx_buf;
         TX_Buffer* tx_buf;
         rx_buf = new RX_Buffer;
@@ -43,8 +40,7 @@ void Hoermann_pi::run_loop(void)
         }
         else if(is_slave_query(rx_buf))
         {   
-            serial.serial_close();
-            serial.serial_open_db7(serial_name, 9600);
+            serial.set_cs7_9600();
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
@@ -71,7 +67,6 @@ void Hoermann_pi::run_loop(void)
         }
         delete rx_buf;
         delete tx_buf;
-        serial.serial_close();
     } 
 }       
 
