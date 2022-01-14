@@ -20,7 +20,7 @@
     // stopBits: 1,
 
 
-void Hoermann_pi::init(char* serial_name_, int boudrate_)
+void Hoermann_pi::init(const char* serial_name_, int boudrate_)
 {
     serial_name = serial_name_;
     boudrate = boudrate_;
