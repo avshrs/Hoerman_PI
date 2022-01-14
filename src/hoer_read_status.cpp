@@ -57,13 +57,13 @@ int main(){
 
       if(buf[1] == 0x28){
          start = timer.now();
+         door.print_buffer(buf, 6);
       }   
       if(buf[1] == 0x80){
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<mi>(start - check).count();
-            std::cout<< "Packet Delta = " << deltaTime ;
             door.print_buffer(buf, 6);
-
+            std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
 
       }
    }
