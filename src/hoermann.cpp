@@ -39,11 +39,11 @@ void Hoermann_pi::run_loop(void)
         {
             if(is_slave_scan(rx_buf->buf))
             {
-                tx_buf = make_scan_responce_msg(rx_buf);
+                make_scan_responce_msg(rx_buf, tx_buf);
             }    
             else if(is_slave_status_req(rx_buf->buf))
             {
-                tx_buf = make_status_req_msg(rx_buf);
+                make_status_req_msg(rx_buf, tx_buf);
             }    
         }
     
@@ -151,36 +151,31 @@ uint8_t Hoermann_pi::get_master_address(uint8_t* buf)
     return buf[3] & 0x0F;
 }
 
-TX_Buffer* Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf)
+void Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
 {
-    TX_Buffer tx_buf = {0};
-    
-    tx_buf.buf[0] = get_master_address(buf->buf);
-    tx_buf.buf[1] = 0x02 | get_counter(buf->buf);
-    tx_buf.buf[2] = UAP1_TYPE;
-    tx_buf.buf[3] = UAP1_ADDR;
-    tx_buf.buf[4] = calc_crc8(tx_buf.buf, 4);
-    tx_buf.len = 5;
+    tx_buf->buf[0] = get_master_address(buf->buf);
+    tx_buf->buf[1] = 0x02 | get_counter(buf->buf);
+    tx_buf->buf[2] = UAP1_TYPE;
+    tx_buf->buf[3] = UAP1_ADDR;
+    tx_buf->buf[4] = calc_crc8(tx_buf->buf, 4);
+    tx_buf->len = 5;
     // tx_buf.received_time = buf->received_time;
-    tx_buf.timeout = 46100;
-    return &tx_buf;
+    tx_buf->timeout = 46100;
+    
 }
 
-TX_Buffer* Hoermann_pi::make_status_req_msg(RX_Buffer* buf)
+void Hoermann_pi::make_status_req_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
 {
-    TX_Buffer tx_buf = {0};
-    
-    tx_buf.buf[0] = get_master_address(buf->buf);
-    tx_buf.buf[1] = 0x03 | get_counter(buf->buf);
-    tx_buf.buf[2] = CMD_SLAVE_STATUS_RESPONSE;
-    tx_buf.buf[3] = static_cast<uint8_t>(slave_respone_data);
-    tx_buf.buf[4] = static_cast<uint8_t>((slave_respone_data>>8));
+    tx_buf->buf[0] = get_master_address(buf->buf);
+    tx_buf->buf[1] = 0x03 | get_counter(buf->buf);
+    tx_buf->buf[2] = CMD_SLAVE_STATUS_RESPONSE;
+    tx_buf->buf[3] = static_cast<uint8_t>(slave_respone_data);
+    tx_buf->buf[4] = static_cast<uint8_t>((slave_respone_data>>8));
     slave_respone_data = RESPONSE_DEFAULT;
-    tx_buf.buf[5] = calc_crc8(tx_buf.buf, 5);
-    tx_buf.len = 6;
+    tx_buf->buf[5] = calc_crc8(tx_buf->buf, 5);
+    tx_buf->len = 6;
     // tx_buf.received_time = buf->received_time; 
-    tx_buf.timeout = 21100;
-    return &tx_buf;
+    tx_buf->timeout = 21100;
 }
 
 
