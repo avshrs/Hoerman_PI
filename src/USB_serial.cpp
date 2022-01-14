@@ -146,50 +146,9 @@ void USB_serial::serial_send(uint8_t *data, int size)
 
 void USB_serial::serial_read(uint8_t *data, int size)
 {	
-	// char buf[15+3] = {0};
-
     read(fd, data, size);
-	// for(int i = 0; i< size; i++)
-	// {
-	// 	data[i] = static_cast<uint8_t>(buf[i]);
-	// }
-
 }
 
-
-void USB_serial::serial_read2(RX_Buffer * rx_buf)
-{	
-	char buf[1] = {0};
-	uint8_t counter = 0;
-	
-	for(int i= 0; i < 18; i++)
-	{
-		if(buf[0] ==0 && counter > 3)
-		{
-			break;
-			
-		}
-		else
-		{
-			read(fd, buf, 1);
-			rx_buf->buf.push_back(static_cast<uint8_t>(buf[0]));
-			counter ++;
-		}
-		
-		
-
-		
-	}
-    
-    for(int i = 0; i < static_cast<int>(rx_buf->buf.size())  ; i++)
-        {
-        std::cout << " 0x" << std::setw(2);
-        std::cout << std::setfill('0') << std::hex;
-        std::cout << static_cast<int>(rx_buf->buf[i]);
-        }
-    std::cout<<std::endl;
-
-}
 
 void USB_serial::serial_close()
 {

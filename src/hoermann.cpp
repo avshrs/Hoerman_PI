@@ -27,7 +27,7 @@ void Hoermann_pi::run_loop(void)
         tx_buf = new TX_Buffer;
 
         // serial.serial_read(rx_buf->buf.data(), 7);
-        serial.serial_read2(rx_buf);
+        serial.serial_read(rx_buf->buf.data(), 18);
         start = timer.now();
         
         if(is_broadcast(rx_buf))
