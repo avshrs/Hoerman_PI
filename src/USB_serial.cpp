@@ -10,14 +10,14 @@
 #include <unistd.h> // write(), read(), close()
 #include <linux/serial.h>
 
-struct termios tty;
 void USB_serial::serial_open(const char *serial_name)
 {
   // Open the serial port. Change device path as needed (currently set to an standard FTDI USB-UART cable type device)
   int fd = open(serial_name, O_RDWR);
 
   // Create new termios struc, we call it 'tty' for convention
-  
+  struct termios tty;
+
 
   tty.c_cflag &= ~PARENB; // Clear parity bit, disabling parity (most common)
   tty.c_cflag &= ~CSTOPB; // Clear stop field, only one stop bit used in communication (most common)
@@ -43,7 +43,7 @@ void USB_serial::serial_open(const char *serial_name)
   tty.c_cc[VMIN] = 0;
 
   // Set in/out baud rate to be 9600
-  cfsetispeed(&tty, B9600);
+  cfsetispeed(&tty, B19200);
   cfsetospeed(&tty, B9600);
   
   if (tcsetattr(fd, TCSANOW, &tty) != 0) {
@@ -52,34 +52,8 @@ void USB_serial::serial_open(const char *serial_name)
   }
 }   
 
-void USB_serial::set_cs8_19200()
-{
-  tty.c_cflag |= CS8; // 8 bits per byte (most common)
-
-  cfsetispeed(&tty, B9600);
-  cfsetospeed(&tty, B9600);
-  
-  if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-      printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
-   
-  }
-}
-
-void USB_serial::set_cs7_9600()
-{
-  tty.c_cflag |= CS7; // 8 bits per byte (most common)
-
-  cfsetispeed(&tty, B19200);
-  cfsetospeed(&tty, B19200);
-  
-  if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-      printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
-   
-  }
-}
 
 
- 
 
 
 

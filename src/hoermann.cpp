@@ -20,14 +20,12 @@ void Hoermann_pi::run_loop(void)
     
     while (1)
     {   
-        serial.set_cs8_19200();
         RX_Buffer* rx_buf;
         TX_Buffer* tx_buf;
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
 
-        // serial.serial_read(rx_buf->buf.data(), 7);
-        serial.serial_read(rx_buf->buf.data(), 18);
+        serial.serial_read(rx_buf->buf.data(), 7);
         start = timer.now();
          print_buffer(rx_buf->buf.data(),7);
         if(is_broadcast(rx_buf))
@@ -40,7 +38,6 @@ void Hoermann_pi::run_loop(void)
         }
         else if(is_slave_query(rx_buf))
         {   
-            // serial.set_cs7_9600();
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
