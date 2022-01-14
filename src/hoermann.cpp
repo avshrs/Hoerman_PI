@@ -36,8 +36,23 @@ void Hoermann_pi::run_loop(void)
     {   
         serial.serial_read(rx_buf.buf, 7);
         rx_buf.received_time = timer.now();
+        if(is_broadcast(rx_buf.buf))
+        {
+            if(is_broadcast_lengh_correct(rx_buf.buf))
+                {
+                update_broadcast_status(rx_buf.buf);
+                }
+        }
+        else if(is_slave_query(rx_buf.buf))
+        {
+            print_buffer(rx_buf.buf, 6);
+            if(is_slave_scan(rx_buf.buf))
+            {
+                prepare_tx_buffer(rx_buf);
+            }    
+        }
+    
         
-        tx_buf = parse_message(rx_buf);
         while(1)
         {
             check = timer.now();
@@ -161,7 +176,7 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 
 
 
-TX_Buffer Hoermann_pi::parse_message(RX_Buffer buf)
+void Hoermann_pi::parse_message(RX_Buffer buf)
 {
     if(is_broadcast(buf.buf))
     {
@@ -182,6 +197,21 @@ TX_Buffer Hoermann_pi::parse_message(RX_Buffer buf)
           return make_status_req_msg(buf);
         }    
     }
+    return buf;
+}
+TX_Buffer Hoermann_pi::prepare_tx_buffer(RX_Buffer buf)
+{
+    print_buffer(buf.buf, 6);
+    if(is_slave_scan(buf.buf))
+    {
+        return make_scan_responce_msg(buf);  
+    }
+    if(is_slave_status_req(buf.buf))
+    {
+        return make_status_req_msg(buf);
+    }    
+
+
 }
 
 

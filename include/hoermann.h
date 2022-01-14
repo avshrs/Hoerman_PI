@@ -72,7 +72,7 @@ class Hoermann_pi{
 
     private:
         
-        TX_Buffer parse_message(RX_Buffer buf);
+        void parse_message(RX_Buffer* buf);
         void update_broadcast_status(uint8_t* buf);
         
         uint8_t get_length(uint8_t* buf);
@@ -86,6 +86,7 @@ class Hoermann_pi{
         bool is_broadcast_lengh_correct(uint8_t* buf);
         bool is_req_lengh_correct(uint8_t* buf);
         void print_buffer(uint8_t* buf, int len);
-        TX_Buffer make_scan_responce_msg(RX_Buffer buf);
-        TX_Buffer make_status_req_msg(RX_Buffer buf);
+        TX_Buffer make_scan_responce_msg(RX_Buffer* buf);
+        TX_Buffer make_status_req_msg(RX_Buffer* buf);
+        TX_Buffer prepare_tx_buffer(RX_Buffer* buf);
 };
