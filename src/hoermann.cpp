@@ -18,7 +18,7 @@ void Hoermann_pi::run_loop(void)
 {   
     auto check = timer.now();
     auto start = timer.now();
-    bool not_broadcast_ = true; 
+    
     while (1)
     {   
         RX_Buffer* rx_buf;
@@ -29,7 +29,6 @@ void Hoermann_pi::run_loop(void)
         start = timer.now();
         if(is_broadcast(rx_buf->buf))
         {
-            not_broadcast_ = false;
            if(is_broadcast_lengh_correct(rx_buf->buf))
                 {
                 update_broadcast_status(rx_buf->buf);
