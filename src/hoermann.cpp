@@ -18,8 +18,6 @@ void Hoermann_pi::run_loop(void)
 {   
     auto check = timer.now();
     auto start = timer.now();
-    RX_Buffer rx_buf = {0};
-    TX_Buffer tx_buf = {0};
     bool not_broadcast_ = true; 
     while (1)
     {   
