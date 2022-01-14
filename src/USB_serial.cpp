@@ -44,7 +44,7 @@ void USB_serial::serial_open(const char *serial_name)
 
   // Set in/out baud rate to be 9600
   cfsetispeed(&tty, B19200);
-  cfsetospeed(&tty, B9600);
+  cfsetospeed(&tty, B19200);
   
   if (tcsetattr(fd, TCSANOW, &tty) != 0) {
       printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
