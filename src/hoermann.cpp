@@ -34,6 +34,7 @@ void Hoermann_pi::run_loop(void)
                 {
                 update_broadcast_status(rx_buf->buf);
                 }
+            continue;
         }
         else if(is_slave_query(rx_buf->buf))
         {
@@ -47,25 +48,23 @@ void Hoermann_pi::run_loop(void)
             }    
         }
     
-        if(not_broadcast_){
-            while(1)
-            {
-                check = timer.now();
-                auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-    
-                if( deltaTime > tx_buf->timeout)
-                {   
-                    print_buffer(rx_buf->buf, 6);
-                    print_buffer(tx_buf->buf, 6);
-                    std::cout << deltaTime << std::endl;
-                    serial.serial_send(tx_buf->buf, tx_buf->len);
-                    break;
-                }
-                usleep(10);
-            }
-        }
-        not_broadcast_ = false; 
+        while(1)
+        {
+            check = timer.now();
+            auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 
+            if( deltaTime > tx_buf->timeout)
+            {   
+                print_buffer(rx_buf->buf, 6);
+                print_buffer(tx_buf->buf, 6);
+                std::cout << deltaTime << std::endl;
+                serial.serial_send(tx_buf->buf, tx_buf->len);
+                break;
+            }
+            usleep(10);
+        }
+        delete rx_buf;
+        delete tx_buf;
     } 
 }       
 
