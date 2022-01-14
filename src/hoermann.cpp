@@ -158,7 +158,7 @@ uint8_t Hoermann_pi::get_master_address()
 
 void Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
 {
-    tx_buf->buf[0] = get_master_address(buf->buf);
+    tx_buf->buf[0] = get_master_address();
     tx_buf->buf[1] = 0x02 | get_counter(buf->buf);
     tx_buf->buf[2] = UAP1_TYPE;
     tx_buf->buf[3] = UAP1_ADDR;
@@ -171,7 +171,7 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
 {
-    tx_buf->buf[0] = get_master_address(buf->buf);
+    tx_buf->buf[0] = get_master_address();
     tx_buf->buf[1] = 0x03 | get_counter(buf->buf);
     tx_buf->buf[2] = CMD_SLAVE_STATUS_RESPONSE;
     tx_buf->buf[3] = static_cast<uint8_t>(slave_respone_data);
