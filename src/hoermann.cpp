@@ -7,6 +7,16 @@
 #include <unistd.h>
 
 
+struct TX_Buffer{
+    uint8_t buf[6]={0};
+    uint8_t len=0;
+    std::chrono::_V2::system_clock::time_point received_time;
+};
+struct RX_Buffer{
+    uint8_t buf[6]={0};
+    std::chrono::_V2::system_clock::time_point received_time;
+};
+
 
 
 
@@ -162,11 +172,11 @@ TX_Buffer Hoermann_pi::parse_message(RX_Buffer buf)
         print_buffer(buf.buf, 6);
         if(is_slave_scan(buf.buf))
         {
-            return make_scan_responce_msg(buf.buf);  
+            return make_scan_responce_msg(buf);  
         }
         if(is_slave_status_req(buf.buf))
         {
-          return make_status_req_msg(buf.buf);
+          return make_status_req_msg(buf);
         }    
     }
 }
