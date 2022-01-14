@@ -13,6 +13,7 @@ void th1(){
 
 int main(){
    
+   
    std::thread t3(th1);
     sleep(10);
    while(1){
