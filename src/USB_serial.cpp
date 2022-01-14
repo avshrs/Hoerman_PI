@@ -29,8 +29,7 @@
 void USB_serial::serial_open(const char *serial_name)
 {
   struct termios newtermios;
-  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK);
-
+  fd = open(serial_name,O_RDWR | O_NOCTTY);
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
@@ -59,32 +58,41 @@ void USB_serial::serial_open(const char *serial_name)
   newtermios.c_lflag &= ~ISIG; // Disable interpretation of INTR, QUIT and SUSP
   newtermios.c_iflag &= ~(IXON | IXOFF | IXANY); // Turn off s/w flow ctrl
   newtermios.c_iflag &= ~(IGNBRK|BRKINT|PARMRK|ISTRIP|INLCR|IGNCR|ICRNL); // Disable any special handling of received bytes
-  
+
   newtermios.c_oflag &= ~OPOST; // Prevent special interpretation of output bytes (e.g. newline chars)
   newtermios.c_oflag &= ~ONLCR; // Prevent conversion of newline to carriage return/line feed
-//   newtermios.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
-//   newtermios.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
+  // tty.c_oflag &= ~OXTABS; // Prevent conversion of tabs to spaces (NOT PRESENT IN LINUX)
+  // tty.c_oflag &= ~ONOEOT; // Prevent removal of C-d chars (0x004) in output (NOT PRESENT IN LINUX)
 
   newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
-  
-  cfsetispeed(&newtermios, B19200);
+  cfsetispeed(&newtermios,B19200);
   cfsetospeed(&newtermios, B19200);
     
 }   
 
 
-void USB_serial::serial_send(uint8_t *data, int size)
-{  
-	write(fd, data, size);
-}
 
+void USB_serial::serial_send(uint8_t *data, int size)
+{ 	char buf[15+3] = {0};
+	for(int i = 0; i< size; i++)
+	{
+		buf[i] = static_cast<char>(data[i]);
+	}
+	write(fd, buf, size);
+}
 
 void USB_serial::serial_read(uint8_t *data, int size)
 {	
-    read(fd, data, size);
-}
+	char * buf = new char[size]; 
 
+    read(fd, buf, size);
+	for(int i = 0; i< size; i++)
+	{
+		data[i] = static_cast<uint8_t>(buf[i]);
+	}
+	delete[] buf;
+}
 
 void USB_serial::serial_close()
 {
