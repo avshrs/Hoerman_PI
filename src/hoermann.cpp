@@ -164,9 +164,12 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 TX_Buffer Hoermann_pi::parse_message(RX_Buffer buf)
 {
     if(is_broadcast(buf.buf))
+    {
         if(is_broadcast_lengh_correct(buf.buf))
+        {
             update_broadcast_status(buf.buf);
-
+        }
+    }
     else if(is_slave_query(buf.buf))
     {
         print_buffer(buf.buf, 6);
