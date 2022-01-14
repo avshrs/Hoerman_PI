@@ -1,6 +1,6 @@
 #pragma once
 #include <stdint.h>
-#include <string.h>
+#include <string>
 #include "vars.h"
 class USB_serial
 {
