@@ -1,4 +1,5 @@
 #include "USB_serial.h"
+#include "vars.h"
 #include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -134,24 +135,24 @@ void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, str
 
 
 void USB_serial::serial_send(uint8_t *data, int size)
-{ 	char buf[15+3] = {0};
-	for(int i = 0; i< size; i++)
-	{
-		buf[i] = static_cast<char>(data[i]);
-	}
-	write(fd, buf, size);
+{ // 	char buf[15+3] = {0};
+// 	for(int i = 0; i< size; i++)
+// 	{
+// 		buf[i] = static_cast<char>(data[i]);
+// 	}
+	write(fd, data, size);
 }
 
 void USB_serial::serial_read(uint8_t *data, int size)
 {	
-	char * buf = new char[size]; 
+	// char buf[15+3] = {0};
 
-    read(fd, buf, size);
-	for(int i = 0; i< size; i++)
-	{
-		data[i] = static_cast<uint8_t>(buf[i]);
-	}
-	delete[] buf;
+    read(fd, data, size);
+	// for(int i = 0; i< size; i++)
+	// {
+	// 	data[i] = static_cast<uint8_t>(buf[i]);
+	// }
+
 }
 
 void USB_serial::serial_close()
