@@ -19,7 +19,6 @@ void Hoermann_pi::run_loop(void)
     auto check = timer.now();
     RX_Buffer rx_buf;
     TX_Buffer tx_buf;
-    int timeout = 0;
     bool is_broadcast_ = false; 
     while (1)
     {   
