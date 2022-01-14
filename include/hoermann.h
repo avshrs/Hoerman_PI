@@ -49,7 +49,7 @@ class Hoermann_pi{
         using mi = std::chrono::duration<float, std::micro>;
         uint8_t tx_length = 0;
         uint16_t slave_respone_data = RESPONSE_DEFAULT;
-        
+        uint8_t master_address = 0x00;
         uint16_t broadcast_status = 0;
         uint8_t lz = 0;
         uint8_t broadcast_lengh = 0x02; 

@@ -82,7 +82,13 @@ uint8_t Hoermann_pi::get_counter(uint8_t* buf)
 bool Hoermann_pi::is_broadcast(uint8_t* buf)
 {
     if(buf[0] == BROADCAST_ADDR)
+    {   
+        if(master_address !=buf[3])
+        {
+            master_address = buf[3];
+        }
         return true;
+    }
     else
         return false;
 }
@@ -147,7 +153,7 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 
 uint8_t Hoermann_pi::get_master_address(uint8_t* buf)
 {
-    return buf[3];
+    return master_address;
 }
 
 void Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
