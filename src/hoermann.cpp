@@ -6,14 +6,26 @@
 #include <iomanip>
 #include <unistd.h>
 
-
+// write
     // port.update({
     //     baudRate: 9600,
     //     dataBits: 7,
     //     parity: 'none',
     //     stopBits: 1,
+//  read 
+    // const portOptions = {
+    // baudRate: 19200,
+    // dataBits: 8,
+    // parity: 'none',
+    // stopBits: 1,
+}
 
-void Hoermann_pi::run_loop(std::string serial_name)
+void Hoermann_pi::init(char* serial_name_, int boudrate_)
+{
+    serial_name = serial_name_;
+    boudrate = boudrate_;
+}
+void Hoermann_pi::run_loop()
 {   
     serial.serial_open_db8(serial_name, 19200);
     auto check = timer.now();
