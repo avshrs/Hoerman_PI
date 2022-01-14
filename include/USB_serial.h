@@ -6,7 +6,7 @@ class USB_serial
 {
   public:
     int fd;
-    struct termios tty;
+    termios tty;
     void serial_open(const char* serial_name);
     void set_cs8_19200();
     void set_cs7_9600();
