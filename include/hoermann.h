@@ -81,5 +81,5 @@ class Hoermann_pi{
         bool is_req_lengh_correct(uint8_t* buf);
         TX_Buffer make_scan_responce_msg(RX_Buffer buf);
         TX_Buffer make_status_req_msg(RX_Buffer buf);
-        TX_Buffer prepare_tx_buffer(RX_Buffer buf);
+        // TX_Buffer prepare_tx_buffer(RX_Buffer buf);
 };

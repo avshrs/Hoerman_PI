@@ -166,21 +166,6 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 
 
 
-TX_Buffer Hoermann_pi::prepare_tx_buffer(RX_Buffer buf)
-{
-    print_buffer(buf.buf, 6);
-    if(is_slave_scan(buf.buf))
-    {
-        return make_scan_responce_msg(buf);  
-    }
-    if(is_slave_status_req(buf.buf))
-    {
-        return make_status_req_msg(buf);
-    }    
-
-
-}
-
 
 std::string Hoermann_pi::get_state()
 {
