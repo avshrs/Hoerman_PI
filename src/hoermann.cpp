@@ -55,7 +55,7 @@ void Hoermann_pi::run_loop(void)
             while(1)
             {
                 check = timer.now();
-                auto deltaTime = std::chrono::duration_cast<mi>(check - tx_buf.received_time).count();
+                auto deltaTime = std::chrono::duration_cast<mi>(tx_buf.received_time - check).count();
                 if( deltaTime > timeout)
                 {   
                     std::cout << deltaTime << std::endl;
