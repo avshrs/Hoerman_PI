@@ -17,7 +17,7 @@ void USB_serial::serial_open(const char *serial_name)
   int fd = open(serial_name, O_RDWR);
 
   // Create new termios struc, we call it 'tty' for convention
-
+  
 
   tty.c_cflag &= ~PARENB; // Clear parity bit, disabling parity (most common)
   tty.c_cflag &= ~CSTOPB; // Clear stop field, only one stop bit used in communication (most common)
