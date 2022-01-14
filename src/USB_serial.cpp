@@ -72,7 +72,6 @@ void USB_serial::serial_open(char *serial_name, int baud)
     
 }   
 
-
 void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, struct termios *old)
 {
 	struct termios new_ter;

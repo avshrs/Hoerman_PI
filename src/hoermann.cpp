@@ -7,15 +7,9 @@
 #include <unistd.h>
 
 
-void Hoermann_pi::init(char* serial_name, int boudrate)
-{
-    // serial.serial_open2(serial_name, boudrate, false, NULL);
-    serial.serial_open(serial_name, boudrate);
-}
 
-
-void Hoermann_pi::run_loop(void)
-{   
+void Hoermann_pi::run_loop(char* serial_name)
+{   serial.serial_open(serial_name, 119200);
     auto check = timer.now();
     auto start = timer.now();
     
@@ -40,6 +34,8 @@ void Hoermann_pi::run_loop(void)
         }
         else if(is_slave_query(rx_buf))
         {
+            serial.serial_close();
+            serial.serial_open(serial_name, 9600);
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
@@ -66,6 +62,7 @@ void Hoermann_pi::run_loop(void)
         }
         delete rx_buf;
         delete tx_buf;
+        serial.serial_close();
     } 
 }       
 

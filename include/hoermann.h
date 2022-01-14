@@ -57,7 +57,7 @@ class Hoermann_pi{
 
     public:
         void init(char* serial_name, int boudrate);
-        void run_loop(void);
+        void run_loop(char* serial_name);
         std::string get_state();
         void set_state(std::string action);
         void print_buffer(uint8_t* buf, int len);
