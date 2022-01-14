@@ -18,7 +18,7 @@
     // dataBits: 8,
     // parity: 'none',
     // stopBits: 1,
-}
+
 
 void Hoermann_pi::init(char* serial_name_, int boudrate_)
 {
