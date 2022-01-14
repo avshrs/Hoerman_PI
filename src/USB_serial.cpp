@@ -27,10 +27,10 @@
 #include <linux/serial.h>
 #endif
 
-void USB_serial::serial_open(char *serial_name, int baud)
+void USB_serial::serial_open(std::string serial_name, int baud)
 {
   struct termios newtermios;
-  fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK);
+  fd = open(serial_name.c_str(),O_RDWR | O_NOCTTY | O_NONBLOCK);
   if (fd < 0) 
   {
     std::cout << "Error from open serial port" << fd << std::endl;
