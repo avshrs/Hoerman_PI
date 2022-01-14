@@ -27,7 +27,7 @@
 #include <linux/serial.h>
 #endif
 
-void USB_serial::serial_open_db8(const char* serial_name, int baud)
+void USB_serial::serial_open_db8(const char *serial_name, int baud)
 {
   struct termios newtermios;
   fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -72,7 +72,8 @@ void USB_serial::serial_open_db8(const char* serial_name, int baud)
     
 }   
 
-void USB_serial::serial_open_db7(const char* serial_name, int baud)
+
+void USB_serial::serial_open_db7(const char *serial_name, int baud)
 {
   struct termios newtermios;
   fd = open(serial_name,O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -116,7 +117,6 @@ void USB_serial::serial_open_db7(const char* serial_name, int baud)
   cfsetospeed(&newtermios, baud);
     
 }   
-
 
 void USB_serial::serial_open2(const char *device, int baudrate, bool rtscts, struct termios *old)
 {
