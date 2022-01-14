@@ -181,7 +181,7 @@ void USB_serial::serial_read2(RX_Buffer * rx_buf)
 		
 	}
     
-    for(int i = 0; i < rx_buf->buf.size()  ; i++)
+    for(int i = 0; i < static_cast<int>(rx_buf->buf.size())  ; i++)
         {
         std::cout << " 0x" << std::setw(2);
         std::cout << std::setfill('0') << std::hex;
