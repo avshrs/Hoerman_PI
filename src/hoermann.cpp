@@ -55,7 +55,7 @@ void Hoermann_pi::run_loop(void)
                 if( deltaTime > (tx_buf->timeout))
                 {   
                     print_buffer(rx_buf->buf.data(),7);
-                    // print_buffer(tx_buf->buf.data(),7);
+                    print_buffer(tx_buf->buf.data(),7);
                     std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl;
                     serial.serial_send(tx_buf->buf.data(), tx_buf->len);
                     break;
