@@ -163,7 +163,7 @@ TX_Buffer* Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf)
     tx_buf.buf[3] = UAP1_ADDR;
     tx_buf.buf[4] = calc_crc8(tx_buf.buf, 4);
     tx_buf.len = 5;
-    tx_buf.received_time = buf->received_time;
+    // tx_buf.received_time = buf->received_time;
     tx_buf.timeout = 46100;
     return &tx_buf;
 }
@@ -180,7 +180,7 @@ TX_Buffer* Hoermann_pi::make_status_req_msg(RX_Buffer* buf)
     slave_respone_data = RESPONSE_DEFAULT;
     tx_buf.buf[5] = calc_crc8(tx_buf.buf, 5);
     tx_buf.len = 6;
-    tx_buf.received_time = buf->received_time; 
+    // tx_buf.received_time = buf->received_time; 
     tx_buf.timeout = 21100;
     return &tx_buf;
 }
