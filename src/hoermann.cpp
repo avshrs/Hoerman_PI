@@ -83,10 +83,10 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
 {
     if(buf->buf[0] == BROADCAST_ADDR && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
     {   
-        if(master_address != buf->buf[3])
-        {std::cout << "broadcast" <<std::endl;
-            master_address = buf->buf[3];
-        }
+        // if(master_address != buf->buf[3])
+        // {std::cout << "broadcast" <<std::endl;
+        //     master_address = buf->buf[3];
+        // }
         return true;
     }
     else
