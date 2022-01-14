@@ -35,6 +35,7 @@ void Hoermann_pi::run_loop(void)
         
         if(is_broadcast(rx_buf))
         {
+            print_buffer(rx_buf->buf.data(),7);
            if(is_broadcast_lengh_correct(rx_buf))
                 {
                 update_broadcast_status(rx_buf);
