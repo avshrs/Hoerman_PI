@@ -70,7 +70,7 @@ void Hoermann_pi::run_loop(void)
 
 uint8_t Hoermann_pi::get_length(uint8_t* buf)
 {
-    return buf[3];
+    return buf[1] & 0x0F;
 }
 
 uint8_t Hoermann_pi::get_counter(uint8_t* buf)
@@ -146,7 +146,7 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 
 uint8_t Hoermann_pi::get_master_address(uint8_t* buf)
 {
-    return buf[3] & 0x0F;
+    return buf[3];
 }
 
 void Hoermann_pi::make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf)
