@@ -7,19 +7,6 @@
 #include <unistd.h>
 
 
-// struct TX_Buffer{
-//     uint8_t buf[6]={0};
-//     uint8_t len=0;
-//     std::chrono::_V2::system_clock::time_point received_time;
-// };
-// struct RX_Buffer{
-//     uint8_t buf[6]={0};
-//     std::chrono::_V2::system_clock::time_point received_time;
-// };
-
-
-
-
 void Hoermann_pi::init(char* serial_name, int boudrate)
 {
     serial.serial_open2(serial_name, boudrate, false, NULL);
@@ -48,7 +35,11 @@ void Hoermann_pi::run_loop(void)
             print_buffer(rx_buf.buf, 6);
             if(is_slave_scan(rx_buf.buf))
             {
-                prepare_tx_buffer(rx_buf);
+                tx_buf = prepare_tx_buffer(rx_buf);
+            }    
+            else if(is_slave_status_req(rx_buf.buf))
+            {
+                tx_buf = make_status_req_msg(rx_buf);
             }    
         }
     
@@ -175,30 +166,6 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
 
 
 
-
-void Hoermann_pi::parse_message(RX_Buffer buf)
-{
-    if(is_broadcast(buf.buf))
-    {
-        if(is_broadcast_lengh_correct(buf.buf))
-        {
-            update_broadcast_status(buf.buf);
-        }
-    }
-    else if(is_slave_query(buf.buf))
-    {
-        print_buffer(buf.buf, 6);
-        if(is_slave_scan(buf.buf))
-        {
-            return make_scan_responce_msg(buf);  
-        }
-        if(is_slave_status_req(buf.buf))
-        {
-          return make_status_req_msg(buf);
-        }    
-    }
-    return buf;
-}
 TX_Buffer Hoermann_pi::prepare_tx_buffer(RX_Buffer buf)
 {
     print_buffer(buf.buf, 6);

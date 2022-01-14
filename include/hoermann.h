@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <string>
 #include <chrono>
-
+#include "vars.h"
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
 #define UAP1_ADDR                 0x28
@@ -24,15 +24,6 @@
 #define CRC8_INITIAL_VALUE        0xF3
 
 
-    struct TX_Buffer{
-        uint8_t buf[6]={0};
-        uint8_t len=0;
-        std::chrono::_V2::system_clock::time_point received_time;
-    };
-    struct RX_Buffer{
-        uint8_t buf[6]={0};
-        std::chrono::_V2::system_clock::time_point received_time;
-    };
 
 class Hoermann_pi{
     private:
@@ -69,10 +60,13 @@ class Hoermann_pi{
         void run_loop(void);
         std::string get_state();
         void set_state(std::string action);
+        void print_buffer(uint8_t* buf, int len);
 
     private:
+    // zegar _SC_MONOTONIC_CLOCK
+
         
-        void parse_message(RX_Buffer* buf);
+        
         void update_broadcast_status(uint8_t* buf);
         
         uint8_t get_length(uint8_t* buf);
@@ -85,8 +79,7 @@ class Hoermann_pi{
         bool is_slave_status_req(uint8_t* buf);
         bool is_broadcast_lengh_correct(uint8_t* buf);
         bool is_req_lengh_correct(uint8_t* buf);
-        void print_buffer(uint8_t* buf, int len);
-        TX_Buffer make_scan_responce_msg(RX_Buffer* buf);
-        TX_Buffer make_status_req_msg(RX_Buffer* buf);
-        TX_Buffer prepare_tx_buffer(RX_Buffer* buf);
+        TX_Buffer make_scan_responce_msg(RX_Buffer buf);
+        TX_Buffer make_status_req_msg(RX_Buffer buf);
+        TX_Buffer prepare_tx_buffer(RX_Buffer buf);
 };
