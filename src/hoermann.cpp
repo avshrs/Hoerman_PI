@@ -10,7 +10,7 @@
 
 void Hoermann_pi::run_loop(std::string serial_name)
 {   
-    serial.serial_open(serial_name.c_str(), 119200);
+    serial.serial_open(serial_name, 119200);
     auto check = timer.now();
     auto start = timer.now();
     
@@ -36,7 +36,7 @@ void Hoermann_pi::run_loop(std::string serial_name)
         else if(is_slave_query(rx_buf))
         {
             serial.serial_close();
-            serial.serial_open(serial_name.c_str(), 9600);
+            serial.serial_open(serial_name, 9600);
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
