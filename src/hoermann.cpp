@@ -40,14 +40,10 @@ void Hoermann_pi::run_loop(void)
             if(is_slave_scan(rx_buf.buf))
             {
                 tx_buf = make_scan_responce_msg(rx_buf);
-                timeout = 46100;
-
-
             }    
             else if(is_slave_status_req(rx_buf.buf))
             {
                 tx_buf = make_status_req_msg(rx_buf);
-                timeout = 20100;
             }    
         }
     
@@ -57,7 +53,7 @@ void Hoermann_pi::run_loop(void)
                 check = timer.now();
                 auto deltaTime = std::chrono::duration_cast<mi>(tx_buf.received_time - check).count();
                 std::cout << deltaTime << std::endl;
-                if( deltaTime > timeout)
+                if( deltaTime > tx_buf.timeout)
                 {   
                     std::cout << deltaTime << std::endl;
                     serial.serial_send(tx_buf.buf, tx_buf.len);
@@ -156,6 +152,7 @@ TX_Buffer Hoermann_pi::make_scan_responce_msg(RX_Buffer buf)
     tx_buf.buf[4] = calc_crc8(tx_buf.buf, 4);
     tx_buf.len = 5;
     tx_buf.received_time = buf.received_time;
+    tx_buf.timeout = 46100;
     return tx_buf;
 }
 
@@ -172,6 +169,7 @@ TX_Buffer Hoermann_pi::make_status_req_msg(RX_Buffer buf)
     tx_buf.buf[5] = calc_crc8( tx_buf.buf, 5 );
     tx_buf.len = 6;
     tx_buf.received_time = buf.received_time; 
+    tx_buf.timeout = 21100;
     return tx_buf;
 }
 
