@@ -67,19 +67,19 @@ class Hoermann_pi{
 
         
         
-        void update_broadcast_status(uint8_t* buf);
+        void update_broadcast_status(RX_Buffer* buf);
         
-        uint8_t get_length(uint8_t* buf);
-        uint8_t get_counter(uint8_t* buf);
+        uint8_t get_length(RX_Buffer* buf);
+        uint8_t get_counter(RX_Buffer* buf);
         uint8_t get_master_address();
         uint8_t calc_crc8(uint8_t* p_data, uint8_t length);
 
-        bool is_broadcast(uint8_t* buf);
-        bool is_slave_query(uint8_t* buf);
-        bool is_slave_scan(uint8_t* buf);
-        bool is_slave_status_req(uint8_t* buf);
-        bool is_broadcast_lengh_correct(uint8_t* buf);
-        bool is_req_lengh_correct(uint8_t* buf);
+        bool is_broadcast(RX_Buffer* buf);
+        bool is_slave_query(RX_Buffer* buf);
+        bool is_slave_scan(RX_Buffer* buf);
+        bool is_slave_status_req(RX_Buffer* buf);
+        bool is_broadcast_lengh_correct(RX_Buffer*buf);
+        bool is_req_lengh_correct(RX_Buffer* buf);
         void make_scan_responce_msg(RX_Buffer* buf, TX_Buffer* tx_buf);
         void make_status_req_msg(RX_Buffer* buf, TX_Buffer* tx_buf);
         // TX_Buffer prepare_tx_buffer(RX_Buffer buf);
