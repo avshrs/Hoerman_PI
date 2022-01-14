@@ -17,7 +17,7 @@ void Hoermann_pi::run_loop(void)
 {   
     auto check = timer.now();
     auto start = timer.now();
-    
+    uint8_t buffer[18] = {0};
     while (1)
     {   
         RX_Buffer* rx_buf;
@@ -25,9 +25,13 @@ void Hoermann_pi::run_loop(void)
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
 
-        serial.serial_read(rx_buf->buf.data(), 7);
+        serial.serial_read(buffer, 7);
+        for(int i=0 ; i < 7 ;i++ )
+            rx_buf->buf.push_back(buffer[i]);
+        
         start = timer.now();
         print_buffer(rx_buf->buf.data(),7);
+        print_buffer(buffer,7);
         if(is_broadcast(rx_buf))
         {
            if(is_broadcast_lengh_correct(rx_buf))
