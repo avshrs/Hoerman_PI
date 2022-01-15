@@ -176,7 +176,7 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[4] = calc_crc8(tx_buf->buf.data(), 4);
     tx_buf->len = 5;
     // tx_buf.received_time = buf->received_time;
-    tx_buf->timeout = 1;
+    tx_buf->timeout = 3200;
 }
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
@@ -190,7 +190,7 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
     tx_buf->len = 6;
     // tx_buf.received_time = buf->received_time; 
-    tx_buf->timeout = 1;
+    tx_buf->timeout = 3200;
 }
 
 
