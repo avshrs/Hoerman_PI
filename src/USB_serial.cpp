@@ -109,13 +109,13 @@ void USB_serial::serial_read(RX_Buffer* rx_buffer)
 	{
 		rx_buffer->buf.push_back(buf[i]);
 	}
-      for(int i = 0+lead_z; i < s ; i++)
-        {
-        std::cout << " 0x" << std::setw(2);
-        std::cout << std::setfill('0') << std::hex;
-        std::cout << static_cast<int>(buf[i]);
-        }
-    std::cout<<std::endl;
+    //   for(int i = 0+lead_z; i < s ; i++)
+    //     {
+    //     std::cout << " 0x" << std::setw(2);
+    //     std::cout << std::setfill('0') << std::hex;
+    //     std::cout << static_cast<int>(buf[i]);
+    //     }
+    // std::cout<<std::endl;
 }
 
 void USB_serial::serial_close()
