@@ -26,9 +26,9 @@
 #include <linux/serial.h>
 #endif
 struct termios newtermios;
-void USB_serial::serial_open(const char *serial_name, int boudrate)
+void USB_serial::serial_open(const char *serial_name, int boudrate, int lead_zero )
 {
-  
+  lead_z = lead_zero;
   fd = open(serial_name,O_RDWR | O_NOCTTY);
   if (fd < 0) 
   {
@@ -108,7 +108,7 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	write(fd, buf, size);
 }
 
-void USB_serial::serial_read(uint8_t *data, int size, uint8_t lead_zero)
+void USB_serial::serial_read(uint8_t *data, int size)
 {	
 	char buf[10] = {0};
   char buf_[1] = {0};
@@ -121,9 +121,9 @@ void USB_serial::serial_read(uint8_t *data, int size, uint8_t lead_zero)
   }
   // read(fd, buf, size);
 
-	for(int i=0; i < size; i++)
+	for(int i=0; i < size+lead_z; i++)
 	{
-		data[i] = static_cast<uint8_t>(buf[i]);
+		data[i] = static_cast<uint8_t>(buf[i+lead_z]);
     
 	}
       for(int i = 0; i < 6  ; i++)

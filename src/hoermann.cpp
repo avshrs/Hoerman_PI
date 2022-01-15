@@ -9,7 +9,7 @@
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
-    serial.serial_open(serial_name, boudrate);
+    serial.serial_open(serial_name, boudrate, lead_zero);
 }
 
 

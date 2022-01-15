@@ -12,9 +12,9 @@ void th1(){
 
 
 int main(){
-   const char serial_name[] = "/dev/ttyUSB1";
+   const char serial_name[] = "/dev/ttyUSB2";
    
-   door.init(serial_name, 19200, true);
+   door.init(serial_name, 19200, 1);
    std::thread t3(th1);
    sleep(30);
    while(1){

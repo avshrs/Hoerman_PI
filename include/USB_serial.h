@@ -6,10 +6,10 @@ class USB_serial
 {
   public:
     int fd;
-    
-    void serial_open(const char* serial_name, int boudrate);
+    int lead_z = 0 ;
+    void serial_open(const char* serial_name, int boudrate, int lead_zero );
     void serial_send(uint8_t *data, int size);
-    void serial_read(uint8_t *data, int size, uint8_t lead_zero);
+    void serial_read(uint8_t *data, int size);
     void clear_buffer();
     void send_brake();
 
