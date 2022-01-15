@@ -25,7 +25,8 @@ void Hoermann_pi::run_loop(void)
     {   
         serial.serial_read(rx_buf);
         start = timer.now();
-        print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
+
+        print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
 
         if(is_broadcast(rx_buf))
         {
@@ -51,7 +52,7 @@ void Hoermann_pi::run_loop(void)
                     if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                     {   
                         std::cout << "--------------\n";
-                        print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
+                        print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
                         print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
                         std::cout << "--------------\n\n";
                         serial.serial_send(tx_buf);
