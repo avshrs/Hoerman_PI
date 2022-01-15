@@ -98,6 +98,7 @@ void USB_serial::send_brake()
 
 void USB_serial::serial_send(TX_Buffer* tx_buffer)
 { 	
+  send_brake();
 	write(fd, tx_buffer->buf.data(), tx_buffer->buf.size());
 }
 
