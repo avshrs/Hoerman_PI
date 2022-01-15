@@ -79,7 +79,7 @@ uint8_t Hoermann_pi::get_length(RX_Buffer* buf)
 {   
     if(buf->buf.size() > 2)
     {
-        return buf->buf[1] & 0x0F;
+        return buf->buf.at(1) & 0x0F;
     }
     else
         return 0x00;
@@ -89,7 +89,7 @@ uint8_t Hoermann_pi::get_counter(RX_Buffer* buf)
 {
     if(buf->buf.size() > 2)
     {
-        return (buf->buf[1] & 0xF0) + 0x10;
+        return (buf->buf.at(1) & 0xF0) + 0x10;
     }
     else
         return 0x00;
@@ -100,7 +100,7 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
 {   
     if(buf->buf.size() == 5)
     {
-        if(buf->buf[0] == BROADCAST_ADDR && buf->buf[0] == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
+        if(buf->buf.at(0) == BROADCAST_ADDR && buf->buf.at(0) == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf.at(4))
         {   
             return true;
         }
@@ -117,7 +117,7 @@ bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
 {   
     if(buf->buf.size() > 3 && buf->buf.size() < 6 )
     {
-        if(buf->buf[0] == UAP1_ADDR)
+        if(buf->buf.at(0) == UAP1_ADDR)
             return true;
         else
             return false;
@@ -131,7 +131,7 @@ bool Hoermann_pi::is_frame_corect(RX_Buffer* buf)
 {   
     if(buf->buf.size() > 3 && buf->buf.size() < 6)
     {
-        if(calc_crc8(buf->buf.data(), buf->buf.size()-1) == buf->buf[buf->buf.size()-1] )
+        if(calc_crc8(buf->buf.data(), buf->buf.size()-1) == buf->buf.at(buf->buf.size()-1) )
             return true; 
         else 
             return false;
@@ -146,7 +146,7 @@ bool Hoermann_pi::is_slave_scan(RX_Buffer* buf)
 {
     if(buf->buf.size() == 5)
     {
-        if(is_broadcast_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_SCAN))
+        if(is_broadcast_lengh_correct(buf) && (buf->buf.at(2) == CMD_SLAVE_SCAN))
             return true;
         else
             return false;
@@ -161,7 +161,7 @@ bool Hoermann_pi::is_slave_status_req(RX_Buffer* buf)
 {
     if(buf->buf.size() == 4)
     {    
-    if(is_req_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_STATUS_REQUEST))
+    if(is_req_lengh_correct(buf) && (buf->buf.at(2) == CMD_SLAVE_STATUS_REQUEST))
         return true;
     else
         return false;
@@ -190,8 +190,8 @@ bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
 
 void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 {
-  broadcast_status = buf->buf[2];
-  broadcast_status |= (uint16_t)buf->buf[3] << 8;
+  broadcast_status = buf->buf.at(2);
+  broadcast_status |= (uint16_t)buf->buf.at(3) << 8;
 }
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)

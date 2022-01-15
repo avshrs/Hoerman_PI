@@ -47,23 +47,24 @@ int main(){
    char serial_name[] = "/dev/ttyUSB2";
    serial.serial_open(serial_name, 19200, 1);
    RX_Buffer *rx_buf;
-   rx_buf = new RX_Buffer;
+   
    
 
    while(true){
-      
+      rx_buf = new RX_Buffer;
       serial.serial_read(rx_buf);
-      if(rx_buf->buf[0] == 0x28){
+      if(rx_buf->buf.at(0) == 0x28){
          start = timer.now();
          door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
       }   
-      else if((rx_buf->buf[0] == 0x80 && rx_buf->buf[3] != 0x80 )){
+      else if((rx_buf->buf.at(0) == 0x80 && rx_buf->buf.at(3) != 0x80 )){
             check = timer.now();
             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
             door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
             std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
 
       }
+      delete rx_buf;
    }
 
 
