@@ -82,7 +82,7 @@ void USB_serial::send_brake()
     newtermios.c_cflag |= CS7;
     cfsetispeed(&newtermios,B9600);
     cfsetospeed(&newtermios, B9600);
-    usleep(100);
+    usleep(1000);
     write(fd, buf, 1);
 		// tcsendbreak( fd, ); // should send 300 ms break
 		tcdrain( fd );
