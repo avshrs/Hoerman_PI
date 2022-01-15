@@ -14,12 +14,12 @@
 #define CMD_SLAVE_STATUS_REQUEST  0x20
 #define CMD_SLAVE_STATUS_RESPONSE 0x29
 
-#define RESPONSE_DEFAULT          0x1000
-#define RESPONSE_STOP             0x0000
-#define RESPONSE_OPEN             0x1001
-#define RESPONSE_CLOSE            0x1002
-#define RESPONSE_VENTING          0x1010
-#define RESPONSE_TOGGLE_LIGHT     0x1008
+#define RESPONSE_DEFAULT          0x00
+#define RESPONSE_STOP             0x00
+#define RESPONSE_OPEN             0x01
+#define RESPONSE_CLOSE            0x02
+#define RESPONSE_VENTING          0x10
+#define RESPONSE_TOGGLE_LIGHT     0x08
 
 #define CRC8_INITIAL_VALUE        0xF3
 
@@ -48,7 +48,7 @@ class Hoermann_pi{
         std::chrono::high_resolution_clock timer;
         using mi = std::chrono::duration<float, std::micro>;
         uint8_t tx_length = 0;
-        uint16_t slave_respone_data = RESPONSE_DEFAULT;
+        uint8_t slave_respone_data = RESPONSE_DEFAULT;
         uint8_t master_address = 0x80;
         uint16_t broadcast_status = 0;
         uint8_t lz = 0;

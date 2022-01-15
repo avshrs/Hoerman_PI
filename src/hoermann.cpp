@@ -57,8 +57,6 @@ void Hoermann_pi::run_loop(void)
             }    
             else if(is_slave_status_req(rx_buf))
             {
-                if( slave_respone_data != RESPONSE_DEFAULT)
-                {
                     make_status_req_msg(rx_buf, tx_buf);
                     while(1)
                     {
@@ -75,7 +73,7 @@ void Hoermann_pi::run_loop(void)
                         }
                         usleep(10);
                     }
-                }
+                
             }
         }
     } 
@@ -181,13 +179,25 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->timeout = 3000;
 }
 
+            // Command mask for LineaMatic P:
+            // +------- (0x80) Unknown
+            //  +------ (0x40) Unknown
+            //   +----- (0x20) Unknown
+            //    +---- (0x10) Moves to 'H' (whatever that means)
+            //     +--- (0x08) Unknown
+            //      +-- (0x04) Impulse toggle
+            //       +- (0x02) Impulse close
+            //        + (0x01) Impulse open
+            //           0x00  default
+            // For some reason the second byte needs to be 0x10 (signals no error?)
+
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 {
     tx_buf->buf[0] = get_master_address();
     tx_buf->buf[1] = 0x03 | get_counter(rx_buf);
     tx_buf->buf[2] = CMD_SLAVE_STATUS_RESPONSE;
     tx_buf->buf[3] = static_cast<uint8_t>(slave_respone_data);
-    tx_buf->buf[4] = static_cast<uint8_t>((slave_respone_data>>8));
+    tx_buf->buf[4] = 0x10;
     slave_respone_data = RESPONSE_DEFAULT;
     tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
     tx_buf->len = 6;
