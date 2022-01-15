@@ -71,15 +71,18 @@ void USB_serial::serial_open(const char *serial_name, int boudrate)
     
 }   
 
-void USB_serial::clear_buffer(){
+void USB_serial::clear_buffer()
+{
     tcflush(fd,TCIOFLUSH);
 }
 
-void USB_serial::send_brake(){
-    
+void USB_serial::send_brake()
+{
 		tcsendbreak( fd, 300); // should send 300 ms break
 		usleep(100000); // a bit of a guard after
 		tcdrain( fd );
+    tcflush(fd,TCIOFLUSH);
+
 }
 
 void USB_serial::serial_send(uint8_t *data, int size)
@@ -96,7 +99,8 @@ void USB_serial::serial_send(uint8_t *data, int size)
         std::cout << static_cast<int>(buf[i]);
         }
     std::cout<<std::endl;
-  tcflush(fd,TCIOFLUSH);
+  send_brake();
+
 
 	write(fd, buf, size);
 }
