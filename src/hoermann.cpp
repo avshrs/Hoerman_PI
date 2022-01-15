@@ -27,43 +27,45 @@ void Hoermann_pi::run_loop(void)
         
         serial.serial_read(rx_buf);
         start = timer.now();
+        if(is_frame_corect(rx_buf))
+        {     
+            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
 
-        print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-
-        if(is_broadcast(rx_buf))
-        {
-           if(is_broadcast_lengh_correct(rx_buf))
+            if(is_broadcast(rx_buf))
             {
-                update_broadcast_status(rx_buf);
-            }
-        }
-        else if(is_slave_query(rx_buf))
-        {   
-            if(is_slave_scan(rx_buf))
-            {
-                make_scan_responce_msg(rx_buf, tx_buf);
-            }    
-            else if(is_slave_status_req(rx_buf))
-            {
-                make_status_req_msg(rx_buf, tx_buf);
-                while(1)
-                {
-                    auto check = timer.now();
-                    auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-                    if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
-                    {   
-                        std::cout << "--------------\n";
-                        print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                        print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                        // std::cout << "--------------\n\n";
-                        serial.serial_send(tx_buf);
-                        auto check2 = timer.now();
-                        auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
-                        
-                        std::cout << "-------"<<deltaTime2 <<"-------\n";
-                        break;
+                if(is_broadcast_lengh_correct(rx_buf))
+                    {
+                        update_broadcast_status(rx_buf);
                     }
-                    usleep(10);
+            }
+            else if(is_slave_query(rx_buf))
+            {   
+                if(is_slave_scan(rx_buf))
+                {
+                    make_scan_responce_msg(rx_buf, tx_buf);
+                }    
+                else if(is_slave_status_req(rx_buf))
+                {
+                    make_status_req_msg(rx_buf, tx_buf);
+                    while(1)
+                    {
+                        auto check = timer.now();
+                        auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
+                        if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
+                        {   
+                            std::cout << "--------------\n";
+                            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                            print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            // std::cout << "--------------\n\n";
+                            serial.serial_send(tx_buf);
+                            auto check2 = timer.now();
+                            auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
+                            
+                            std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            break;
+                        }
+                        usleep(10);
+                    }
                 }
             }
         }
@@ -118,6 +120,20 @@ bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
         if(buf->buf[0] == UAP1_ADDR)
             return true;
         else
+            return false;
+    }
+    else
+    {
+       return false; 
+    }
+}
+bool Hoermann_pi::is_frame_corect(RX_Buffer* buf)
+{   
+    if(buf->buf.size() > 3 && buf->buf.size() < 8)
+    {
+        if(calc_crc8(buf->buf.data(), buf->buf.size()-1) == buf->buf[buf->buf.size()-1] )
+            return true; 
+        else 
             return false;
     }
     else

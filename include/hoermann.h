@@ -98,7 +98,8 @@ class Hoermann_pi{
         uint8_t get_counter(RX_Buffer* buf);
         uint8_t get_master_address();
         uint8_t calc_crc8(uint8_t* p_data, uint8_t length);
-
+        
+        bool is_frame_corect(RX_Buffer* buf);
         bool is_broadcast(RX_Buffer* buf);
         bool is_slave_query(RX_Buffer* buf);
         bool is_slave_scan(RX_Buffer* buf);
