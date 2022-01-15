@@ -127,7 +127,15 @@ void USB_serial::serial_read(uint8_t *data, int size, bool rm_lead_zero=false)
 	for(; j< size; i++, j++)
 	{
 		data[j] = static_cast<uint8_t>(buf[i]);
+    
 	}
+      for(int i = 0; i < 6  ; i++)
+        {
+        std::cout << " 0x" << std::setw(2);
+        std::cout << std::setfill('0') << std::hex;
+        std::cout << static_cast<int>(data[i]);
+        }
+    std::cout<<std::endl;
 }
 
 void USB_serial::serial_close()
