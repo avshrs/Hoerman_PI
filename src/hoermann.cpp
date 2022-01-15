@@ -75,17 +75,30 @@ void Hoermann_pi::run_loop(void)
 
 
 uint8_t Hoermann_pi::get_length(RX_Buffer* buf)
-{
-    return buf->buf[1] & 0x0F;
+{   
+    if(buf->buf.size() > 2)
+    {
+        return buf->buf[1] & 0x0F;
+    }
+    else
+        return 0x00;
 }
 
 uint8_t Hoermann_pi::get_counter(RX_Buffer* buf)
 {
-    return (buf->buf[1] & 0xF0) + 0x10;
+    if(buf->buf.size() > 2)
+    {
+        return (buf->buf[1] & 0xF0) + 0x10;
+    }
+    else
+        return 0x00;
+
 }
 
 bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
-{   if(buf->buf.size() > 4){
+{   
+    if(buf->buf.size() == 5)
+    {
         if(buf->buf[0] == BROADCAST_ADDR && buf->buf[0] == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
         {   
             return true;
@@ -101,27 +114,47 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
 
 bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
 {   
-    if(buf->buf[0] == UAP1_ADDR)
-        return true;
+    if(buf->buf.size() > 3 && buf->buf.size() < 6 )
+    {
+        if(buf->buf[0] == UAP1_ADDR)
+            return true;
+        else
+            return false;
+    }
     else
-        return false;
+    {
+       return false; 
+    }
 }
 
 bool Hoermann_pi::is_slave_scan(RX_Buffer* buf)
 {
-    if(is_broadcast_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_SCAN))
-        return true;
+    if(buf->buf.size() == 5)
+    {
+        if(is_broadcast_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_SCAN))
+            return true;
+        else
+            return false;
+    }
     else
-        return false;
+    {
+        return false;    
+    }
 }
-
 
 bool Hoermann_pi::is_slave_status_req(RX_Buffer* buf)
 {
+    if(buf->buf.size() == 4)
+    {    
     if(is_req_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_STATUS_REQUEST))
         return true;
     else
         return false;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool Hoermann_pi::is_broadcast_lengh_correct(RX_Buffer *buf)
