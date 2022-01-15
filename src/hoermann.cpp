@@ -179,10 +179,10 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 }
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)
-{
+{   
+    std::cout << "Len: "<< std::dec <<len << "|";
     for(int i = 0; i < len  ; i++)
         {
-        std::cout << "Len: "<< std::dec <<len << "|";
         std::cout << " 0x" << std::setw(2);
         std::cout << std::setfill('0') << std::hex;
         std::cout << static_cast<int>(buf[i]);
