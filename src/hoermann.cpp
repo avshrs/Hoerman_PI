@@ -15,7 +15,6 @@ void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 
 void Hoermann_pi::run_loop(void)
 {   
-    auto check = timer.now();
     auto start = timer.now();
   
     while (1)
@@ -50,7 +49,7 @@ void Hoermann_pi::run_loop(void)
                 make_status_req_msg(rx_buf, tx_buf);
                 while(1)
                 {
-                    check = timer.now();
+                    auto check = timer.now();
                     auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
                     if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                     {   
@@ -59,8 +58,8 @@ void Hoermann_pi::run_loop(void)
                         print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
                         // std::cout << "--------------\n\n";
                         serial.serial_send(tx_buf);
-                        check = timer.now();
-                        auto deltaTime2 = std::chrono::duration_cast<mi>(check - start).count();
+                        auto check2 = timer.now();
+                        auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                         
                         std::cout << "-------"<<deltaTime2 <<"-------\n";
                         break;
