@@ -108,25 +108,16 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	write(fd, buf, size);
 }
 
-void USB_serial::serial_read(uint8_t *data, int size, bool rm_lead_zero=false)
+void USB_serial::serial_read(uint8_t *data, int size)
 {	
 
 	char buf[15+3] = {0};
 
   read(fd, buf, size+1);
-  int i = 0;
-  int j = 0;
-  if(buf[0]==0x00 && buf[1]==0x28 && rm_lead_zero)
-  {
-    i=1;
-  }
-  else if(buf[0]==0x00 && buf[1]==0x00 && rm_lead_zero)
-  {
-    i=1;
-  }
-	for(; j < size; i++, j++)
+
+	for(int i=0; i < size; i++)
 	{
-		data[j] = static_cast<uint8_t>(buf[i]);
+		data[i] = static_cast<uint8_t>(buf[i]);
     
 	}
       for(int i = 0; i < 6  ; i++)

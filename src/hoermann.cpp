@@ -35,7 +35,7 @@ void Hoermann_pi::run_loop(void)
         }
         
         
-        serial.serial_read(rx_buf->buf.data(), 7, false);
+        serial.serial_read(rx_buf->buf.data(), 7);
        
         start = timer.now();
      
