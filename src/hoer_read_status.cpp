@@ -56,9 +56,9 @@ int main(){
          start = timer.now();
          door.print_buffer(buf, 7);
       }   
-      else if((buf[0] == 0x80 && buf[3] == 0x80 ) || (buf[1] == 0x80 && buf[4] == 0x80)){
+      else if((buf[0] == 0x80 && buf[3] != 0x80 ) || (buf[1] == 0x80 && buf[4] != 0x80)){
             check = timer.now();
-            auto deltaTime = std::chrono::duration_cast<mi>(start - check).count();
+            auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
             door.print_buffer(buf, 7);
             std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
 
