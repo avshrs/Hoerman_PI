@@ -85,13 +85,18 @@ uint8_t Hoermann_pi::get_counter(RX_Buffer* buf)
 }
 
 bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
-{
-    if(buf->buf[0] == BROADCAST_ADDR && buf->buf[0] == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
-    {   
-        return true;
+{   if(buf->buf.size() > 4){
+        if(buf->buf[0] == BROADCAST_ADDR && buf->buf[0] == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
+        {   
+            return true;
+        }
+        else
+            return false;
     }
     else
+    {
         return false;
+    }
 }
 
 bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
