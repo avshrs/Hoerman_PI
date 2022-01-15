@@ -105,12 +105,13 @@ void USB_serial::serial_read(RX_Buffer* rx_buffer)
 {	
 	uint8_t buf[20] = {0};
   int s = read(fd, buf, sizeof(buf));
-  if(s==1)
-	for(int i=0+lead_z; i < s; i++)
-	{
-		rx_buffer->buf.push_back(buf[i]);
-	}
-    
+  if(s>3)
+  {
+      for(int i=0+lead_z; i < s; i++)
+      {
+        rx_buffer->buf.push_back(buf[i]);
+      }
+  } 
 }
 
 void USB_serial::serial_close()

@@ -182,12 +182,12 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 {
     for(int i = 0; i < len  ; i++)
         {
-        std::cout << "Len: "<< len << "|";
+        std::cout << "Len: "<< std::dec <<len << "|";
         std::cout << " 0x" << std::setw(2);
         std::cout << std::setfill('0') << std::hex;
         std::cout << static_cast<int>(buf[i]);
         }
-    std::cout<<std::endl;
+    std::cout<<" | "<<std::endl;
 }
 
 uint8_t Hoermann_pi::get_master_address()
