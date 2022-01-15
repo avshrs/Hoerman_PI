@@ -79,7 +79,7 @@ void USB_serial::clear_buffer()
 void USB_serial::send_brake()
 {
 		tcsendbreak( fd, 3); // should send 300 ms break
-		// usleep(); // a bit of a guard after
+		usleep(1); // a bit of a guard after
 		tcdrain( fd );
     tcflush(fd,TCIOFLUSH);
 
@@ -92,13 +92,7 @@ void USB_serial::serial_send(uint8_t *data, int size)
     
 		buf[i] = static_cast<char>(data[i]);
 	}
-     for(int i = 0; i < size  ; i++)
-        {
-        std::cout << " 0x" << std::setw(2);
-        std::cout << std::setfill('0') << std::hex;
-        std::cout << static_cast<int>(buf[i]);
-        }
-    std::cout<<std::endl;
+
   send_brake();
 
 
