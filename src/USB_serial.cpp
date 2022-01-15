@@ -118,13 +118,13 @@ void USB_serial::serial_read(uint8_t *data, int size, bool rm_lead_zero=false)
   int j = 0;
   if(buf[0]==0x00 && buf[1]==0x28 && rm_lead_zero)
   {
-    i=1;
+    // i=1;
   }
   else if(buf[0]==0x00 && buf[1]==0x00 && rm_lead_zero)
   {
-    i=1;
+    // i=1;
   }
-	for(; j< size; i++, j++)
+	for(; j < size; i++, j++)
 	{
 		data[j] = static_cast<uint8_t>(buf[i]);
     
