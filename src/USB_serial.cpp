@@ -25,10 +25,10 @@
 #ifdef __linux__
 #include <linux/serial.h>
 #endif
-
+struct termios newtermios;
 void USB_serial::serial_open(const char *serial_name, int boudrate)
 {
-  struct termios newtermios;
+  
   fd = open(serial_name,O_RDWR | O_NOCTTY);
   if (fd < 0) 
   {
@@ -78,11 +78,15 @@ void USB_serial::clear_buffer()
 
 void USB_serial::send_brake()
 {
-		tcsendbreak( fd, 3); // should send 300 ms break
-		usleep(1); // a bit of a guard after
+    char buf[1] = {0};
+    cfsetispeed(&newtermios,B9600);
+    cfsetospeed(&newtermios, B9600);
+    write(fd, buf, 1);
+		// tcsendbreak( fd, 1); // should send 300 ms break
 		tcdrain( fd );
     tcflush(fd,TCIOFLUSH);
-
+    cfsetispeed(&newtermios,B19200);
+    cfsetospeed(&newtermios, B19200);
 }
 
 void USB_serial::serial_send(uint8_t *data, int size)
@@ -94,8 +98,6 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	}
 
   send_brake();
-
-
 	write(fd, buf, size);
 }
 
