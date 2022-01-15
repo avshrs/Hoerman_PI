@@ -5,7 +5,7 @@
 #include <string>
 #include <iomanip>
 #include <unistd.h>
-
+#include <algorithm>    // std::fill
 
 void Hoermann_pi::init(const char* serial_name, int boudrate)
 {
@@ -21,27 +21,19 @@ void Hoermann_pi::run_loop(void)
     TX_Buffer* tx_buf;
     rx_buf = new RX_Buffer;
     tx_buf = new TX_Buffer;
-    for(int i = 0 ; i < 18 ; i++)
-    {
-    rx_buf->buf.push_back(0);
-    tx_buf->buf.push_back(0);
-    }       
+    uint8_t max_frame_len = 5;
     while (1)
     {   
-        for(int i = 0 ; i < 18 ; i++)
-        {
-            rx_buf->buf[i] = 0x00;
-            tx_buf->buf[i] = 0x00;
-        }
+        std::fill (rx_buf->buf.begin(),rx_buf->buf.end(),0);   // myvector: 5 5 5 5 0 0 0 0
+
         
-        
-        serial.serial_read(rx_buf->buf.data(), 7);
+        serial.serial_read(rx_buf->buf.data(), max_frame_len);
        
         start = timer.now();
      
         if(is_broadcast(rx_buf))
         {
-            print_buffer(rx_buf->buf.data(),7);
+           print_buffer(rx_buf->buf.data(),max_frame_len);
            if(is_broadcast_lengh_correct(rx_buf))
                 {
                 update_broadcast_status(rx_buf);
@@ -65,7 +57,7 @@ void Hoermann_pi::run_loop(void)
 
                         if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                         {   
-                            print_buffer(rx_buf->buf.data(),7);
+                            print_buffer(rx_buf->buf.data(),max_frame_len);
                             print_buffer(tx_buf->buf.data(),7);
                             std::cout << "\n";
                             serial.serial_send(tx_buf->buf.data(), tx_buf->len);
@@ -190,7 +182,7 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
     tx_buf->len = 6;
     // tx_buf.received_time = buf->received_time; 
-    tx_buf->timeout = 3000;
+    tx_buf->timeout = 0;
 }
 
 
