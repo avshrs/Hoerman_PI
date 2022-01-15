@@ -59,9 +59,9 @@ void Hoermann_pi::run_loop(void)
 
                     if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                     {   
-                        print_buffer(rx_buf->buf.data(),max_frame_len);
-                        print_buffer(tx_buf->buf.data(),tx_buf->len);
-                        std::cout << "\n";
+                        // print_buffer(rx_buf->buf.data(),max_frame_len);
+                        // print_buffer(tx_buf->buf.data(),tx_buf->len);
+                        // std::cout << "\n";
                         serial.serial_send(tx_buf->buf.data(), tx_buf->len);
                         break;
                     }
