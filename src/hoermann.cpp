@@ -57,6 +57,10 @@ void Hoermann_pi::run_loop(void)
             }    
             else if(is_slave_status_req(rx_buf))
             {
+                if( slave_respone_data != RESPONSE_DEFAULT)
+                {
+
+                
                 make_status_req_msg(rx_buf, tx_buf);
             }    
             while(1)
@@ -73,6 +77,7 @@ void Hoermann_pi::run_loop(void)
                     break;
                 }
                 usleep(10);
+            }
             }
         }
  
