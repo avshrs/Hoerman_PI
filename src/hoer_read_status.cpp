@@ -44,8 +44,8 @@ int main(){
    auto start = timer.now();
    USB_serial serial;
    Hoermann_pi door;
-   char serial_name[] = "/dev/ttyUSB2";
-   serial.serial_open(serial_name, 19200, 1);
+   char serial_name[] = "/dev/ttyUSB1";
+   serial.serial_open(serial_name, 19200, 0);
    RX_Buffer *rx_buf;
    
    
