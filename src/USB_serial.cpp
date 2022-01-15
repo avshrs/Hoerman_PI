@@ -83,7 +83,7 @@ void USB_serial::send_brake()
     cfsetispeed(&newtermios,B9600);
     cfsetospeed(&newtermios, B9600);
     tcsetattr(fd, TCSANOW, &newtermios);
-    usleep(100);
+    usleep(500);
     
     write(fd, buf, 1);
 		
@@ -93,7 +93,7 @@ void USB_serial::send_brake()
     cfsetispeed(&newtermios,B19200);
     cfsetospeed(&newtermios, B19200);
     tcsetattr(fd, TCSANOW, &newtermios);
-    usleep(100);
+    usleep(500);
 }
 
 void USB_serial::serial_send(uint8_t *data, int size)
