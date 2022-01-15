@@ -21,7 +21,7 @@ void Hoermann_pi::run_loop(void)
     TX_Buffer* tx_buf;
     rx_buf = new RX_Buffer;
     tx_buf = new TX_Buffer;
-    uint8_t max_frame_len = 5;
+    uint8_t max_frame_len = 7;
     while (1)
     {   
         std::fill (rx_buf->buf.begin(),rx_buf->buf.end(),0);   // myvector: 5 5 5 5 0 0 0 0
