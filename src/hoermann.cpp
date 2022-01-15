@@ -69,8 +69,7 @@ void Hoermann_pi::run_loop(void)
                     print_buffer(rx_buf->buf.data(),7);
                     print_buffer(tx_buf->buf.data(),7);
                     std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl;
-                    uint8_t empty[1] = {0};
-                    serial.serial_send(empty, 1);
+                    serial.send_brake();
                     serial.serial_send(tx_buf->buf.data(), tx_buf->len);
                     break;
                 }

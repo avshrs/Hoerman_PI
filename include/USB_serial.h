@@ -11,6 +11,7 @@ class USB_serial
     void serial_send(uint8_t *data, int size);
     void serial_read(uint8_t *data, int size);
     void clear_buffer();
+    void send_brake();
 
     uint8_t serial_read_byte(char *data, int timeout_usec);
     void serial_close();
