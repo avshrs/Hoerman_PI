@@ -26,7 +26,7 @@
 #include <linux/serial.h>
 #endif
 
-void USB_serial::serial_open(const char *serial_name)
+void USB_serial::serial_open(const char *serial_name, int boudrate)
 {
   struct termios newtermios;
   fd = open(serial_name,O_RDWR | O_NOCTTY);
@@ -66,8 +66,8 @@ void USB_serial::serial_open(const char *serial_name)
 
   newtermios.c_cc[VTIME] = 1;    // Wait for up to 1s (10 deciseconds), returning as soon as any data is received.
   newtermios.c_cc[VMIN] = 0;
-  cfsetispeed(&newtermios,B19200);
-  cfsetospeed(&newtermios, B19200);
+  cfsetispeed(&newtermios,boudrate);
+  cfsetospeed(&newtermios, boudrate);
     
 }   
 

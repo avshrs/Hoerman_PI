@@ -7,9 +7,9 @@
 #include <unistd.h>
 
 
-void Hoermann_pi::init(const char* serial_name)
+void Hoermann_pi::init(const char* serial_name, int boudrate)
 {
-    serial.serial_open(serial_name);
+    serial.serial_open(serial_name, int boudrate);
 }
 
 
@@ -176,7 +176,6 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->len = 5;
     // tx_buf.received_time = buf->received_time;
     tx_buf->timeout = 3500;
-    
 }
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
