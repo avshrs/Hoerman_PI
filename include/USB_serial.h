@@ -8,8 +8,8 @@ class USB_serial
     int fd;
     int lead_z = 0 ;
     void serial_open(const char* serial_name, int boudrate, int lead_zero );
-    void serial_send(uint8_t *data, int size);
-    void serial_read(uint8_t *data, int size);
+    void serial_send(TX_Buffer* tx_buffer);
+    void serial_read(RX_Buffer* rx_buffer);
     void clear_buffer();
     void send_brake();
 

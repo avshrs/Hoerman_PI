@@ -21,27 +21,18 @@ void Hoermann_pi::run_loop(void)
     TX_Buffer* tx_buf;
     rx_buf = new RX_Buffer;
     tx_buf = new TX_Buffer;
-    for(int i = 0 ; i < 18 ; i++)
-    {
-    rx_buf->buf.push_back(0);
-    tx_buf->buf.push_back(0);
-    }     
-    uint8_t max_frame_len = 7;
     while (1)
     {   
-        std::fill (rx_buf->buf.begin(),rx_buf->buf.end(),0);   
-        
-        serial.serial_read(rx_buf->buf.data(), max_frame_len);
+        serial.serial_read(rx_buf);
         start = timer.now();
      
         if(is_broadcast(rx_buf))
         {
-           print_buffer(rx_buf->buf.data(), max_frame_len);
+           print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
            if(is_broadcast_lengh_correct(rx_buf))
             {
                 update_broadcast_status(rx_buf);
             }
-        
         }
         else if(is_slave_query(rx_buf))
         {   
@@ -56,13 +47,13 @@ void Hoermann_pi::run_loop(void)
                 {
                     check = timer.now();
                     auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-
                     if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                     {   
-                        // print_buffer(rx_buf->buf.data(),max_frame_len);
-                        // print_buffer(tx_buf->buf.data(),tx_buf->len);
-                        // std::cout << "\n";
-                        serial.serial_send(tx_buf->buf.data(), tx_buf->len);
+                        std::cout << "--------------\n";
+                        print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
+                        print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                        std::cout << "--------------\n\n";
+                        serial.serial_send(tx_buf);
                         break;
                     }
                     usleep(10);
@@ -158,27 +149,23 @@ uint8_t Hoermann_pi::get_master_address()
 
 void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 {
-    tx_buf->buf[0] = get_master_address();
-    tx_buf->buf[1] = 0x02 | get_counter(rx_buf);
-    tx_buf->buf[2] = UAP1_TYPE;
-    tx_buf->buf[3] = UAP1_ADDR;
-    tx_buf->buf[4] = calc_crc8(tx_buf->buf.data(), 4);
-    tx_buf->len = 5;
-    // tx_buf.received_time = buf->received_time;
+    tx_buf->buf.push_back(get_master_address());
+    tx_buf->buf.push_back(0x02 | get_counter(rx_buf));
+    tx_buf->buf.push_back(UAP1_TYPE);
+    tx_buf->buf.push_back(UAP1_ADDR);
+    tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 4));
     tx_buf->timeout = 3000;
 }
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 {
-    tx_buf->buf[0] = get_master_address();
-    tx_buf->buf[1] = 0x03 | get_counter(rx_buf);
-    tx_buf->buf[2] = CMD_SLAVE_STATUS_RESPONSE;
-    tx_buf->buf[3] = static_cast<uint8_t>(slave_respone_data);
-    tx_buf->buf[4] = 0x10;
+    tx_buf->buf.push_back(get_master_address());
+    tx_buf->buf.push_back(0x03 | get_counter(rx_buf));
+    tx_buf->buf.push_back(CMD_SLAVE_STATUS_RESPONSE);
+    tx_buf->buf.push_back(static_cast<uint8_t>(slave_respone_data));
+    tx_buf->buf.push_back(0x10);
     slave_respone_data = RESPONSE_DEFAULT;
-    tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
-    tx_buf->len = 6;
-    // tx_buf.received_time = buf->received_time; 
+    tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 5));
     tx_buf->timeout = 0;
 }
 

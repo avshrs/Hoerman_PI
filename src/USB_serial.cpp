@@ -96,32 +96,24 @@ void USB_serial::send_brake()
     usleep(250);
 }
 
-void USB_serial::serial_send(uint8_t *data, int size)
-{ 	char buf[15+3] = {0};
-	for(int i = 0; i< size; i++)
-	{
-    
-		buf[i] = static_cast<char>(data[i]);
-	}
-
-  send_brake();
-	write(fd, buf, size);
+void USB_serial::serial_send(TX_Buffer* tx_buffer)
+{ 	
+	write(fd, tx_buffer->buf.data(), tx_buffer->buf.size());
 }
 
-void USB_serial::serial_read(uint8_t *data, int size)
+void USB_serial::serial_read(RX_Buffer* rx_buffer)
 {	
-	char buf[10] = {0};
-  int s = read(fd, buf, 10);
-  std::cout<<"size of buffer = " << std::dec << s << std::endl;
-	for(int i=0; i < size+lead_z; i++)
+	uint8_t buf[20] = {0};
+  int s = read(fd, buf, sizeof(buf));
+	for(int i=0; i < s; i++)
 	{
-		data[i] = static_cast<uint8_t>(buf[i+lead_z]);
+		rx_buffer->buf.push_back(buf[i]);
 	}
-      for(int i = 0; i < 6  ; i++)
+      for(int i = 0; i < 10  ; i++)
         {
         std::cout << " 0x" << std::setw(2);
         std::cout << std::setfill('0') << std::hex;
-        std::cout << static_cast<int>(data[i]);
+        std::cout << static_cast<int>(buf[i]);
         }
     std::cout<<std::endl;
 }
