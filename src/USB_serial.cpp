@@ -76,7 +76,10 @@ void USB_serial::clear_buffer(){
 }
 
 void USB_serial::send_brake(){
-    tcsendbreak(fd, 0);
+    
+		tcsendbreak( fd, 300); // should send 300 ms break
+		usleep(100000); // a bit of a guard after
+		tcdrain( fd );
 }
 
 void USB_serial::serial_send(uint8_t *data, int size)
