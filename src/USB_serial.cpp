@@ -78,8 +78,8 @@ void USB_serial::clear_buffer()
 
 void USB_serial::send_brake()
 {
-		tcsendbreak( fd, 300); // should send 300 ms break
-		usleep(100000); // a bit of a guard after
+		tcsendbreak( fd, 3); // should send 300 ms break
+		// usleep(); // a bit of a guard after
 		tcdrain( fd );
     tcflush(fd,TCIOFLUSH);
 
