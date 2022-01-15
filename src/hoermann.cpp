@@ -49,10 +49,10 @@ void Hoermann_pi::run_loop(void)
                     auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
                     if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                     {   
-                        std::cout << "--------------\n";
-                        print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
-                        print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                        std::cout << "--------------\n\n";
+                        // std::cout << "--------------\n";
+                        // print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
+                        // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                        // std::cout << "--------------\n\n";
                         serial.serial_send(tx_buf);
                         break;
                     }
