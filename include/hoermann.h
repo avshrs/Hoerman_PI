@@ -23,6 +23,28 @@
 
 #define CRC8_INITIAL_VALUE        0xF3
 
+        // Status mask for LineaMatic P:
+        // +------- (0x80) Unknown
+        //  +------ (0x40) Motor running: 1 == running. 0 == stopped.
+        //   +----- (0x20) Motor direction: 1 == closing. 0 == opening.
+        //    +---- (0x10) Unknown
+        //     +--- (0x08) Unknown
+        //      +-- (0x04) Unknown
+        //       +- (0x02) Fully closed 
+        //        + (0x01) Fully open
+
+
+        // Command mask for LineaMatic P:
+        // +------- (0x80) Unknown
+        //  +------ (0x40) Unknown
+        //   +----- (0x20) Unknown
+        //    +---- (0x10) Moves to 'H' (whatever that means)
+        //     +--- (0x08) Unknown
+        //      +-- (0x04) Impulse toggle
+        //       +- (0x02) Impulse close
+        //        + (0x01) Impulse open
+        //           0x00  default
+        // For some reason the second byte needs to be 0x10 (signals no error?)
 
 
 class Hoermann_pi{
@@ -54,6 +76,7 @@ class Hoermann_pi{
         uint8_t lz = 0;
         uint8_t broadcast_lengh = 0x02; 
         uint8_t reguest_lengh = 0x01; 
+        int max_frame_delay = 6000;
         const char* serial_name;
         int boudrate;
 
