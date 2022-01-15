@@ -182,6 +182,7 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 {
     for(int i = 0; i < len  ; i++)
         {
+        std::cout << "Len: "<< len << "|";
         std::cout << " 0x" << std::setw(2);
         std::cout << std::setfill('0') << std::hex;
         std::cout << static_cast<int>(buf[i]);
