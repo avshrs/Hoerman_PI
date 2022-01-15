@@ -111,16 +111,8 @@ void USB_serial::serial_send(uint8_t *data, int size)
 void USB_serial::serial_read(uint8_t *data, int size)
 {	
 	char buf[10] = {0};
-  char buf_[1] = {0};
-  for(unsigned int i = 0 ; i<sizeof(buf); i++){
-    read(fd, buf_, 1);  
-    if(buf_[0] = '\0'){
-      break;
-    }
-    buf[i] = buf_[0];
-  }
-  // read(fd, buf, size);
-
+  int s = read(fd, buf, 10);
+  std::cout<<"size of buffer = " << std::dec << s << std::endl;
 	for(int i=0; i < size+lead_z; i++)
 	{
 		data[i] = static_cast<uint8_t>(buf[i+lead_z]);
