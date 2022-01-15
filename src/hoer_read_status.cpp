@@ -20,13 +20,13 @@ int main(){
    while(1){
    
    door.set_state("toggle_light");
-   sleep(1);
+   sleep(5);
    std::cout<<door.get_state()<<std::endl;
-   sleep(1);
+   sleep(5);
    door.set_state("toggle_light");
-   sleep(1);
+   sleep(5);
    std::cout<<door.get_state()<<std::endl;
-   sleep(1);
+   sleep(5);
    }
 return 1;
 }
