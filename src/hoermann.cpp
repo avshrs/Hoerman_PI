@@ -129,7 +129,7 @@ bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
 }
 bool Hoermann_pi::is_frame_corect(RX_Buffer* buf)
 {   
-    if(buf->buf.size() > 3 && buf->buf.size() < 8)
+    if(buf->buf.size() > 3 && buf->buf.size() < 6)
     {
         if(calc_crc8(buf->buf.data(), buf->buf.size()-1) == buf->buf[buf->buf.size()-1] )
             return true; 
