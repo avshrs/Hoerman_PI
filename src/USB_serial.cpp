@@ -86,9 +86,9 @@ void USB_serial::send_brake()
     usleep(100);
     
     write(fd, buf, 1);
-		// tcsendbreak( fd, ); // should send 300 ms break
+		
 		tcdrain( fd );
-    // tcflush(fd,TCIOFLUSH);
+    
     newtermios.c_cflag |= CS8;
     cfsetispeed(&newtermios,B19200);
     cfsetospeed(&newtermios, B19200);
@@ -108,15 +108,25 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	write(fd, buf, size);
 }
 
-void USB_serial::serial_read(uint8_t *data, int size)
+void USB_serial::serial_read(uint8_t *data, int size, bool rm_lead_zero=false)
 {	
 
 	char buf[15+3] = {0};
 
-    read(fd, buf, size);
-	for(int i = 0; i< size; i++)
+  read(fd, buf, size+1);
+  int i = 0;
+  int j = 0;
+  if(buf[0]==0x00 && buf[1]==0x28 && rm_lead_zero)
+  {
+    i=1;
+  }
+  else if(buf[0]==0x00 && buf[1]==0x00 && rm_lead_zero)
+  {
+    i=1;
+  }
+	for(i,j; j< size; i++, j++)
 	{
-		data[i] = static_cast<uint8_t>(buf[i]);
+		data[j] = static_cast<uint8_t>(buf[i]);
 	}
 }
 

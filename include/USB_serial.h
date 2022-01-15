@@ -9,7 +9,7 @@ class USB_serial
     
     void serial_open(const char* serial_name, int boudrate);
     void serial_send(uint8_t *data, int size);
-    void serial_read(uint8_t *data, int size);
+    void serial_read(uint8_t *data, int size, bool rm_lead_zero);
     void clear_buffer();
     void send_brake();
 

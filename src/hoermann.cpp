@@ -35,7 +35,7 @@ void Hoermann_pi::run_loop(void)
         }
         
         
-        serial.serial_read(rx_buf->buf.data(), 7);
+        serial.serial_read(rx_buf->buf.data(), 7, true);
        
         start = timer.now();
      
@@ -59,28 +59,25 @@ void Hoermann_pi::run_loop(void)
             {
                 if( slave_respone_data != RESPONSE_DEFAULT)
                 {
+                    make_status_req_msg(rx_buf, tx_buf);
+                    while(1)
+                    {
+                        check = timer.now();
+                        auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 
-                
-                make_status_req_msg(rx_buf, tx_buf);
-            }    
-            while(1)
-            {
-                check = timer.now();
-                auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-
-                if( deltaTime > (tx_buf->timeout))
-                {   
-                    print_buffer(rx_buf->buf.data(),7);
-                    print_buffer(tx_buf->buf.data(),7);
-                    std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl<< std::endl;
-                    serial.serial_send(tx_buf->buf.data(), tx_buf->len);
-                    break;
+                        if( deltaTime > (tx_buf->timeout))
+                        {   
+                            print_buffer(rx_buf->buf.data(),7);
+                            print_buffer(tx_buf->buf.data(),7);
+                            std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl<< std::endl;
+                            serial.serial_send(tx_buf->buf.data(), tx_buf->len);
+                            break;
+                        }
+                        usleep(10);
+                    }
                 }
-                usleep(10);
-            }
             }
         }
- 
     } 
 }       
 
