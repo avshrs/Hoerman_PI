@@ -13,10 +13,10 @@ void th1(){
 
 int main(){
    const char serial_name[] = "/dev/ttyUSB1";
-   int boudrate = 19200;
-   door.init(serial_name, boudrate);
+   
+   door.init(serial_name, 19200);
    std::thread t3(th1);
-    sleep(10);
+    sleep(30);
    while(1){
    
    door.set_state("toggle_light");
@@ -47,21 +47,18 @@ return 1;
 //    USB_serial serial;
 //    Hoermann_pi door;
 //    char serial_name[] = "/dev/ttyUSB2";
-//    int boudrate = 19200;
-//    serial.serial_open(serial_name, boudrate);
+//    serial.serial_open(serial_name);
    
 //    while(true){
 //       uint8_t buf[6];
 //       serial.serial_read(buf, 7);
-      
-
 //       if(buf[1] == 0x28){
 //          start = timer.now();
 //          door.print_buffer(buf, 7);
 //       }   
-//       if(buf[0] == 0x80 || buf[1] == 0x80){
+//       else if((buf[0] == 0x80 && buf[3] != 0x80 ) || (buf[1] == 0x80 && buf[4] != 0x80)){
 //             check = timer.now();
-//             auto deltaTime = std::chrono::duration_cast<mi>(start - check).count();
+//             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 //             door.print_buffer(buf, 7);
 //             std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
 

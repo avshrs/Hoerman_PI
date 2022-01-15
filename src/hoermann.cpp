@@ -7,12 +7,9 @@
 #include <unistd.h>
 
 
-void Hoermann_pi::init(const char* serial_name_, int boudrate_)
+void Hoermann_pi::init(const char* serial_name, int boudrate)
 {
-    serial_name = serial_name_;
-    boudrate = boudrate_;
-    // serial.serial_open2(serial_name, boudrate, false, NULL);
-    
+    serial.serial_open(serial_name, boudrate);
 }
 
 
@@ -20,19 +17,28 @@ void Hoermann_pi::run_loop(void)
 {   
     auto check = timer.now();
     auto start = timer.now();
-    
+    RX_Buffer* rx_buf;
+    TX_Buffer* tx_buf;
+    rx_buf = new RX_Buffer;
+    tx_buf = new TX_Buffer;
+    for(int i = 0 ; i < 18 ; i++)
+    {
+    rx_buf->buf.push_back(0);
+    tx_buf->buf.push_back(0);
+    }       
     while (1)
     {   
-        serial.serial_open_db8(serial_name, boudrate);
-        RX_Buffer* rx_buf;
-        TX_Buffer* tx_buf;
-        rx_buf = new RX_Buffer;
-        tx_buf = new TX_Buffer;
-
-        // serial.serial_read(rx_buf->buf.data(), 7);
-        serial.serial_read(rx_buf->buf.data(), 18);
-        start = timer.now();
+        for(int i = 0 ; i < 18 ; i++)
+        {
+            rx_buf->buf[i] = 0x00;
+            tx_buf->buf[i] = 0x00;
+        }
         
+        
+        serial.serial_read(rx_buf->buf.data(), 7);
+       
+        start = timer.now();
+     
         if(is_broadcast(rx_buf))
         {
             print_buffer(rx_buf->buf.data(),7);
@@ -44,8 +50,7 @@ void Hoermann_pi::run_loop(void)
         }
         else if(is_slave_query(rx_buf))
         {   
-            serial.serial_close();
-            serial.serial_open_db7(serial_name, 9600);
+            serial.clear_buffer();
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
@@ -70,9 +75,7 @@ void Hoermann_pi::run_loop(void)
                 usleep(10);
             }
         }
-        delete rx_buf;
-        delete tx_buf;
-        serial.serial_close();
+ 
     } 
 }       
 
@@ -173,8 +176,7 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[4] = calc_crc8(tx_buf->buf.data(), 4);
     tx_buf->len = 5;
     // tx_buf.received_time = buf->received_time;
-    tx_buf->timeout = 23000;
-    
+    tx_buf->timeout = 3500;
 }
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
@@ -188,7 +190,7 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
     tx_buf->len = 6;
     // tx_buf.received_time = buf->received_time; 
-    tx_buf->timeout = 5000;
+    tx_buf->timeout = 3500;
 }
 
 
