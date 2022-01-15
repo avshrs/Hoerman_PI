@@ -25,7 +25,8 @@ void Hoermann_pi::run_loop(void)
     {   
         serial.serial_read(rx_buf);
         start = timer.now();
-     
+        print_buffer(rx_buf->buf.data(),tx_buf->buf.size());
+
         if(is_broadcast(rx_buf))
         {
            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
