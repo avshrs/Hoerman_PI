@@ -89,6 +89,8 @@ void USB_serial::serial_send(uint8_t *data, int size)
         std::cout << static_cast<int>(buf[i]);
         }
     std::cout<<std::endl;
+  tcflush(fd,TCIOFLUSH);
+
 	write(fd, buf, size);
 }
 
