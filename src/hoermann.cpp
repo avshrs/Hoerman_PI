@@ -67,7 +67,7 @@ void Hoermann_pi::run_loop(void)
                         {   
                             print_buffer(rx_buf->buf.data(),7);
                             print_buffer(tx_buf->buf.data(),7);
-                            std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl<< std::endl;
+                            std::cout << "\n";
                             serial.serial_send(tx_buf->buf.data(), tx_buf->len);
                             break;
                         }
@@ -176,20 +176,8 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[4] = calc_crc8(tx_buf->buf.data(), 4);
     tx_buf->len = 5;
     // tx_buf.received_time = buf->received_time;
-    tx_buf->timeout = 3000;
+    tx_buf->timeout = 3500;
 }
-
-            // Command mask for LineaMatic P:
-            // +------- (0x80) Unknown
-            //  +------ (0x40) Unknown
-            //   +----- (0x20) Unknown
-            //    +---- (0x10) Moves to 'H' (whatever that means)
-            //     +--- (0x08) Unknown
-            //      +-- (0x04) Impulse toggle
-            //       +- (0x02) Impulse close
-            //        + (0x01) Impulse open
-            //           0x00  default
-            // For some reason the second byte needs to be 0x10 (signals no error?)
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 {
@@ -202,7 +190,7 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf[5] = calc_crc8(tx_buf->buf.data(), 5);
     tx_buf->len = 6;
     // tx_buf.received_time = buf->received_time; 
-    tx_buf->timeout = 3000;
+    tx_buf->timeout = 3500;
 }
 
 

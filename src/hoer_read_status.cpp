@@ -19,10 +19,7 @@ int main(){
     
    while(1){
    
-   // door.set_state("toggle_light");
-   std::cout<<door.get_state()<<std::endl;
 
-   std::cout<<door.get_state()<<std::endl;
    sleep(5);
    }
 return 1;
