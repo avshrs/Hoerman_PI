@@ -105,7 +105,7 @@ void USB_serial::serial_read(RX_Buffer* rx_buffer)
 {	
 	uint8_t buf[20] = {0};
   int s = read(fd, buf, sizeof(buf));
-	for(int i=0+lead_z; i < s-lead_z; i++)
+	for(int i=0+lead_z; i < s; i++)
 	{
 		rx_buffer->buf.push_back(buf[i]);
 	}
