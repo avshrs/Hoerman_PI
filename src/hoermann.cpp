@@ -21,51 +21,52 @@ void Hoermann_pi::run_loop(void)
     TX_Buffer* tx_buf;
     rx_buf = new RX_Buffer;
     tx_buf = new TX_Buffer;
+    for(int i = 0 ; i < 18 ; i++)
+    {
+    rx_buf->buf.push_back(0);
+    tx_buf->buf.push_back(0);
+    }     
     uint8_t max_frame_len = 7;
     while (1)
     {   
-        std::fill (rx_buf->buf.begin(),rx_buf->buf.end(),0);   // myvector: 5 5 5 5 0 0 0 0
-
+        std::fill (rx_buf->buf.begin(),rx_buf->buf.end(),0);   
         
         serial.serial_read(rx_buf->buf.data(), max_frame_len);
-       
         start = timer.now();
      
         if(is_broadcast(rx_buf))
         {
-           print_buffer(rx_buf->buf.data(),max_frame_len);
+           print_buffer(rx_buf->buf.data(), max_frame_len);
            if(is_broadcast_lengh_correct(rx_buf))
-                {
+            {
                 update_broadcast_status(rx_buf);
-                }
-            
+            }
+        
         }
         else if(is_slave_query(rx_buf))
         {   
-            
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
             }    
             else if(is_slave_status_req(rx_buf))
             {
-                    make_status_req_msg(rx_buf, tx_buf);
-                    while(1)
-                    {
-                        check = timer.now();
-                        auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
+                make_status_req_msg(rx_buf, tx_buf);
+                while(1)
+                {
+                    check = timer.now();
+                    auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
 
-                        if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
-                        {   
-                            print_buffer(rx_buf->buf.data(),max_frame_len);
-                            print_buffer(tx_buf->buf.data(),7);
-                            std::cout << "\n";
-                            serial.serial_send(tx_buf->buf.data(), tx_buf->len);
-                            break;
-                        }
-                        usleep(10);
+                    if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
+                    {   
+                        print_buffer(rx_buf->buf.data(),max_frame_len);
+                        print_buffer(tx_buf->buf.data(),tx_buf->len);
+                        std::cout << "\n";
+                        serial.serial_send(tx_buf->buf.data(), tx_buf->len);
+                        break;
                     }
-                
+                    usleep(10);
+                }
             }
         }
     } 
