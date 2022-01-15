@@ -50,7 +50,7 @@ void Hoermann_pi::run_loop(void)
         }
         else if(is_slave_query(rx_buf))
         {   
-            serial.clear_buffer();
+            
             if(is_slave_scan(rx_buf))
             {
                 make_scan_responce_msg(rx_buf, tx_buf);
@@ -69,7 +69,6 @@ void Hoermann_pi::run_loop(void)
                     print_buffer(rx_buf->buf.data(),7);
                     print_buffer(tx_buf->buf.data(),7);
                     std::cout << "time delta: " << deltaTime << "timeout: " << std::dec << tx_buf->timeout<< std::endl;
-                    serial.send_brake();
                     serial.serial_send(tx_buf->buf.data(), tx_buf->len);
                     break;
                 }
