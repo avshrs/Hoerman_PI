@@ -16,15 +16,12 @@ int main(){
    
    door.init(serial_name, 19200);
    std::thread t3(th1);
-    sleep(30);
+    
    while(1){
    
-   door.set_state("toggle_light");
-   sleep(5);
+   // door.set_state("toggle_light");
    std::cout<<door.get_state()<<std::endl;
-   sleep(5);
-   door.set_state("toggle_light");
-   sleep(5);
+
    std::cout<<door.get_state()<<std::endl;
    sleep(5);
    }
