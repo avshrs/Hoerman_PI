@@ -53,16 +53,19 @@ int main(){
    while(true){
       rx_buf = new RX_Buffer;
       serial.serial_read(rx_buf);
-      if(rx_buf->buf.at(0) == 0x28){
-         start = timer.now();
-         door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
-      }   
-      else if((rx_buf->buf.at(0) == 0x80 && rx_buf->buf.at(3) != 0x80 )){
-            check = timer.now();
-            auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
+      if(rx_buf->buf.size()>3)
+      {
+         if(rx_buf->buf.at(0) == 0x28){
+            start = timer.now();
             door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
-            std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
+         }   
+         else if((rx_buf->buf.at(0) == 0x80 && rx_buf->buf.at(3) != 0x80 )){
+               check = timer.now();
+               auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
+               door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
+               std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
 
+         }
       }
       delete rx_buf;
    }
