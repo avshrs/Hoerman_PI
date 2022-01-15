@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <algorithm>    // std::fill
 
-void Hoermann_pi::init(const char* serial_name, int boudrate)
+void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
     serial.serial_open(serial_name, boudrate);
 }
@@ -87,10 +87,6 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
 {
     if(buf->buf[0] == BROADCAST_ADDR && buf->buf[0] == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf[4])
     {   
-        // if(master_address != buf->buf[3])
-        // {std::cout << "broadcast" <<std::endl;
-        //     master_address = buf->buf[3];
-        // }
         return true;
     }
     else
@@ -104,6 +100,7 @@ bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
     else
         return false;
 }
+
 bool Hoermann_pi::is_slave_scan(RX_Buffer* buf)
 {
     if(is_broadcast_lengh_correct(buf) && (buf->buf[2] == CMD_SLAVE_SCAN))
@@ -153,7 +150,6 @@ void Hoermann_pi::print_buffer(uint8_t *buf, int len)
         }
     std::cout<<std::endl;
 }
-
 
 uint8_t Hoermann_pi::get_master_address()
 {

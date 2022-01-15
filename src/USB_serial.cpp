@@ -83,7 +83,7 @@ void USB_serial::send_brake()
     cfsetispeed(&newtermios,B9600);
     cfsetospeed(&newtermios, B9600);
     tcsetattr(fd, TCSANOW, &newtermios);
-    usleep(500);
+    usleep(250);
     
     write(fd, buf, 1);
 		
@@ -93,7 +93,7 @@ void USB_serial::send_brake()
     cfsetispeed(&newtermios,B19200);
     cfsetospeed(&newtermios, B19200);
     tcsetattr(fd, TCSANOW, &newtermios);
-    usleep(500);
+    usleep(250);
 }
 
 void USB_serial::serial_send(uint8_t *data, int size)
@@ -108,12 +108,18 @@ void USB_serial::serial_send(uint8_t *data, int size)
 	write(fd, buf, size);
 }
 
-void USB_serial::serial_read(uint8_t *data, int size)
+void USB_serial::serial_read(uint8_t *data, int size, uint8_t lead_zero)
 {	
-
-	char buf[15+3] = {0};
-
-  read(fd, buf, size+1);
+	char buf[10] = {0};
+  char buf_[1] = {0};
+  for(int i = 0 ; i<sizeof(buf); i++){
+    read(fd, buf_, 1);  
+    if(buf_[0] = '\0'){
+      break;
+    }
+    buf[i] = buf_[0];
+  }
+  // read(fd, buf, size);
 
 	for(int i=0; i < size; i++)
 	{
