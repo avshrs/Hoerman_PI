@@ -44,30 +44,30 @@ void Config_manager::read_config(){
 
     
     std::cout << "Loaded config:\n";
-    std::cout << "mqtt_config.ClientId: " << qtt_config.ClientId <<std::endl;
-    std::cout << "mqtt_config.ServerIp: " << qtt_config.ServerIp <<std::endl;
-    std::cout << "mqtt_config.username: " << qtt_config.username <<std::endl;
-    std::cout << "mqtt_config.password: " << qtt_config.password <<std::endl;
-    std::cout << "mqtt_config.serverPort: " << qtt_config.serverPort <<std::endl;
-    std::cout << "mqtt_config.keepAliveTopic: " << qtt_config.keepAliveTopic <<std::endl;
-    std::cout << "mqtt_config.keepAliveMsg: " << qtt_config.keepAliveMsg <<std::endl;
-    std::cout << "mqtt_config.Substring: " << qtt_config.Substring <<std::endl;
-    std::cout << "mqtt_config.Pubstring: " << qtt_config.Pubstring <<std::endl;
-    std::cout << "mqtt_config.brama_get_open: " << qtt_config.brama_get_open <<std::endl;
-    std::cout << "mqtt_config.brama_get_closed: " << qtt_config.brama_get_closed <<std::endl;
-    std::cout << "mqtt_config.brama_get_opening: " << qtt_config.brama_get_opening <<std::endl;
-    std::cout << "mqtt_config.brama_get_closing: " << qtt_config.brama_get_closing <<std::endl;
-    std::cout << "mqtt_config.brama_get_venting: " << qtt_config.brama_get_venting <<std::endl;
-    std::cout << "mqtt_config.brama_get_error: " << qtt_config.brama_get_error <<std::endl;
-    std::cout << "mqtt_config.brama_get_offline: " << qtt_config.brama_get_offline <<std::endl;
-    std::cout << "mqtt_config.brama_set_open: " << qtt_config.brama_set_open <<std::endl;
-    std::cout << "mqtt_config.brama_set_close: " << qtt_config.brama_set_close <<std::endl;
-    std::cout << "mqtt_config.brama_set_stop: " << qtt_config.brama_set_stop <<std::endl;
-    std::cout << "mqtt_config.brama_set_venting: " << qtt_config.brama_set_venting <<std::endl;
-    std::cout << "mqtt_config.brama_toggle_Light: " << qtt_config.brama_toggle_Light <<std::endl;
-    std::cout << "h_config.serial_file: " << _config.serial_file <<std::endl;
-    std::cout << "h_config.boudrate: " << _config.boudrate <<std::endl;
-    std::cout << "h_config.remove_lead_zero: " << _config.remove_lead_zero <<std::endl;
+    std::cout << "mqtt_config.ClientId: " << mqtt_config.ClientId <<std::endl;
+    std::cout << "mqtt_config.ServerIp: " << mqtt_config.ServerIp <<std::endl;
+    std::cout << "mqtt_config.username: " << mqtt_config.username <<std::endl;
+    std::cout << "mqtt_config.password: " << mqtt_config.password <<std::endl;
+    std::cout << "mqtt_config.serverPort: " << mqtt_config.serverPort <<std::endl;
+    std::cout << "mqtt_config.keepAliveTopic: " << mqtt_config.keepAliveTopic <<std::endl;
+    std::cout << "mqtt_config.keepAliveMsg: " << mqtt_config.keepAliveMsg <<std::endl;
+    std::cout << "mqtt_config.Substring: " << mqtt_config.Substring <<std::endl;
+    std::cout << "mqtt_config.Pubstring: " << mqtt_config.Pubstring <<std::endl;
+    std::cout << "mqtt_config.brama_get_open: " << mqtt_config.brama_get_open <<std::endl;
+    std::cout << "mqtt_config.brama_get_closed: " << mqtt_config.brama_get_closed <<std::endl;
+    std::cout << "mqtt_config.brama_get_opening: " << mqtt_config.brama_get_opening <<std::endl;
+    std::cout << "mqtt_config.brama_get_closing: " << mqtt_config.brama_get_closing <<std::endl;
+    std::cout << "mqtt_config.brama_get_venting: " << mqtt_config.brama_get_venting <<std::endl;
+    std::cout << "mqtt_config.brama_get_error: " << mqtt_config.brama_get_error <<std::endl;
+    std::cout << "mqtt_config.brama_get_offline: " << mqtt_config.brama_get_offline <<std::endl;
+    std::cout << "mqtt_config.brama_set_open: " << mqtt_config.brama_set_open <<std::endl;
+    std::cout << "mqtt_config.brama_set_close: " << mqtt_config.brama_set_close <<std::endl;
+    std::cout << "mqtt_config.brama_set_stop: " << mqtt_config.brama_set_stop <<std::endl;
+    std::cout << "mqtt_config.brama_set_venting: " << mqtt_config.brama_set_venting <<std::endl;
+    std::cout << "mqtt_config.brama_toggle_Light: " << mqtt_config.brama_toggle_Light <<std::endl;
+    std::cout << "h_config.serial_file: " << h_config.serial_file <<std::endl;
+    std::cout << "h_config.boudrate: " << h_config.boudrate <<std::endl;
+    std::cout << "h_config.remove_lead_zero: " << h_config.remove_lead_zero <<std::endl;
 
     
 
