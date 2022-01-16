@@ -25,100 +25,90 @@ void Hoermann_pi::run_loop(void)
     {   
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
-        try
-        {
-            serial.serial_read(rx_buf);
-        }
-        catch (...)
-        {
-            std::cout<< "ERROR while parsing frame"<<std::endl;   
-        }
+        serial.serial_read(rx_buf);
+
         start = timer.now();
-        try
-        {
-            if(is_frame_corect(rx_buf))
-            {     
-                // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+        if(is_frame_corect(rx_buf))
+        {     
+            std::cout << "1-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
 
-                if(is_broadcast(rx_buf))
+            if(is_broadcast(rx_buf))
+            {
+                if(is_broadcast_lengh_correct(rx_buf))
+                    {
+                        update_broadcast_status(rx_buf);
+                    }
+            }
+            else if(is_slave_query(rx_buf))
+            {
+                std::cout << "2-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";   
+                if(is_slave_scan(rx_buf))
                 {
-                    if(is_broadcast_lengh_correct(rx_buf))
-                        {
-                            update_broadcast_status(rx_buf);
-                        }
-                }
-                else if(is_slave_query(rx_buf))
-                {   
-                    if(is_slave_scan(rx_buf))
+                    std::cout << "3-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
+                    make_scan_responce_msg(rx_buf, tx_buf);
+                    std::cout << "4-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
+                    while(true)
                     {
-                        make_scan_responce_msg(rx_buf, tx_buf);
-                        while(true)
-                        {
-                            
-                            auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                            if( deltaTime > (tx_buf->timeout) )
-                            {   
-                                if(deltaTime > max_frame_delay)
-                                {
-                                    std::cout << "SCAN RESPONCE Frame building to long "<<deltaTime <<"\n";
-                                    break;
-                                }
-                                std::cout << "--------------\n";
-                                print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                                print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                                
-                                serial.serial_send(tx_buf);
-
-                                auto deltaTime2 = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                                std::cout << "-------"<<deltaTime2 <<"-------\n";
-                                break;
-                                
-                            }
-
-                            usleep(10);
-                        }                    
                         
-                    }    
-                    else if(is_slave_status_req(rx_buf))
-                    {
-                        make_status_req_msg(rx_buf, tx_buf);
-                        while(true)
-                        {
-                            
-                            auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                            if( deltaTime > (tx_buf->timeout))
-                            {   
-                                if(deltaTime > max_frame_delay)
-                                {
-                                    std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
-                                    break;
-                                }
-                                // std::cout << "--------------\n";
-                                // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                                // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                                // std::cout << "--------------\n\n";
-                                serial.serial_send(tx_buf);
-                                // auto check2 = timer.now();
-                                // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
-                                
-                                // std::cout << "-------"<<deltaTime2 <<"-------\n";
+                        auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
+                        if( deltaTime > (tx_buf->timeout) )
+                        {   
+                            if(deltaTime > max_frame_delay)
+                            {
+                                std::cout << "SCAN RESPONCE Frame building to long "<<deltaTime <<"\n";
                                 break;
                             }
+                            std::cout << "--------------\n";
+                            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                            print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            
+                            serial.serial_send(tx_buf);
 
-                            usleep(10);
+                            auto deltaTime2 = std::chrono::duration_cast<mi>(timer.now() - start).count();
+                            std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            break;
+                            
                         }
+
+                        usleep(10);
+                    }                    
+                    
+                }    
+                else if(is_slave_status_req(rx_buf))
+                {
+                    make_status_req_msg(rx_buf, tx_buf);
+                    while(true)
+                    {
+                        
+                        auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
+                        if( deltaTime > (tx_buf->timeout))
+                        {   
+                            if(deltaTime > max_frame_delay)
+                            {
+                                std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
+                                break;
+                            }
+                            // std::cout << "--------------\n";
+                            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                            // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            // std::cout << "--------------\n\n";
+                            serial.serial_send(tx_buf);
+                            // auto check2 = timer.now();
+                            // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
+                            
+                            // std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            
+                            
+                            break;
+                        }
+
+                        usleep(10);
                     }
                 }
             }
-            delete rx_buf;
-            delete tx_buf;
         }
-        catch (...)
-        {
-            delete rx_buf;
-            delete tx_buf;
-            std::cout<< "ERROR while parsing frame"<<std::endl;
-        }
+        delete rx_buf;
+        delete tx_buf;
     } 
 }       
 
@@ -250,18 +240,6 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
   }
 }
 
-// class bar {
-// public:
-//   void foo() {
-//     std::cout << "hello from member function" << std::endl;
-//   }
-// };
-
-// int main()
-// {
-//   std::thread t(&bar::foo, bar());
-//   t.join();
-// }
 
 void Hoermann_pi::pub_thread()
 {
