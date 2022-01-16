@@ -275,9 +275,18 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 {
     tx_buf->buf.push_back(get_master_address());
     tx_buf->buf.push_back(0x03 | get_counter(rx_buf));
+
     tx_buf->buf.push_back(CMD_SLAVE_STATUS_RESPONSE);
-    tx_buf->buf.push_back(static_cast<uint8_t>(slave_respone_data));
-    tx_buf->buf.push_back(0x10);
+    if(slave_respone_data == RESPONSE_STOP)
+    {
+        tx_buf->buf.push_back(0x00);
+        tx_buf->buf.push_back(0x00);
+    }
+    else 
+    {
+        tx_buf->buf.push_back(static_cast<uint8_t>(slave_respone_data));
+        tx_buf->buf.push_back(0x10);   
+    }
     slave_respone_data = RESPONSE_DEFAULT;
     tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 5));
     tx_buf->timeout = 2000;
