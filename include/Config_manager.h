@@ -24,14 +24,14 @@ class Config_manager{
     int get_hoer_boudrate();
     int get_hoer_lead_zeros();
 
-    std::string brama_get_open();
-    std::string brama_get_closed();
-    std::string brama_get_opening();
-    std::string brama_get_closing();
-    std::string brama_get_venting();
-    std::string brama_get_error();
-    std::string brama_get_offline();
-    std::string brama_get_open();
+    std::string get_string_open();
+    std::string get_string_closed();
+    std::string get_string_opening();
+    std::string get_string_closing();
+    std::string get_string_venting();
+    std::string get_string_error();
+    std::string get_string_offline();
+    std::string brama_set_open();
     std::string brama_set_close();
     std::string brama_set_stop();
     std::string brama_set_venting();

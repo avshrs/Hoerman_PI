@@ -89,23 +89,23 @@ void mqtt_client::on_message(const struct mosquitto_message *message){
         const char * substring = cfg->get_mqtt_Substring().c_str();
 
         if(!message_payload.empty() && message_topic.find(substring) != std::string::npos){
-            if(message_payload == "OPEN")
+            if(message_payload == cfg->brama_set_open())
             {
                 hoerpi->door_open();
             }
-            if(message_payload == "CLOSE")
+            if(message_payload == cfg->brama_set_close())
             {
                 hoerpi->door_close();
             }
-            if(message_payload == "STOP")
+            if(message_payload == cfg->brama_set_stop())
             {
                 hoerpi->door_stop();
             }
-            if(message_payload == "VENTING")
+            if(message_payload == cfg->brama_set_venting())
             {
                 hoerpi->door_venting();
             }
-            if(message_payload == "TOGGLE_LIGHT")
+            if(message_payload == cfg->brama_toggle_Light())
             {
                 hoerpi->door_toggle_light();
             }
