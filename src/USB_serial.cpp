@@ -87,7 +87,7 @@ void USB_serial::send_brake()
     
     write(fd, buf, 1);
 		
-		tcdrain( fd );
+		// tcdrain( fd );
     
     newtermios.c_cflag |= CS8;
     cfsetispeed(&newtermios,B19200);
