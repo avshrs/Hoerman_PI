@@ -376,6 +376,6 @@ void Hoermann_pi::door_lock()
     set_state("stop");
 }
 
-void Hoermann_pi::register_mqtt(mqtt_client *mqtt_){
+void Hoermann_pi::register_mqtt(Mqtt_Client *mqtt_){
     mqtt = mqtt_;
 }
