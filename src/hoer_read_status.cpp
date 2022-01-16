@@ -7,16 +7,19 @@
 #include "Mosquitto.h"
 
 
-Hoermann_pi door;
+
 
 void th1(){
-   door.run_loop();    
+   door->run_loop();    
+}
+void th2(Mqtt_Client *mqtt){
+    mqtt->client_loop_forever();
 }
 
 int main(){
    
    Config_manager cfg;
-
+   Hoermann_pi door;
    cfg.read_config();
    std::string serial_file = cfg.get_hoer_serial_file();
    int rs_lead_zero = cfg.get_hoer_lead_zeros();
@@ -28,7 +31,9 @@ int main(){
    door.register_mqtt(&mqtt);
    door.init(serial_file.c_str(), boudrate, rs_lead_zero);
    
-   std::thread t3(th1);
+   std::thread t3(th1, &door);
+   std::thread t2(th2, &mqtt);
+
    std::string kmsg = cfg.get_mqtt_keepAliveMsg();
    std::string ktop = cfg.get_mqtt_keepAliveTopic();
    std::string pub = cfg.get_mqtt_Pubstring();
