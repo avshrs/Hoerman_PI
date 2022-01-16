@@ -105,11 +105,11 @@ std::string Config_manager::get_string_venting(){
 std::string Config_manager::get_string_error(){
     return  mqtt_config.brama_get_error;
 }
-std::string Config_manager::get_string_offline(){
+std::string Config_manager::brama_set_offline(){
     return  mqtt_config.brama_get_offline;
 }
 std::string Config_manager::get_string_open(){
-    return  mqtt_config.brama_get_open;
+    return  mqtt_config.brama_set_open;
 }
 std::string Config_manager::brama_set_close(){
     return  mqtt_config.brama_set_close;
