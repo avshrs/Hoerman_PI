@@ -97,7 +97,7 @@ class Hoermann_pi{
 
     private:
     
-        void set_state(std::string action);
+        
         void print_buffer(uint8_t* buf, int len);
         
         void update_broadcast_status(RX_Buffer* buf);
