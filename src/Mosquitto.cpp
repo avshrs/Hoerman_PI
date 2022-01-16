@@ -51,7 +51,7 @@ void Mqtt_Client::on_connect(int rc)
         auto tm = *std::localtime(&t);      
         std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
         std::cout << "Connected with code " << rc << std::endl;
-        unregister_subs();
+        // unregister_subs();
         register_subs();
     }
     

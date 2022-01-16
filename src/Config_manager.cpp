@@ -68,6 +68,7 @@ void Config_manager::read_config(){
     std::cout << "h_config.serial_file: " << h_config.serial_file <<std::endl;
     std::cout << "h_config.boudrate: " << h_config.boudrate <<std::endl;
     std::cout << "h_config.remove_lead_zero: " << h_config.remove_lead_zero <<std::endl;
+    std::cout << std::endl;
 
     
 
@@ -101,7 +102,6 @@ std::string Config_manager::get_mqtt_Substring(){
 std::string Config_manager::get_mqtt_Pubstring(){
     return  mqtt_config.Pubstring;
 }
-
 std::string Config_manager::get_hoer_serial_file()
 {
     return  h_config.serial_file;
