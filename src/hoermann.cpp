@@ -18,12 +18,10 @@ void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 void Hoermann_pi::run_loop(void)
 {   
     auto start = timer.now();
-  
-    while (1)
+    RX_Buffer* rx_buf;
+    TX_Buffer* tx_buf;
+    while (true)
     {   
-        RX_Buffer* rx_buf;
-        TX_Buffer* tx_buf;
-
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
         try
@@ -104,6 +102,8 @@ void Hoermann_pi::run_loop(void)
         }
         catch (...)
         {
+            delete rx_buf;
+            delete tx_buf;
             std::cout<< "ERROR while parsing frame"<<std::endl;
         }
     } 
