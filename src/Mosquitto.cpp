@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-mqtt_client::mqtt_client(const char *id, const char *host, int port, const char *username, const char *password) : mosquittopp(id)
+Mqtt_Client::Mqtt_Client(const char *id, const char *host, int port, const char *username, const char *password) : mosquittopp(id)
 {
     int keepalive = 60;
     
@@ -15,33 +15,33 @@ mqtt_client::mqtt_client(const char *id, const char *host, int port, const char 
     connect(host, port, keepalive);
 }
 
-void mqtt_client::client_loop_forever(){
+void Mqtt_Client::client_loop_forever(){
     
         reconnect_delay_set(5, 1000000, true);
         loop_forever();
 }
 
-void mqtt_client::register_subs()
+void Mqtt_Client::register_subs()
 {
     std::string sub = cfg->get_mqtt_Substring();
 
     subscribe(NULL, sub.c_str());
 }
 
-void mqtt_client::unregister_subs()
+void Mqtt_Client::unregister_subs()
 {
 
     std::string sub = cfg->get_mqtt_Substring();
     unsubscribe(NULL, sub.c_str());
 }
 
-void mqtt_client::on_error() {
+void Mqtt_Client::on_error() {
     std::cout<<"onerror"<<std::endl;
     return;
     }
 
 
-void mqtt_client::on_connect(int rc)
+void Mqtt_Client::on_connect(int rc)
 {
     if (!rc)
     {
@@ -55,7 +55,7 @@ void mqtt_client::on_connect(int rc)
     
 }
 
-void mqtt_client::on_disconnect(int rc){
+void Mqtt_Client::on_disconnect(int rc){
     if (!rc){
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);      
@@ -64,7 +64,7 @@ void mqtt_client::on_disconnect(int rc){
     
     }
 }
-void mqtt_client::on_subscribe(int mid, int qos_count, const int *granted_qos){
+void Mqtt_Client::on_subscribe(int mid, int qos_count, const int *granted_qos){
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);      
         std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
@@ -72,17 +72,17 @@ void mqtt_client::on_subscribe(int mid, int qos_count, const int *granted_qos){
 }
 
 
-void mqtt_client::register_mcp_config(Config_manager *cfg_){
+void Mqtt_Client::register_mcp_config(Config_manager *cfg_){
     cfg = cfg_;
 }
 
-void mqtt_client::pub_door_state(std::string msg){
+void Mqtt_Client::pub_door_state(std::string msg){
     std::string pub = cfg->get_mqtt_Pubstring();
     publish(NULL, pub.c_str(), msg.length(), msg.c_str());
 }
 
 
-void mqtt_client::on_message(const struct mosquitto_message *message){
+void Mqtt_Client::on_message(const struct mosquitto_message *message){
     try{
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
