@@ -86,7 +86,7 @@ class Hoermann_pi{
 
 
     private:
-        void pub_thread(std::string msg);
+        void pub_thread();
 
         
         void print_buffer(uint8_t* buf, int len);
