@@ -27,7 +27,7 @@ int main(){
 
    Mqtt_Client mqtt(cfg.get_mqtt_ClientId().c_str(), cfg.get_mqtt_ip().c_str(), cfg.get_mqtt_port(), cfg.get_mqtt_username().c_str(), cfg.get_mqtt_password().c_str());
    door.register_mqtt(&mqtt);
-   door.register_cfg(&mqtt);
+   door.register_cfg(&cfg);
    mqtt.register_horman(&door);
    mqtt.register_mcp_config(&cfg);
    sleep(1);
