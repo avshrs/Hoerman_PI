@@ -226,11 +226,17 @@ bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
 
 void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 {
-  uint16_t br = buf->buf.at(2);
-  br |= (uint16_t)buf->buf.at(3) << 8;
-  if (broadcast_status != br)
+//   uint16_t br = buf->buf.at(2);
+//   br |= (uint16_t)buf->buf.at(3) << 8;
+  
+  uint8_t br = buf->buf.at(3);
+  if (static_cast<uint8_t>(broadcast_status) != br)
   {
-    broadcast_status = br;
+    broadcast_status = static_cast<uint16_t>(br);
+  
+//   if (broadcast_status != br)
+//   {
+//     broadcast_status = br;
     
     std::thread t(&Hoermann_pi::pub_thread, this);
     t.detach();
@@ -295,39 +301,54 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
 
 std::string Hoermann_pi::get_state()
 {
-  if ((broadcast_status & 0x01) == 0x01)
+  if ((broadcast_status) == 0)
   {
-    return cfg->get_stopped_string();
+    return cfg->get_venting_string();
   }
-  else if ((broadcast_status & 0x02) == 0x02)
-  {
-    return cfg->get_open_string();
-  }
-  else if ((broadcast_status & 0x80) == 0x80)
+  else if ((broadcast_status) == 2)
   {
     return cfg->get_closed_string();
   }
-  else if ((broadcast_status & 0x60) == 0x40)
+  else if ((broadcast_status) == 1)
   {
-    return  cfg->get_venting_string();
+    return cfg->get_open_string();
   }
-  else if ((broadcast_status & 0x60) == 0x60)
-  {
-    return  cfg->get_opening_string();
-  }
-  else if ((broadcast_status & 0x10) == 0x10)
-  {
-    return cfg->get_closing_string();
-  }
-  else if (broadcast_status == 0x00)
-  {
-    return cfg->get_error_string();
-  }
-  else 
-    return cfg->get_offline_string();
  
 }
-
+// std::string Hoermann_pi::get_state()
+// {
+//   if ((broadcast_status & 0x01) == 0x01)
+//   {
+//     return cfg->get_stopped_string();
+//   }
+//   else if ((broadcast_status & 0x02) == 0x02)
+//   {
+//     return cfg->get_open_string();
+//   }
+//   else if ((broadcast_status & 0x80) == 0x80)
+//   {
+//     return cfg->get_closed_string();
+//   }
+//   else if ((broadcast_status & 0x60) == 0x40)
+//   {
+//     return  cfg->get_venting_string();
+//   }
+//   else if ((broadcast_status & 0x60) == 0x60)
+//   {
+//     return  cfg->get_opening_string();
+//   }
+//   else if ((broadcast_status & 0x10) == 0x10)
+//   {
+//     return cfg->get_closing_string();
+//   }
+//   else if (broadcast_status == 0x00)
+//   {
+//     return cfg->get_error_string();
+//   }
+//   else 
+//     return cfg->get_offline_string();
+ 
+// }
 
 void Hoermann_pi::set_state(std::string action)
 {
