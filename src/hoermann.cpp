@@ -51,7 +51,7 @@ void Hoermann_pi::run_loop(void)
                     if(is_slave_scan(rx_buf))
                     {
                         make_scan_responce_msg(rx_buf, tx_buf);
-                        while(1)
+                        while(true)
                         {
                             auto check = timer.now();
                             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
@@ -93,6 +93,10 @@ void Hoermann_pi::run_loop(void)
                                 // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                                 
                                 // std::cout << "-------"<<deltaTime2 <<"-------\n";
+                                break;
+                            }
+                            else
+                            {
                                 break;
                             }
                             usleep(10);
