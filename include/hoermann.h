@@ -70,6 +70,7 @@ class Hoermann_pi{
         int boudrate;
 
     public:
+    
         void init(const char* serial_name, int boudrate, uint8_t lead_zero);
         void run_loop(void);
         void register_mqtt(Mqtt_Client *mqtt);
@@ -85,7 +86,8 @@ class Hoermann_pi{
 
 
     private:
-    
+        void pub_thread(std::string msg);
+
         
         void print_buffer(uint8_t* buf, int len);
         

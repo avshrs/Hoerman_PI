@@ -4,7 +4,6 @@
 #include <ctime>
 #include <vector>
 #include <unistd.h>
-#include <thread>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -94,15 +93,9 @@ void Mqtt_Client::register_horman(Hoermann_pi *hoerpi_){
 }
 
 void Mqtt_Client::pub_door_state(std::string msg){
-    std::thread t(pub_door_state_thread, msg);
-    t.detach();
-}
-
-void Mqtt_Client::pub_door_state_thread(std::string msg){
     std::string pub = cfg->get_mqtt_Pubstring();
     publish(NULL, pub.c_str(), msg.length(), msg.c_str());
 }
-
 
 
 void Mqtt_Client::on_message(const struct mosquitto_message *message){
