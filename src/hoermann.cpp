@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <unistd.h>
 #include <algorithm>    // std::fill
+#include "Mosquitto.h"
+
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
@@ -49,15 +51,15 @@ void Hoermann_pi::run_loop(void)
                         auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
                         if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                         {   
-                            std::cout << "--------------\n";
-                            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                            print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            // std::cout << "--------------\n";
+                            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                            // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
                             // std::cout << "--------------\n\n";
                             serial.serial_send(tx_buf);
-                            auto check2 = timer.now();
-                            auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
+                            // auto check2 = timer.now();
+                            // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                             
-                            std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            // std::cout << "-------"<<deltaTime2 <<"-------\n";
                             break;
                         }
                         usleep(10);
@@ -73,15 +75,15 @@ void Hoermann_pi::run_loop(void)
                         auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
                         if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
                         {   
-                            std::cout << "--------------\n";
-                            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                            print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            // std::cout << "--------------\n";
+                            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                            // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
                             // std::cout << "--------------\n\n";
                             serial.serial_send(tx_buf);
-                            auto check2 = timer.now();
-                            auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
+                            // auto check2 = timer.now();
+                            // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                             
-                            std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            // std::cout << "-------"<<deltaTime2 <<"-------\n";
                             break;
                         }
                         usleep(10);
@@ -210,8 +212,14 @@ bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
 
 void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 {
-  broadcast_status = buf->buf.at(2);
-  broadcast_status |= (uint16_t)buf->buf.at(3) << 8;
+  uint16_t broadcast_status_ = buf->buf.at(2);
+  broadcast_status_ |= (uint16_t)buf->buf.at(3) << 8;
+  if (broadcast_status_ != broadcast_status )
+  {
+    broadcast_status = broadcast_status_;
+    std::string state = get_state();
+    mqtt->pub_door_state(state);
+  }
 }
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)
@@ -292,7 +300,6 @@ std::string Hoermann_pi::get_state()
 
 void Hoermann_pi::set_state(std::string action)
 {
-
     if(action == "stop")
     {
       std::cout<<"cmd stop"<<std::endl;
@@ -340,4 +347,35 @@ uint8_t crc = CRC8_INITIAL_VALUE;
     }
     //std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
     return(crc);
+}
+
+void Hoermann_pi::door_open()
+{
+    set_state("open");
+}
+void Hoermann_pi::door_close()
+{
+    set_state("close");
+}
+void Hoermann_pi::door_venting()
+{
+    set_state("venting");
+}
+void Hoermann_pi::door_toggle_light()
+{
+    set_state("toggle_light");
+}
+void Hoermann_pi::door_stop()
+{
+    // if (goes up press down )
+    // if (goes down press up )
+    set_state("stop");
+}
+void Hoermann_pi::door_lock()
+{
+    set_state("stop");
+}
+
+void Hoermann_pi::register_mqtt(mqtt_client *mqtt_){
+    mqtt = mqtt_;
 }

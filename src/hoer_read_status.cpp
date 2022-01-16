@@ -2,8 +2,12 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
+#include "Mosquitto.h"
+#include "Config_manager.h"
 
 Hoermann_pi door;
+Config_manager cfg;
+mqtt_client mqtt;
 
 
 void th1(){
@@ -11,66 +15,31 @@ void th1(){
 }
 
 int main(){
-   const char serial_name[] = "/dev/ttyUSB2";
-   int rs_lead_zero = 1;
-   door.init(serial_name, 19200, rs_lead_zero);
-   std::thread t3(th1);
+   cfg.read_config();
+   std::string serial_file = cfg.get_hoer_serial_file();
+   int rs_lead_zero = cfg.get_hoer_lead_zeros();
+   int boudrate = cfg.get_hoer_boudrate();
+
+   mqtt_client mqtt(cfg.get_mqtt_ClientId().c_str(), cfg.get_mqtt_ip().c_str(), cfg.get_mqtt_port(), cfg.get_mqtt_username().c_str(), cfg.get_mqtt_password().c_str());
+
+   mqtt.register_horman(&door);
+   door.register_mqtt(&mqtt);
+   door.init(serial_file.c_str(), boudrate, rs_lead_zero);
    
-   while(1){
-      door.set_state("toggle_light");
-      sleep(5);
-      std::cout<<door.get_state()<<std::endl;
-      sleep(5);
-      door.set_state("toggle_light");
-      sleep(5);
-      std::cout<<door.get_state()<<std::endl;
-      sleep(5);
+   std::thread t3(th1);
+   std::string kmsg = cfg.get_mqtt_keepAliveMsg();
+   std::string ktop = cfg.get_mqtt_keepAliveTopic();
+   std::string pub = cfg.get_mqtt_Pubstring();
+
+   while (true)
+   {
+        std::string door_state = door.get_state();
+        mqtt.publish(NULL, ktop.c_str(), kmsg.length(), kmsg.c_str());
+        mqtt.publish(NULL, pub.c_str(), door_state.length(), door_state.c_str());
+        sleep(60);
    }
+        
+    
+
 return 1;
 }
-
-// #include "USB_serial.h"
-// #include <chrono>
-// #include "hoermann.h"
-// #include <iostream>
-// #include <iomanip>
-// #include <unistd.h>
-// #include "vars.h"
-// std::chrono::high_resolution_clock timer;
-// using mi = std::chrono::duration<float, std::micro>;
-
-// int main(){
-//    auto check = timer.now();
-//    auto start = timer.now();
-//    USB_serial serial;
-//    Hoermann_pi door;
-//    char serial_name[] = "/dev/ttyUSB1";
-//    serial.serial_open(serial_name, 19200, 0);
-//    RX_Buffer *rx_buf;
-   
-   
-
-//    while(true){
-//       rx_buf = new RX_Buffer;
-//       serial.serial_read(rx_buf);
-//       if(rx_buf->buf.size()>3)
-//       {
-//          if(rx_buf->buf.at(0) == 0x28){
-//             start = timer.now();
-//             door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
-//          }   
-//          else if((rx_buf->buf.at(0) == 0x80 && rx_buf->buf.at(3) != 0x80 )){
-//                check = timer.now();
-//                auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-//                door.print_buffer(rx_buf->buf.data(), rx_buf->buf.size());
-//                std::cout<< "Packet_Delta: " << deltaTime <<std::endl;
-
-//          }
-//       }
-//       delete rx_buf;
-//    }
-
-
-
-
-// }

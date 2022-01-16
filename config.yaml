@@ -1,0 +1,32 @@
+config: 1
+input_len: 65
+output_len: 64
+mqtt:
+    ClientId: BramaGaraz
+    ServerIp: 192.168.1.111
+    serverPort: 1883
+    username: mqttuser
+    password: mqttuser
+    keepAliveTopic: brama_garaz_main
+    keepAliveMsg: Online
+    Substring: brama_garaz_set
+    Pubstring: brama_garaz_get
+
+    brama_get_open: open
+    brama_get_closed: closed
+    brama_get_opening: opening
+    brama_get_closing: closing
+    brama_get_venting: venting
+    brama_get_error: error
+    brama_get_offline: offline
+    
+    brama_set_open: OPEN
+    brama_set_close: CLOSE
+    brama_set_stop: STOP
+    brama_set_venting: VENTING
+    brama_toggle_Light: TOGGLE_LIGHT
+
+hoermann:
+    boudrate: 19200
+    serial_file: /dev/ttyUSB2
+    remove_lead_zero: 1

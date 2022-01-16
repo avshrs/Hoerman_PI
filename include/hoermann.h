@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include "vars.h"
+class mqtt_client;
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
 #define UAP1_ADDR                 0x28
@@ -13,7 +14,7 @@
 #define CMD_SLAVE_SCAN            0x01
 #define CMD_SLAVE_STATUS_REQUEST  0x20
 #define CMD_SLAVE_STATUS_RESPONSE 0x29
-
+// Supramatic e3
 #define RESPONSE_DEFAULT          0x00
 #define RESPONSE_STOP             0x00
 #define RESPONSE_OPEN             0x01
@@ -23,34 +24,34 @@
 
 #define CRC8_INITIAL_VALUE        0xF3
 
-        // Status mask for LineaMatic P:
-        // +------- (0x80) Unknown
-        //  +------ (0x40) Motor running: 1 == running. 0 == stopped.
-        //   +----- (0x20) Motor direction: 1 == closing. 0 == opening.
-        //    +---- (0x10) Unknown
-        //     +--- (0x08) Unknown
-        //      +-- (0x04) Unknown
-        //       +- (0x02) Fully closed 
-        //        + (0x01) Fully open
+// Status mask for LineaMatic P:
+// +------- (0x80) Unknown
+//  +------ (0x40) Motor running: 1 == running. 0 == stopped.
+//   +----- (0x20) Motor direction: 1 == closing. 0 == opening.
+//    +---- (0x10) Unknown
+//     +--- (0x08) Unknown
+//      +-- (0x04) Unknown
+//       +- (0x02) Fully closed 
+//        + (0x01) Fully open
 
 
-        // Command mask for LineaMatic P:
-        // +------- (0x80) Unknown
-        //  +------ (0x40) Unknown
-        //   +----- (0x20) Unknown
-        //    +---- (0x10) Moves to 'H' (whatever that means)
-        //     +--- (0x08) Unknown
-        //      +-- (0x04) Impulse toggle
-        //       +- (0x02) Impulse close
-        //        + (0x01) Impulse open
-        //           0x00  default
-        // For some reason the second byte needs to be 0x10 (signals no error?)
+// Command mask for LineaMatic P:
+// +------- (0x80) Unknown
+//  +------ (0x40) Unknown
+//   +----- (0x20) Unknown
+//    +---- (0x10) Moves to 'H' (whatever that means)
+//     +--- (0x08) Unknown
+//      +-- (0x04) Impulse toggle
+//       +- (0x02) Impulse close
+//        + (0x01) Impulse open
+//           0x00  default
+// For some reason the second byte needs to be 0x10 (signals no error?)
 
 
 class Hoermann_pi{
     private:
         USB_serial serial;
-    
+        mqtt_client *mqtt;
     private:
         const std::string actions[7] = {"stop", 
                                         "open", 
@@ -84,13 +85,20 @@ class Hoermann_pi{
         void init(const char* serial_name, int boudrate, uint8_t lead_zero);
         void run_loop(void);
         std::string get_state();
-        void set_state(std::string action);
-        void print_buffer(uint8_t* buf, int len);
+        void register_mqtt(mqtt_client *mqtt);
+        void door_open();
+        void door_close();
+        void door_venting();
+        void door_toggle_light();
+        void door_stop();
+        void door_lock();
+
 
     private:
-    // zegar _SC_MONOTONIC_CLOCK
-
-        
+    
+        void set_state(std::string action);
+        void print_buffer(uint8_t* buf, int len);
+        std::string get_state();
         
         void update_broadcast_status(RX_Buffer* buf);
         
