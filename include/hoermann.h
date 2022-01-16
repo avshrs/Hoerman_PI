@@ -4,7 +4,7 @@
 #include <string>
 #include <chrono>
 #include "vars.h"
-class mqtt_client;
+class Mqtt_Client;
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
 #define UAP1_ADDR                 0x28
@@ -51,7 +51,7 @@ class mqtt_client;
 class Hoermann_pi{
     private:
         USB_serial serial;
-        mqtt_client *mqtt;
+        Mqtt_Client *mqtt;
     private:
         const std::string actions[7] = {"stop", 
                                         "open", 
