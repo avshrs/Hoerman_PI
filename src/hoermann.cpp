@@ -37,7 +37,7 @@ void Hoermann_pi::run_loop(void)
         {
             if(is_frame_corect(rx_buf))
             {     
-                // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
 
                 if(is_broadcast(rx_buf))
                 {
