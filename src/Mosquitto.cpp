@@ -55,6 +55,7 @@ void Mqtt_Client::on_connect(int rc)
     
 }
 
+
 void Mqtt_Client::on_disconnect(int rc){
     if (!rc){
         auto t = std::time(nullptr);
@@ -64,6 +65,15 @@ void Mqtt_Client::on_disconnect(int rc){
     
     }
 }
+
+void Mqtt_Client::on_unsubscribe(int mid){
+        auto t = std::time(nullptr);
+        auto tm = *std::localtime(&t);      
+        std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
+        std::cout << "Subscription succeeded. " << " mid: " << mid << " qos_count: "<< qos_count << " qos_granted: "<< granted_qos << std::endl;
+}
+
+
 void Mqtt_Client::on_subscribe(int mid, int qos_count, const int *granted_qos){
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);      
@@ -87,8 +97,7 @@ void Mqtt_Client::pub_door_state(std::string msg){
 
 
 void Mqtt_Client::on_message(const struct mosquitto_message *message){
-        std::cout <<"get topic: " << message->topic << std::endl;
-        std::cout <<"get payload: " << message->payload << std::endl;
+
     try{
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
