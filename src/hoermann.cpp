@@ -18,7 +18,7 @@ void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 void Hoermann_pi::run_loop(void)
 {   
     auto start = timer.now();
-    auto log = timer.now();
+    // auto log = timer.now();
     RX_Buffer* rx_buf;
     TX_Buffer* tx_buf;
     while (true)
