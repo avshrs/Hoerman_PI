@@ -244,7 +244,7 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
   {
     broadcast_status = broadcast_status_;
     
-    std::thread t(Hoermann_pi::pub_thread, this);
+    std::thread t(&Hoermann_pi::pub_thread, this);
     t.detach();
     
   }
