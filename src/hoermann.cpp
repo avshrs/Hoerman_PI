@@ -229,7 +229,7 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 //   uint16_t br = buf->buf.at(2);
 //   br |= (uint16_t)buf->buf.at(3) << 8;
   
-  uint8_t br = buf->buf.at(3);
+  uint8_t br = buf->buf.at(2);
   if (static_cast<uint8_t>(broadcast_status) != br)
   {
     broadcast_status = static_cast<uint16_t>(br);
