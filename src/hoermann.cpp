@@ -313,6 +313,8 @@ std::string Hoermann_pi::get_state()
   {
     return cfg->get_open_string();
   }
+    else
+    return cfg->get_error_string();
  
 }
 // std::string Hoermann_pi::get_state()
