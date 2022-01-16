@@ -55,21 +55,7 @@ class Hoermann_pi{
         Mqtt_Client *mqtt;
         Config_manager *cfg;
     private:
-        const std::string actions[7] = {"stop", 
-                                        "open", 
-                                        "close", 
-                                        "venting", 
-                                        "toggle_light", 
-                                        "none" };
-        const std::string states[8] = {"stoped / partially open", 
-                                        "open", 
-                                        "closed", 
-                                        "venting", 
-                                        "opening", 
-                                        "closing", 
-                                        "error", 
-                                        "unknown" };
-        
+
         std::chrono::high_resolution_clock timer;
         using mi = std::chrono::duration<float, std::micro>;
         uint8_t tx_length = 0;
