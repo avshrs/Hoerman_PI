@@ -87,6 +87,8 @@ void Mqtt_Client::pub_door_state(std::string msg){
 
 
 void Mqtt_Client::on_message(const struct mosquitto_message *message){
+        std::cout <<"get topic: " << message->topic << std::endl;
+        std::cout <<"get payload: " << message->payload << std::endl;
     try{
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
