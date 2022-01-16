@@ -91,13 +91,14 @@ class Hoermann_pi{
         void door_toggle_light();
         void door_stop();
         void door_lock();
+        std::string get_state();
+        void set_state(std::string action);
 
 
     private:
     
         void set_state(std::string action);
         void print_buffer(uint8_t* buf, int len);
-        std::string get_state();
         
         void update_broadcast_status(RX_Buffer* buf);
         
