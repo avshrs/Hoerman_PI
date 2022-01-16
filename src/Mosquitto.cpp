@@ -86,9 +86,9 @@ void Mqtt_Client::on_message(const struct mosquitto_message *message){
     try{
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
-        const char * substring = cfg->get_mqtt_Substring().c_str();
+        std::string substring = cfg->get_mqtt_Substring();
 
-        if(!message_payload.empty() && message_topic.find(substring) != std::string::npos){
+        if(!message_payload.empty() && message_topic == substring){
             if(message_payload == cfg->brama_set_open_string())
             {
                 hoerpi->door_open();
