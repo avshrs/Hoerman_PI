@@ -44,6 +44,7 @@ int main(){
    while (true)
    {
         std::string door_state = door.get_state();
+        std::cout<< "door status: "  << door_state << std::endl;
         mqtt.publish(NULL, ktop.c_str(), kmsg.length(), kmsg.c_str());
         mqtt.publish(NULL, pub.c_str(), door_state.length(), door_state.c_str());
         sleep(60);

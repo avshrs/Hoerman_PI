@@ -135,7 +135,7 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
 {   
     if(buf->buf.size() == 5)
     {
-        if(buf->buf.at(0) == BROADCAST_ADDR && buf->buf.at(0) == 0x12 && calc_crc8(buf->buf.data(), 4) == buf->buf.at(4))
+        if(buf->buf.at(0) == BROADCAST_ADDR && calc_crc8(buf->buf.data(), 4) == buf->buf.at(4))
         {   
             return true;
         }
@@ -225,15 +225,14 @@ bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
 
 void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 {
-  uint16_t broadcast_status_ = buf->buf.at(2);
-  broadcast_status_ |= (uint16_t)buf->buf.at(3) << 8;
-  if (broadcast_status_ != broadcast_status )
+  uint16_t br = buf->buf.at(2);
+  br |= (uint16_t)buf->buf.at(3) << 8;
+  if (broadcast_status != br)
   {
-    broadcast_status = broadcast_status_;
+    broadcast_status = br;
     
     std::thread t(&Hoermann_pi::pub_thread, this);
     t.detach();
-    
   }
 }
 
