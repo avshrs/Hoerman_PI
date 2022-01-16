@@ -2,6 +2,7 @@
 #include <cstdio>
 #include <unistd.h>
 #include <chrono>
+#include <string>
 #include <vector>
 
 struct TX_Buffer{
