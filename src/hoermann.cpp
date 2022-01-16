@@ -263,7 +263,7 @@ void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf.push_back(UAP1_TYPE);
     tx_buf->buf.push_back(UAP1_ADDR);
     tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 4));
-    tx_buf->timeout = 3000;
+    tx_buf->timeout = 2750;
 }
 
 void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
@@ -275,7 +275,7 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
     tx_buf->buf.push_back(0x10);
     slave_respone_data = RESPONSE_DEFAULT;
     tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 5));
-    tx_buf->timeout = 3000;
+    tx_buf->timeout = 2750;
 }
 
 
