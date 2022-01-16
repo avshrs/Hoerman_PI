@@ -13,10 +13,10 @@
 #define MAX_PAYLOAD 50
 #define DEFAULT_KEEP_ALIVE 60
 
-class mqtt_client : public mosqpp::mosquittopp
+class Mqtt_Client : public mosqpp::mosquittopp
 {
 public:
-    mqtt_client(const char *id, const char *host, int port, const char *username, const char *password);
+    Mqtt_Client(const char *id, const char *host, int port, const char *username, const char *password);
 
     Hoermann_pi *hoerpi;
     Config_manager *cfg;

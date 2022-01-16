@@ -7,7 +7,7 @@
 
 Hoermann_pi door;
 Config_manager cfg;
-mqtt_client mqtt;
+
 
 
 void th1(){
@@ -20,7 +20,7 @@ int main(){
    int rs_lead_zero = cfg.get_hoer_lead_zeros();
    int boudrate = cfg.get_hoer_boudrate();
 
-   mqtt_client mqtt(cfg.get_mqtt_ClientId().c_str(), cfg.get_mqtt_ip().c_str(), cfg.get_mqtt_port(), cfg.get_mqtt_username().c_str(), cfg.get_mqtt_password().c_str());
+   Mqtt_Client mqtt(cfg.get_mqtt_ClientId().c_str(), cfg.get_mqtt_ip().c_str(), cfg.get_mqtt_port(), cfg.get_mqtt_username().c_str(), cfg.get_mqtt_password().c_str());
 
    mqtt.register_horman(&door);
    door.register_mqtt(&mqtt);
