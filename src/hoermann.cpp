@@ -61,9 +61,9 @@ void Hoermann_pi::run_loop(void)
                             std::cout << "--------------\n";
                             print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
                             print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                            
+                            std::cout << "4-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             serial.serial_send(tx_buf);
-
+                            std::cout << "4-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             auto deltaTime2 = std::chrono::duration_cast<mi>(timer.now() - start).count();
                             std::cout << "-------"<<deltaTime2 <<"-------\n";
                             break;
