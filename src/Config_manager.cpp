@@ -34,7 +34,7 @@ void Config_manager::read_config(){
     mqtt_config.brama_set_close = config["mqtt"]["brama_set_close"].as<std::string>();
     mqtt_config.brama_set_stop = config["mqtt"]["brama_set_stop"].as<std::string>();
     mqtt_config.brama_set_venting = config["mqtt"]["brama_set_venting"].as<std::string>();
-    mqtt_config.brama_set_Light = config["mqtt"]["brama_set_Light"].as<std::string>();
+    mqtt_config.brama_toggle_Light = config["mqtt"]["brama_toggle_Light"].as<std::string>();
 
     std::cout << "Mqtt settings loaded" << std::endl;
 
