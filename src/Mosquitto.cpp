@@ -75,6 +75,10 @@ void Mqtt_Client::on_subscribe(int mid, int qos_count, const int *granted_qos){
 void Mqtt_Client::register_mcp_config(Config_manager *cfg_){
     cfg = cfg_;
 }
+ 
+void Mqtt_Client::register_horman(Hoermann_pi *hoerpi_){
+    hoerpi = hoerpi_;
+}
 
 void Mqtt_Client::pub_door_state(std::string msg){
     std::string pub = cfg->get_mqtt_Pubstring();
