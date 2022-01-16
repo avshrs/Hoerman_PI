@@ -10,6 +10,7 @@ mqtt:
     Pubstring: brama_garaz_get
 
     brama_get_open: open
+    brama_get_stopped: stopped_or_par_open
     brama_get_closed: closed
     brama_get_opening: opening
     brama_get_closing: closing

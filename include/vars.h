@@ -30,6 +30,7 @@ struct Mqtt_config{
     std::string Pubstring;
 
     std::string brama_get_open;
+    std::string brama_get_stopped;
     std::string brama_get_closed;
     std::string brama_get_opening;
     std::string brama_get_closing;

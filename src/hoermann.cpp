@@ -282,63 +282,63 @@ std::string Hoermann_pi::get_state()
 {
   if ((broadcast_status & 0x01) == 0x01)
   {
-    return states[1];
+    return cfg->get_stopped_string();
   }
   else if ((broadcast_status & 0x02) == 0x02)
   {
-    return states[2];
+    return cfg->get_open_string();
   }
   else if ((broadcast_status & 0x80) == 0x80)
   {
-    return states[3];
+    return cfg->get_closed_string();
   }
   else if ((broadcast_status & 0x60) == 0x40)
   {
-    return  states[4];
+    return  cfg->get_venting_string();
   }
   else if ((broadcast_status & 0x60) == 0x60)
   {
-    return  states[5];
+    return  cfg->get_opening_string();
   }
   else if ((broadcast_status & 0x10) == 0x10)
   {
-    return states[6];
+    return cfg->get_closing_string();
   }
   else if (broadcast_status == 0x00)
   {
-    return states[0];
+    return cfg->get_error_string();
   }
   else 
-    return states[7];
+    return cfg->get_offline_string();
  
 }
 
 
 void Hoermann_pi::set_state(std::string action)
 {
-    if(action == "stop")
+    if(action == cfg->brama_set_stop_string())
     {
-      std::cout<<"cmd stop"<<std::endl;
+      std::cout<<"Executing RESPONSE_STOP"<<std::endl;
       slave_respone_data = RESPONSE_STOP;
     }
-    else if(action == "open")
+    else if(action == cfg->brama_set_open_string())
     {
       slave_respone_data = RESPONSE_OPEN;
-      std::cout<<"cmd open"<<std::endl;
+      std::cout<<"Executing RESPONSE_OPEN"<<std::endl;
     }
-    else if(action == "close")
+    else if(action == cfg->brama_set_close_string())
     {
-      std::cout<<"cmd close"<<std::endl;
+      std::cout<<"Executing RESPONSE_CLOSE"<<std::endl;
       slave_respone_data = RESPONSE_CLOSE;
     }
-    else if(action == "venting")
+    else if(action == cfg->brama_set_venting_string())
     {
-      std::cout<<"cmd venting"<<std::endl;
+      std::cout<<"Executing RESPONSE_VENTING"<<std::endl;
       slave_respone_data = RESPONSE_VENTING;
     }
-    else if(action == "toggle_light")
+    else if(action == cfg->brama_toggle_Light_string())
     {
-      std::cout<<"cmd toggle_light"<<std::endl;
+      std::cout<<"Executing RESPONSE_TOGGLE_LIGHT"<<std::endl;
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
     }
     
@@ -367,32 +367,35 @@ uint8_t crc = CRC8_INITIAL_VALUE;
 
 void Hoermann_pi::door_open()
 {
-    set_state("open");
+    set_state(cfg->brama_set_open_string());
 }
 void Hoermann_pi::door_close()
 {
-    set_state("close");
+    set_state(cfg->brama_set_close_string());
 }
 void Hoermann_pi::door_venting()
 {
-    set_state("venting");
+    set_state(cfg->brama_set_venting_string());
 }
 void Hoermann_pi::door_toggle_light()
 {
-    set_state("toggle_light");
+    set_state(cfg->brama_toggle_Light_string());
 }
 void Hoermann_pi::door_stop()
 {
     // if (goes up press down )
     // if (goes down press up )
-    set_state("stop");
+    set_state( cfg->brama_set_stop_string());
 }
 void Hoermann_pi::door_lock()
 {
-    set_state("stop");
+    set_state(cfg->brama_set_stop_string());
 }
 
 void Hoermann_pi::register_mqtt(Mqtt_Client *mqtt_){
     mqtt = mqtt_;
 }
 
+void Hoermann_pi::register_cfg(Config_manager *cfg_){
+    cfg = cfg_;
+}

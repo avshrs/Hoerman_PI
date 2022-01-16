@@ -24,6 +24,7 @@ void Config_manager::read_config(){
     mqtt_config.Pubstring = config["mqtt"]["Pubstring"].as<std::string>();
 
     mqtt_config.brama_get_open = config["mqtt"]["brama_get_open"].as<std::string>();
+    mqtt_config.brama_get_stopped = config["mqtt"]["brama_get_stopped"].as<std::string>();
     mqtt_config.brama_get_closed = config["mqtt"]["brama_get_closed"].as<std::string>();
     mqtt_config.brama_get_opening = config["mqtt"]["brama_get_opening"].as<std::string>();
     mqtt_config.brama_get_closing = config["mqtt"]["brama_get_closing"].as<std::string>();
@@ -54,6 +55,7 @@ void Config_manager::read_config(){
     std::cout << "mqtt_config.Substring: " << mqtt_config.Substring <<std::endl;
     std::cout << "mqtt_config.Pubstring: " << mqtt_config.Pubstring <<std::endl;
     std::cout << "mqtt_config.brama_get_open: " << mqtt_config.brama_get_open <<std::endl;
+    std::cout << "mqtt_config.brama_get_stopped: " << mqtt_config.brama_get_stopped <<std::endl;
     std::cout << "mqtt_config.brama_get_closed: " << mqtt_config.brama_get_closed <<std::endl;
     std::cout << "mqtt_config.brama_get_opening: " << mqtt_config.brama_get_opening <<std::endl;
     std::cout << "mqtt_config.brama_get_closing: " << mqtt_config.brama_get_closing <<std::endl;
@@ -118,6 +120,9 @@ int Config_manager::get_hoer_lead_zeros()
 
 std::string Config_manager::get_open_string(){
     return  mqtt_config.brama_get_open;
+}
+std::string Config_manager::get_stopped_string(){
+    return  mqtt_config.brama_get_stopped;
 }
 std::string Config_manager::get_closed_string(){
     return  mqtt_config.brama_get_closed;

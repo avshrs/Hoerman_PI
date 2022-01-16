@@ -25,6 +25,7 @@ class Config_manager{
     int get_hoer_lead_zeros();
 
     std::string get_open_string();
+    std::string get_stopped_string();
     std::string get_closed_string();
     std::string get_opening_string();
     std::string get_closing_string();

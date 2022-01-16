@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include "vars.h"
+#include "Config_manager.h"
 class Mqtt_Client;
 #define BROADCAST_ADDR            0x00
 #define MASTER_ADDR               0x80
@@ -52,6 +53,7 @@ class Hoermann_pi{
     private:
         USB_serial serial;
         Mqtt_Client *mqtt;
+        Config_manager *cfg;
     private:
         const std::string actions[7] = {"stop", 
                                         "open", 
@@ -59,7 +61,7 @@ class Hoermann_pi{
                                         "venting", 
                                         "toggle_light", 
                                         "none" };
-        const std::string states[8] = {"stoped/partially open", 
+        const std::string states[8] = {"stoped / partially open", 
                                         "open", 
                                         "closed", 
                                         "venting", 
@@ -85,6 +87,7 @@ class Hoermann_pi{
         void init(const char* serial_name, int boudrate, uint8_t lead_zero);
         void run_loop(void);
         void register_mqtt(Mqtt_Client *mqtt);
+        void register_cfg(Config_manager *cfg);
         void door_open();
         void door_close();
         void door_venting();
@@ -118,3 +121,4 @@ class Hoermann_pi{
         void make_status_req_msg(RX_Buffer* buf, TX_Buffer* tx_buf);
         // TX_Buffer prepare_tx_buffer(RX_Buffer buf);
 };
+
