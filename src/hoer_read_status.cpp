@@ -6,15 +6,15 @@
 #include "Config_manager.h"
 
 Hoermann_pi door;
-Config_manager cfg;
-
-
 
 void th1(){
    door.run_loop();    
 }
 
 int main(){
+   
+   Config_manager cfg;
+
    cfg.read_config();
    std::string serial_file = cfg.get_hoer_serial_file();
    int rs_lead_zero = cfg.get_hoer_lead_zeros();
@@ -43,3 +43,4 @@ int main(){
 
 return 1;
 }
+
