@@ -23,10 +23,11 @@ void Hoermann_pi::run_loop(void)
     TX_Buffer* tx_buf;
     while (true)
     {   
-        auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - log).count();
+        
         if(std::chrono::duration_cast<mi>(timer.now() - log).count() > 1000000)
         {
             std::cout<< "LOG loop thread is wornking"<<std::endl;   
+            log = timer.now();
         }
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
