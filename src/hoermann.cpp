@@ -57,7 +57,7 @@ void Hoermann_pi::run_loop(void)
                             auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
                             if( deltaTime > (tx_buf->timeout) )
                             {   
-                                if(deltaTime < max_frame_delay)
+                                if(deltaTime > max_frame_delay)
                                 {
                                     std::cout << "SCAN RESPONCE Frame building to long "<<deltaTime <<"\n";
                                     break;
@@ -87,7 +87,7 @@ void Hoermann_pi::run_loop(void)
                             auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
                             if( deltaTime > (tx_buf->timeout))
                             {   
-                                if(deltaTime < max_frame_delay)
+                                if(deltaTime > max_frame_delay)
                                 {
                                     std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
                                     break;
