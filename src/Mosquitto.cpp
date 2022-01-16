@@ -70,7 +70,7 @@ void Mqtt_Client::on_unsubscribe(int mid){
         auto t = std::time(nullptr);
         auto tm = *std::localtime(&t);      
         std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
-        std::cout << "Subscription succeeded. " << " mid: " << mid << " qos_count: "<< qos_count << " qos_granted: "<< granted_qos << std::endl;
+        std::cout << "Subscription succeeded. " << " mid: " << mid <<  std::endl;
 }
 
 
