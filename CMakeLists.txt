@@ -12,13 +12,7 @@ set(libs
 )
 
 set(INCLUDE_HEADER_FILES "include/*.h" )
-file(GLOB mSOURCES  "src/Config_manager.cpp" 
-                    "src/hoer_read_status.cpp"
-                    "src/hoermann.cpp"
-                    "src/Mosquitto.cpp"
-                    "src/USB_serial.cpp"
-                    
-)
+file(GLOB mSOURCES  "src/*.cpp" )
                  
 
 add_executable(Hoerman_bus_at_pi "src/hoer_read_status.cpp" ${mSOURCES})
