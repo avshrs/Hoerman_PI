@@ -137,7 +137,7 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
     {
         if(buf->buf.at(0) == BROADCAST_ADDR && calc_crc8(buf->buf.data(), 4) == buf->buf.at(4))
         {   
-            print_buffer(buf->buf.data(), buf->buf.size());
+            // print_buffer(buf->buf.data(), buf->buf.size());
             return true;
         }
         else
