@@ -251,7 +251,7 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
 }
 void Hoermann_pi::pub_thread()
 {
-    std::string state = get_state();
+    std::string msg = get_state();
     mqtt->pub_door_state(msg);
 }
 
