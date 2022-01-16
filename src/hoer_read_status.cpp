@@ -9,7 +9,7 @@
 
 
 
-void th1(){
+void th1(Hoermann_pi *door){
    door->run_loop();    
 }
 void th2(Mqtt_Client *mqtt){
