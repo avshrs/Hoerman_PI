@@ -87,7 +87,7 @@ void USB_serial::send_brake()
     
     write(fd, buf, 1);
 		
-		// tcdrain( fd );
+		tcdrain( fd );
     
     newtermios.c_cflag |= CS8;
     cfsetispeed(&newtermios,B19200);
@@ -97,23 +97,15 @@ void USB_serial::send_brake()
 }
 
 void USB_serial::serial_send(TX_Buffer* tx_buffer)
-{ 
-  std::cout<< "out: start"<<std::endl;
-  
-  
+{ 	
   send_brake();
-  std::cout<< "out: after break"<<std::endl;
 	write(fd, tx_buffer->buf.data(), tx_buffer->buf.size());
-  std::cout<< "out: end after write "<<std::endl;
 }
 
 void USB_serial::serial_read(RX_Buffer* rx_buffer)
 {	
-  std::cout<< "in: start"<<std::endl;
 	uint8_t buf[20] = {0};
-  
   int s = read(fd, buf, sizeof(buf));
-  std::cout<< "in: after read"<<std::endl;
   if(s>3)
   {
       for(int i=0+lead_z; i < s; i++)
@@ -121,7 +113,6 @@ void USB_serial::serial_read(RX_Buffer* rx_buffer)
         rx_buffer->buf.push_back(buf[i]);
       }
   } 
-  std::cout<< "in: end"<<std::endl;
 }
 
 void USB_serial::serial_close()

@@ -27,7 +27,6 @@ void Hoermann_pi::run_loop(void)
         try
         {
             serial.serial_read(rx_buf);
-            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
         }
         catch (...)
         {
@@ -67,6 +66,10 @@ void Hoermann_pi::run_loop(void)
                                 // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                                 
                                 // std::cout << "-------"<<deltaTime2 <<"-------\n";
+                                break;
+                            }
+                            else
+                            {
                                 break;
                             }
                             usleep(10);
