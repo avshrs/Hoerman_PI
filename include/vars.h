@@ -35,7 +35,7 @@ struct Mqtt_config{
     std::string brama_get_venting;
     std::string brama_get_error;
     std::string brama_get_offline;
-    std::string brama_get_open;
+    std::string brama_set_open;
     std::string brama_set_close;
     std::string brama_set_stop;
     std::string brama_set_venting;
