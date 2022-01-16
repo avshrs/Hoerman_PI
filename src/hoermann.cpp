@@ -18,10 +18,16 @@ void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 void Hoermann_pi::run_loop(void)
 {   
     auto start = timer.now();
+    auto log = timer.now();
     RX_Buffer* rx_buf;
     TX_Buffer* tx_buf;
     while (true)
     {   
+        auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - log).count();
+        if(std::chrono::duration_cast<mi>(timer.now() - log).count() > 1000000)
+        {
+            std::cout<< "LOG loop thread is wornking"<<std::endl;   
+        }
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
         try
@@ -396,3 +402,4 @@ void Hoermann_pi::door_lock()
 void Hoermann_pi::register_mqtt(Mqtt_Client *mqtt_){
     mqtt = mqtt_;
 }
+
