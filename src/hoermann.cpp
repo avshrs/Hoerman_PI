@@ -59,6 +59,7 @@ void Hoermann_pi::run_loop(void)
                             {   
                                 if(deltaTime < max_frame_delay)
                                 {
+                                    std::cout << "SCAN RESPONCE Frame building to long "<<deltaTime <<"\n";
                                     break;
                                 }
                                 std::cout << "--------------\n";
@@ -88,6 +89,7 @@ void Hoermann_pi::run_loop(void)
                             {   
                                 if(deltaTime < max_frame_delay)
                                 {
+                                    std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
                                     break;
                                 }
                                 std::cout << "--------------\n";
