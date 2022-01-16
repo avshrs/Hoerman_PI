@@ -43,7 +43,7 @@ void Config_manager::read_config(){
     h_config.remove_lead_zero = config["hoermann"]["remove_lead_zero"].as<int>();
 
     
-    std::cout << "Loaded config:\n"
+    std::cout << "Loaded config:\n";
     std::cout << "mqtt_config.ClientId: " << qtt_config.ClientId <<std::endl;
     std::cout << "mqtt_config.ServerIp: " << qtt_config.ServerIp <<std::endl;
     std::cout << "mqtt_config.username: " << qtt_config.username <<std::endl;
