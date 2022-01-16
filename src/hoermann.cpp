@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <algorithm>    // std::fill
 #include "Mosquitto.h"
+#include <thread>
 
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
@@ -243,6 +244,7 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
   {
     broadcast_status = broadcast_status_;
     std::string state = get_state();
+    
     mqtt->pub_door_state(state);
   }
 }
