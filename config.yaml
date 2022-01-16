@@ -1,6 +1,3 @@
-config: 1
-input_len: 65
-output_len: 64
 mqtt:
     ClientId: BramaGaraz
     ServerIp: 192.168.1.111
@@ -28,5 +25,5 @@ mqtt:
 
 hoermann:
     boudrate: 19200
-    serial_file: /dev/ttyUSB2
-    remove_lead_zero: 1
+    serial_file: /dev/ttyUSB1
+    remove_lead_zero: 0
