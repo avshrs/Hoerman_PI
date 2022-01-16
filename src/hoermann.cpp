@@ -55,7 +55,7 @@ void Hoermann_pi::run_loop(void)
                         {
                             auto check = timer.now();
                             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-                            if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
+                            if( deltaTime > (tx_buf->timeout) )
                             {   
                                 std::cout << "--------------\n";
                                 print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
@@ -82,7 +82,7 @@ void Hoermann_pi::run_loop(void)
                         {
                             auto check = timer.now();
                             auto deltaTime = std::chrono::duration_cast<mi>(check - start).count();
-                            if( deltaTime > (tx_buf->timeout) && deltaTime < max_frame_delay)
+                            if( deltaTime > (tx_buf->timeout))
                             {   
                                 // std::cout << "--------------\n";
                                 // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
