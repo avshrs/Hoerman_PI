@@ -92,15 +92,15 @@ void Hoermann_pi::run_loop(void)
                                     std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
                                     break;
                                 }
-                                std::cout << "--------------\n";
-                                print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                                print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
-                                std::cout << "--------------\n\n";
+                                // std::cout << "--------------\n";
+                                // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+                                // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                                // std::cout << "--------------\n\n";
                                 serial.serial_send(tx_buf);
-                                auto check2 = timer.now();
-                                auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
+                                // auto check2 = timer.now();
+                                // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
                                 
-                                std::cout << "-------"<<deltaTime2 <<"-------\n";
+                                // std::cout << "-------"<<deltaTime2 <<"-------\n";
                                 break;
                             }
 
