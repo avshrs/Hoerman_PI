@@ -87,39 +87,39 @@ int Config_manager::get_hoer_lead_zeros()
 }
 
 
-std::string Config_manager::get_string_open(){
+std::string Config_manager::get_open_string(){
     return  mqtt_config.brama_get_open;
 }
-std::string Config_manager::get_string_closed(){
+std::string Config_manager::get_closed_string(){
     return  mqtt_config.brama_get_closed;
 }
-std::string Config_manager::get_string_opening(){
+std::string Config_manager::get_opening_string(){
     return  mqtt_config.brama_get_opening;
 }
-std::string Config_manager::get_string_closing(){
+std::string Config_manager::get_closing_string(){
     return  mqtt_config.brama_get_closing;
 }
-std::string Config_manager::get_string_venting(){
+std::string Config_manager::get_venting_string(){
     return  mqtt_config.brama_get_venting;
 }
-std::string Config_manager::get_string_error(){
+std::string Config_manager::get_error_string(){
     return  mqtt_config.brama_get_error;
 }
-std::string Config_manager::brama_set_offline(){
+std::string Config_manager::get_offline_string(){
     return  mqtt_config.brama_get_offline;
 }
-std::string Config_manager::get_string_open(){
+std::string Config_manager::brama_set_open_string(){
     return  mqtt_config.brama_set_open;
 }
-std::string Config_manager::brama_set_close(){
+std::string Config_manager::brama_set_close_string(){
     return  mqtt_config.brama_set_close;
 }
-std::string Config_manager::brama_set_stop(){
+std::string Config_manager::brama_set_stop_string(){
     return  mqtt_config.brama_set_stop;
 }
-std::string Config_manager::brama_set_venting(){
+std::string Config_manager::brama_set_venting_string(){
     return  mqtt_config.brama_set_venting;
 }
-std::string Config_manager::brama_toggle_Light(){
+std::string Config_manager::brama_toggle_Light_string(){
     return  mqtt_config.brama_toggle_Light;
 }

@@ -24,16 +24,16 @@ class Config_manager{
     int get_hoer_boudrate();
     int get_hoer_lead_zeros();
 
-    std::string get_string_open();
-    std::string get_string_closed();
-    std::string get_string_opening();
-    std::string get_string_closing();
-    std::string get_string_venting();
-    std::string get_string_error();
-    std::string get_string_offline();
-    std::string brama_set_open();
-    std::string brama_set_close();
-    std::string brama_set_stop();
-    std::string brama_set_venting();
-    std::string brama_toggle_Light();
+    std::string get_open_string();
+    std::string get_closed_string();
+    std::string get_opening_string();
+    std::string get_closing_string();
+    std::string get_venting_string();
+    std::string get_error_string();
+    std::string get_offline_string();
+    std::string brama_set_open_string();
+    std::string brama_set_close_string();
+    std::string brama_set_stop_string();
+    std::string brama_set_venting_string();
+    std::string brama_toggle_Light_string();
 };
