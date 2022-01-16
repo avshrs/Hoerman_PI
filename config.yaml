@@ -18,7 +18,7 @@ mqtt:
     brama_get_error: error
     brama_get_offline: offline
     
-    
+
     brama_set_open: OPEN
     brama_set_close: CLOSE
     brama_set_stop: STOP
@@ -27,5 +27,5 @@ mqtt:
 
 hoermann:
     boudrate: 19200
-    serial_file: /dev/ttyUSB1
-    remove_lead_zero: 0
+    serial_file: /dev/ttyUSB2
+    remove_lead_zero: 1
