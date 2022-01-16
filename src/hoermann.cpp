@@ -244,11 +244,25 @@ void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
   {
     broadcast_status = broadcast_status_;
     
-    std::thread t(this, pub_thread);
+    std::thread t(Hoermann_pi::pub_thread, this);
     t.detach();
     
   }
 }
+
+// class bar {
+// public:
+//   void foo() {
+//     std::cout << "hello from member function" << std::endl;
+//   }
+// };
+
+// int main()
+// {
+//   std::thread t(&bar::foo, bar());
+//   t.join();
+// }
+
 void Hoermann_pi::pub_thread()
 {
     std::string msg = get_state();
