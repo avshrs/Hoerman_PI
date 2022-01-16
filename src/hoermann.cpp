@@ -27,7 +27,7 @@ void Hoermann_pi::run_loop(void)
         try
         {
             serial.serial_read(rx_buf);
-            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
+            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
         }
         catch (...)
         {
