@@ -26,10 +26,17 @@ void Hoermann_pi::run_loop(void)
 
         rx_buf = new RX_Buffer;
         tx_buf = new TX_Buffer;
-        
-        serial.serial_read(rx_buf);
+        try
+        {
+            serial.serial_read(rx_buf);
+        }
+        catch (...)
+        {
+            std::cout<< "ERROR while parsing frame"<<std::endl;   
+        }
         start = timer.now();
-        try{
+        try
+        {
             if(is_frame_corect(rx_buf))
             {     
                 // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
