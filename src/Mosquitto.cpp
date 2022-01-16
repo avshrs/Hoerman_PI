@@ -23,15 +23,17 @@ void Mqtt_Client::client_loop_forever(){
 
 void Mqtt_Client::register_subs()
 {
+    std::cout<<"register_subs1"<<std::endl;
     std::string sub = cfg->get_mqtt_Substring();
-
+    std::cout<<"register_subs2"<<std::endl;
     subscribe(NULL, sub.c_str());
 }
 
 void Mqtt_Client::unregister_subs()
 {
-
+    std::cout<<"unregister_subs1"<<std::endl;
     std::string sub = cfg->get_mqtt_Substring();
+    std::cout<<"unregister_subs2"<<std::endl;
     unsubscribe(NULL, sub.c_str());
 }
 
