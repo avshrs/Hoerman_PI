@@ -91,26 +91,31 @@ void Mqtt_Client::on_message(const struct mosquitto_message *message){
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
         std::string substring = cfg->get_mqtt_Substring();
-
+        std::cout <<"get instruction: " << message_payload << std::endl;
         if(!message_payload.empty() && message_topic == substring){
             if(message_payload == cfg->brama_set_open_string())
             {
+                std::cout <<"door_open: " << message_payload << std::endl;
                 hoerpi->door_open();
             }
             if(message_payload == cfg->brama_set_close_string())
             {
+                std::cout <<"door_close: " << message_payload << std::endl;
                 hoerpi->door_close();
             }
             if(message_payload == cfg->brama_set_stop_string())
-            {
+            {   
+                std::cout <<"door_stop: " << message_payload << std::endl;
                 hoerpi->door_stop();
             }
             if(message_payload == cfg->brama_set_venting_string())
-            {
+            {   
+                std::cout <<"door_venting: " << message_payload << std::endl;
                 hoerpi->door_venting();
             }
             if(message_payload == cfg->brama_toggle_Light_string())
             {
+                std::cout <<"door_toggle_light: " << message_payload << std::endl;
                 hoerpi->door_toggle_light();
             }
             if(message_payload == "LOCK")
