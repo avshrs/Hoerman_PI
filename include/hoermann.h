@@ -84,7 +84,7 @@ class Hoermann_pi{
     public:
         void init(const char* serial_name, int boudrate, uint8_t lead_zero);
         void run_loop(void);
-        void register_mqtt(mqtt_client *mqtt);
+        void register_mqtt(Mqtt_Client *mqtt);
         void door_open();
         void door_close();
         void door_venting();
