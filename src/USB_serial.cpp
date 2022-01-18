@@ -96,21 +96,21 @@ void USB_serial::send_brake()
     usleep(100);
 }
 
-void USB_serial::serial_send(TX_Buffer* tx_buffer)
+void USB_serial::serial_send(TX_Buffer& tx_buffer)
 { 	
-  send_brake();
-	write(fd, tx_buffer->buf.data(), tx_buffer->buf.size());
+     send_brake();
+     write(fd, tx_buffer.buf.data(), tx_buffer.buf.size());
 }
 
-void USB_serial::serial_read(RX_Buffer* rx_buffer)
+void USB_serial::serial_read(RX_Buffer& rx_buffer)
 {	
-	uint8_t buf[20] = {0};
+  uint8_t buf[20] = {0};
   int s = read(fd, buf, sizeof(buf));
   if(s>3)
   {
       for(int i=0+lead_z; i < s; i++)
       {
-        rx_buffer->buf.push_back(buf[i]);
+        rx_buffer.buf.push_back(buf[i]);
       }
   } 
 }
