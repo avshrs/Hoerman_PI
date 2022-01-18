@@ -19,12 +19,12 @@ void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 void Hoermann_pi::run_loop(void)
 {   
     auto start = timer.now();
-    RX_Buffer* rx_buf;
-    TX_Buffer* tx_buf;
+    RX_Buffer rx_buf;
+    TX_Buffer tx_buf;
     while (true)
-    {   
-        rx_buf = new RX_Buffer;
-        tx_buf = new TX_Buffer;
+    { 
+        rx_buf.buf.clear();
+        tx_buf.buf.clear();
         serial.serial_read(rx_buf);
 
         start = timer.now();
@@ -48,7 +48,7 @@ void Hoermann_pi::run_loop(void)
                     {
                         
                         auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                        if( deltaTime > (tx_buf->timeout) )
+                        if( deltaTime > (tx_buf.timeout) )
                         {   
                             if(deltaTime > max_frame_delay)
                             {
@@ -56,8 +56,8 @@ void Hoermann_pi::run_loop(void)
                                 break;
                             }
                             std::cout << "--------------\n";
-                            print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                            print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
+                            print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             
                             serial.serial_send(tx_buf);
 
@@ -78,7 +78,7 @@ void Hoermann_pi::run_loop(void)
                     {
                         
                         auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                        if( deltaTime > (tx_buf->timeout))
+                        if( deltaTime > (tx_buf.timeout))
                         {   
                             if(deltaTime > max_frame_delay)
                             {
@@ -86,8 +86,8 @@ void Hoermann_pi::run_loop(void)
                                 break;
                             }
                             // std::cout << "--------------\n";
-                            // print_buffer(rx_buf->buf.data(),rx_buf->buf.size());
-                            // print_buffer(tx_buf->buf.data(),tx_buf->buf.size());
+                            // print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
+                            // print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             // std::cout << "--------------\n\n";
                             serial.serial_send(tx_buf);
                             // auto check2 = timer.now();
@@ -104,40 +104,39 @@ void Hoermann_pi::run_loop(void)
                 }
             }
         }
-        delete rx_buf;
-        delete tx_buf;
+
     } 
 }       
 
 
-uint8_t Hoermann_pi::get_length(RX_Buffer* buf)
+uint8_t Hoermann_pi::get_length(RX_Buffer &buf)
 {   
-    if(buf->buf.size() > 2)
+    if(buf.buf.size() > 2)
     {
-        return buf->buf.at(1) & 0x0F;
+        return buf.buf.at(1) & 0x0F;
     }
     else
         return 0x00;
 }
 
-uint8_t Hoermann_pi::get_counter(RX_Buffer* buf)
+uint8_t Hoermann_pi::get_counter(RX_Buffer &buf)
 {
-    if(buf->buf.size() > 2)
+    if(buf.buf.size() > 2)
     {
-        return (buf->buf.at(1) & 0xF0) + 0x10;
+        return (buf.buf.at(1) & 0xF0) + 0x10;
     }
     else
         return 0x00;
 
 }
 
-bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
+bool Hoermann_pi::is_broadcast(RX_Buffer &buf)
 {   
-    if(buf->buf.size() == 5)
+    if(buf.buf.size() == 5)
     {
-        if(buf->buf.at(0) == BROADCAST_ADDR && calc_crc8(buf->buf.data(), 4) == buf->buf.at(4))
+        if(buf.buf.at(0) == BROADCAST_ADDR && calc_crc8(buf.buf.data(), 4) == buf.buf.at(4))
         {   
-            // print_buffer(buf->buf.data(), buf->buf.size());
+            // print_buffer(buf.buf.data(), buf.buf.size());
             return true;
         }
         else
@@ -149,11 +148,11 @@ bool Hoermann_pi::is_broadcast(RX_Buffer* buf)
     }
 }
 
-bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
+bool Hoermann_pi::is_slave_query(RX_Buffer &buf)
 {   
-    if(buf->buf.size() > 3 && buf->buf.size() < 6 )
+    if(buf.buf.size() > 3 && buf.buf.size() < 6 )
     {
-        if(buf->buf.at(0) == UAP1_ADDR)
+        if(buf.buf.at(0) == UAP1_ADDR)
             return true;
         else
             return false;
@@ -163,11 +162,11 @@ bool Hoermann_pi::is_slave_query(RX_Buffer* buf)
        return false; 
     }
 }
-bool Hoermann_pi::is_frame_corect(RX_Buffer* buf)
+bool Hoermann_pi::is_frame_corect(RX_Buffer &buf)
 {   
-    if(buf->buf.size() > 3 && buf->buf.size() < 6)
+    if(buf.buf.size() > 3 && buf.buf.size() < 6)
     {
-        if(calc_crc8(buf->buf.data(), buf->buf.size()-1) == buf->buf.at(buf->buf.size()-1) )
+        if(calc_crc8(buf.buf.data(), buf.buf.size()-1) == buf.buf.at(buf.buf.size()-1) )
             return true; 
         else 
             return false;
@@ -178,11 +177,11 @@ bool Hoermann_pi::is_frame_corect(RX_Buffer* buf)
     }
 }
 
-bool Hoermann_pi::is_slave_scan(RX_Buffer* buf)
+bool Hoermann_pi::is_slave_scan(RX_Buffer &buf)
 {
-    if(buf->buf.size() == 5)
+    if(buf.buf.size() == 5)
     {
-        if(is_broadcast_lengh_correct(buf) && (buf->buf.at(2) == CMD_SLAVE_SCAN))
+        if(is_broadcast_lengh_correct(buf) && (buf.buf.at(2) == CMD_SLAVE_SCAN))
             return true;
         else
             return false;
@@ -193,11 +192,11 @@ bool Hoermann_pi::is_slave_scan(RX_Buffer* buf)
     }
 }
 
-bool Hoermann_pi::is_slave_status_req(RX_Buffer* buf)
+bool Hoermann_pi::is_slave_status_req(RX_Buffer &buf)
 {
-    if(buf->buf.size() == 4)
+    if(buf.buf.size() == 4)
     {    
-    if(is_req_lengh_correct(buf) && (buf->buf.at(2) == CMD_SLAVE_STATUS_REQUEST))
+    if(is_req_lengh_correct(buf) && (buf.buf.at(2) == CMD_SLAVE_STATUS_REQUEST))
         return true;
     else
         return false;
@@ -208,7 +207,7 @@ bool Hoermann_pi::is_slave_status_req(RX_Buffer* buf)
     }
 }
 
-bool Hoermann_pi::is_broadcast_lengh_correct(RX_Buffer *buf)
+bool Hoermann_pi::is_broadcast_lengh_correct(RX_Buffer &buf)
 {
     if(get_length(buf) == broadcast_lengh)
         return true;
@@ -216,7 +215,7 @@ bool Hoermann_pi::is_broadcast_lengh_correct(RX_Buffer *buf)
         return false;
 }
 
-bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
+bool Hoermann_pi::is_req_lengh_correct(RX_Buffer &buf)
 {
     if(get_length(buf) == reguest_lengh)
         return true;
@@ -224,12 +223,12 @@ bool Hoermann_pi::is_req_lengh_correct(RX_Buffer *buf)
         return false;
 }
 
-void Hoermann_pi::update_broadcast_status(RX_Buffer *buf)
+void Hoermann_pi::update_broadcast_status(RX_Buffer &buf)
 {
-//   uint16_t br = buf->buf.at(2);
-//   br |= (uint16_t)buf->buf.at(3) << 8;
+//   uint16_t br = buf.buf.at(2);
+//   br |= (uint16_t)buf.buf.at(3) << 8;
   
-  uint8_t br = buf->buf.at(2);
+  uint8_t br = buf.buf.at(2);
   if (static_cast<uint8_t>(broadcast_status) != br)
   {
     broadcast_status = static_cast<uint16_t>(br);
@@ -267,35 +266,35 @@ uint8_t Hoermann_pi::get_master_address()
     return master_address;
 }
 
-void Hoermann_pi::make_scan_responce_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
+void Hoermann_pi::make_scan_responce_msg(RX_Buffer &rx_buf, TX_Buffer &tx_buf)
 {
-    tx_buf->buf.push_back(get_master_address());
-    tx_buf->buf.push_back(0x02 | get_counter(rx_buf));
-    tx_buf->buf.push_back(UAP1_TYPE);
-    tx_buf->buf.push_back(UAP1_ADDR);
-    tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 4));
-    tx_buf->timeout = 2000;
+    tx_buf.buf.push_back(get_master_address());
+    tx_buf.buf.push_back(0x02 | get_counter(rx_buf));
+    tx_buf.buf.push_back(UAP1_TYPE);
+    tx_buf.buf.push_back(UAP1_ADDR);
+    tx_buf.buf.push_back(calc_crc8(tx_buf.buf.data(), 4));
+    tx_buf.timeout = 2000;
 }
 
-void Hoermann_pi::make_status_req_msg(RX_Buffer* rx_buf, TX_Buffer* tx_buf)
+void Hoermann_pi::make_status_req_msg(RX_Buffer &rx_buf, TX_Buffer &tx_buf)
 {
-    tx_buf->buf.push_back(get_master_address());
-    tx_buf->buf.push_back(0x03 | get_counter(rx_buf));
+    tx_buf.buf.push_back(get_master_address());
+    tx_buf.buf.push_back(0x03 | get_counter(rx_buf));
 
-    tx_buf->buf.push_back(CMD_SLAVE_STATUS_RESPONSE);
+    tx_buf.buf.push_back(CMD_SLAVE_STATUS_RESPONSE);
     if(slave_respone_data == RESPONSE_STOP)
     {
-        tx_buf->buf.push_back(0x00);
-        tx_buf->buf.push_back(0x00);
+        tx_buf.buf.push_back(0x00);
+        tx_buf.buf.push_back(0x00);
     }
     else 
     {
-        tx_buf->buf.push_back(static_cast<uint8_t>(slave_respone_data));
-        tx_buf->buf.push_back(0x10);   
+        tx_buf.buf.push_back(static_cast<uint8_t>(slave_respone_data));
+        tx_buf.buf.push_back(0x10);   
     }
     slave_respone_data = RESPONSE_DEFAULT;
-    tx_buf->buf.push_back(calc_crc8(tx_buf->buf.data(), 5));
-    tx_buf->timeout = 2000;
+    tx_buf.buf.push_back(calc_crc8(tx_buf.buf.data(), 5));
+    tx_buf.timeout = 2000;
 }
 
 
