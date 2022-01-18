@@ -30,8 +30,6 @@ void Hoermann_pi::run_loop(void)
         start = timer.now();
         if(is_frame_corect(rx_buf))
         {     
-            
-
             if(is_broadcast(rx_buf))
             {
                 if(is_broadcast_lengh_correct(rx_buf))
@@ -39,6 +37,7 @@ void Hoermann_pi::run_loop(void)
                         update_broadcast_status(rx_buf);
                     }
             }
+
             else if(is_slave_query(rx_buf))
             {   
                 if(is_slave_scan(rx_buf))
@@ -46,13 +45,12 @@ void Hoermann_pi::run_loop(void)
                     make_scan_responce_msg(rx_buf, tx_buf);
                     while(true)
                     {
-                        
                         auto deltaTime = std::chrono::duration_cast<mi>(timer.now() - start).count();
                         if( deltaTime > (tx_buf.timeout) )
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                std::cout << "SCAN RESPONCE Frame building to long "<<deltaTime <<"\n";
+                                std::cout << "SCAN RESPONCE Frame build takes to long "<<deltaTime <<"\n";
                                 break;
                             }
                             std::cout << "--------------\n";
