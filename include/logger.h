@@ -4,39 +4,28 @@
 #include <sstream>
 #include <fstream>
 
-class ToolLogger
+class Logger
 {
   public:
-
-    // standard operator<< //
+    static Logger& get();
+    
+    void flush();
+    
     template<typename T>
-    ToolLogger& operator<< (const T& str)
+    Logger& operator<< (const T& str)
     {
         out << str;
         return *this;
     }
 
-    // operator<< for taking the std::endl manipulator //
-    typedef std::basic_ostream<char, std::char_traits<char> > CoutType;
-    typedef CoutType& (*StandardEndLine)(CoutType&);
-    ToolLogger& operator<<(StandardEndLine manip)
-    {
-        // save fileName, line and function to the file //
-        // and all what is already in stringstream //
-        // clear stringstream //
-        return *this;
-    }
-
-    static std::string fileName;
-    static int line;
-    static std::string function;
+    
 
   private:
+    void save();
 
-    std::ofstream file;
-    std::stringstream out;
+  private:
+    const std::string fileName = "Hoermann.log";
+    static Logger* instance;
+    std::ostringstream out;
+
 };
-
-std::string ToolLogger::fileName;
-int ToolLogger::line;
-std::string ToolLogger::function;
