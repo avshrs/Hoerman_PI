@@ -6,12 +6,14 @@
 #include <vector>
 
 struct TX_Buffer{
-    TX_Buffer(): buf.reserve(16){};
+    
     std::vector<uint8_t> buf;
     int timeout = 0;
+    TX_Buffer(){buf.reserve(16);}
+
 };
 struct RX_Buffer{
-    RX_Buffer(): buf.reserve(16){};
+    RX_Buffer(){buf.reserve(16);}
     std::vector<uint8_t> buf;
 };
 
