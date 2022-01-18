@@ -8,7 +8,7 @@
 #include <algorithm>    // std::fill
 #include "Mosquitto.h"
 #include <thread>
-
+#include "logger.h"
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
@@ -50,7 +50,8 @@ void Hoermann_pi::run_loop(void)
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                std::cout << "SCAN RESPONCE Frame build takes to long "<<deltaTime <<"\n";
+                                Logger::get() << "Send time excited\n";
+                                Logger::get().flush();
                                 break;
                             }
                             std::cout << "--------------\n";
