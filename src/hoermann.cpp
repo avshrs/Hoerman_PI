@@ -26,7 +26,8 @@ void Hoermann_pi::run_loop(void)
         rx_buf.buf.clear();
         tx_buf.buf.clear();
         serial.serial_read(rx_buf);
-
+Logger::get() << "Send time excited\n";
+                                Logger::get().flush();
         start = timer.now();
         if(is_frame_corect(rx_buf))
         {     
