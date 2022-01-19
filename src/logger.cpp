@@ -1,4 +1,5 @@
 #include "logger.h"
+Logger* Logger::instance = nullptr; // or NULL, or nullptr in c++11
 
 Logger& Logger::get()
 {
