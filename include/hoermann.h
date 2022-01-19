@@ -54,6 +54,7 @@ class Hoermann_pi{
         USB_serial serial;
         Mqtt_Client *mqtt;
         Config_manager *cfg;
+
     private:
 
         std::chrono::high_resolution_clock timer;
@@ -80,7 +81,7 @@ class Hoermann_pi{
         void door_venting();
         void door_toggle_light();
         void door_stop();
-        void door_lock();
+        // void door_lock();
         std::string get_state();
         void set_state(std::string action);
 

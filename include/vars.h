@@ -21,6 +21,20 @@ struct Hoermann_cfg{
     std::string serial_file;
     int boudrate;
     int remove_lead_zero;
+    
+    std::string get_open;
+    std::string get_stopped;
+    std::string get_closed;
+    std::string get_opening;
+    std::string get_closing;
+    std::string get_venting;
+    std::string get_error;
+    std::string get_offline;
+    std::string set_open;
+    std::string set_close;
+    std::string set_stop;
+    std::string set_venting;
+    std::string toggle_Light;
 };
 struct Mqtt_config{
     std::string ClientId;
@@ -33,17 +47,5 @@ struct Mqtt_config{
     std::string Substring;
     std::string Pubstring;
 
-    std::string brama_get_open;
-    std::string brama_get_stopped;
-    std::string brama_get_closed;
-    std::string brama_get_opening;
-    std::string brama_get_closing;
-    std::string brama_get_venting;
-    std::string brama_get_error;
-    std::string brama_get_offline;
-    std::string brama_set_open;
-    std::string brama_set_close;
-    std::string brama_set_stop;
-    std::string brama_set_venting;
-    std::string brama_toggle_Light;
+
 };

@@ -299,15 +299,15 @@ void Hoermann_pi::make_status_req_msg(RX_Buffer &rx_buf, TX_Buffer &tx_buf)
 
 std::string Hoermann_pi::get_state()
 {
-  if ((broadcast_status) == 0)
+  if ((broadcast_status) == 0x00)
   {
     return cfg->get_venting_string();
   }
-  else if ((broadcast_status) == 2)
+  else if ((broadcast_status) == 0x02)
   {
     return cfg->get_closed_string();
   }
-  else if ((broadcast_status) == 1)
+  else if ((broadcast_status) == 0x01)
   {
     return cfg->get_open_string();
   }
@@ -352,27 +352,27 @@ std::string Hoermann_pi::get_state()
 
 void Hoermann_pi::set_state(std::string action)
 {
-    if(action == cfg->brama_set_stop_string())
+    if(action == cfg->set_stop_string())
     {
       std::cout<<"Executing RESPONSE_STOP"<<std::endl;
       slave_respone_data = RESPONSE_STOP;
     }
-    else if(action == cfg->brama_set_open_string())
+    else if(action == cfg->set_open_string())
     {
       slave_respone_data = RESPONSE_OPEN;
       std::cout<<"Executing RESPONSE_OPEN"<<std::endl;
     }
-    else if(action == cfg->brama_set_close_string())
+    else if(action == cfg->set_close_string())
     {
       std::cout<<"Executing RESPONSE_CLOSE"<<std::endl;
       slave_respone_data = RESPONSE_CLOSE;
     }
-    else if(action == cfg->brama_set_venting_string())
+    else if(action == cfg->set_venting_string())
     {
       std::cout<<"Executing RESPONSE_VENTING"<<std::endl;
       slave_respone_data = RESPONSE_VENTING;
     }
-    else if(action == cfg->brama_toggle_Light_string())
+    else if(action == cfg->toggle_Light_string())
     {
       std::cout<<"Executing RESPONSE_TOGGLE_LIGHT"<<std::endl;
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
@@ -403,29 +403,27 @@ uint8_t crc = CRC8_INITIAL_VALUE;
 
 void Hoermann_pi::door_open()
 {
-    set_state(cfg->brama_set_open_string());
+    set_state(cfg->set_open_string());
 }
+
 void Hoermann_pi::door_close()
 {
-    set_state(cfg->brama_set_close_string());
+    set_state(cfg->set_close_string());
 }
+
 void Hoermann_pi::door_venting()
 {
-    set_state(cfg->brama_set_venting_string());
+    set_state(cfg->set_venting_string());
 }
+
 void Hoermann_pi::door_toggle_light()
 {
-    set_state(cfg->brama_toggle_Light_string());
+    set_state(cfg->toggle_Light_string());
 }
+
 void Hoermann_pi::door_stop()
 {
-    // if (goes up press down )
-    // if (goes down press up )
-    set_state( cfg->brama_set_stop_string());
-}
-void Hoermann_pi::door_lock()
-{
-    set_state(cfg->brama_set_stop_string());
+    set_state( cfg->set_stop_string());
 }
 
 void Hoermann_pi::register_mqtt(Mqtt_Client *mqtt_){
