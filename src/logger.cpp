@@ -2,9 +2,9 @@
 
 Logger& Logger::get()
 {
-    if(!instance)
-        instance = new Logger();
-    return *instance;
+    if(!Logger::instance)
+        Logger::instance = new Logger();
+    return *Logger::instance;
 }
 
 void Logger::flush()
