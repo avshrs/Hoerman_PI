@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <iomanip>
+#include <ctime>
 
 std::string date(){
     auto t = std::time(nullptr);
