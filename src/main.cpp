@@ -26,24 +26,29 @@ void th2(Mqtt_Client *mqtt){
 
 int main(){
    Config_manager cfg;
+   Hoermann_pi door;
+
+    //  read config from config.yaml
    cfg.read_config();
 
-   Hoermann_pi door;
-   std::string serial_file = cfg.get_hoer_serial_file();
-   int rs_lead_zero = cfg.get_hoer_lead_zeros();
-   int boudrate = cfg.get_hoer_boudrate();
-
+    // run mqtt client
    Mqtt_Client mqtt(cfg.get_mqtt_ClientId().c_str(), cfg.get_mqtt_ip().c_str(), cfg.get_mqtt_port(), cfg.get_mqtt_username().c_str(), cfg.get_mqtt_password().c_str());
+
    door.register_mqtt(&mqtt);
    door.register_cfg(&cfg);
-   mqtt.register_horman(&door);
-   mqtt.register_mcp_config(&cfg);
-   sleep(1);
 
-   door.init(serial_file.c_str(), boudrate, rs_lead_zero);
+   std::string serial_file_name = cfg.get_hoer_serial_file();
+   int rs_lead_zero = cfg.get_hoer_lead_zeros();
+   int boudrate = cfg.get_hoer_boudrate();
+   door.init(serial_file_name.c_str(), boudrate, rs_lead_zero);
+
+   mqtt.register_horman(&door);
+   mqtt.register_config(&cfg);
+
+   sleep(1);
    
-   std::thread t3(th1, &door);
-   std::thread t2(th2, &mqtt);
+   std::thread Hoermann_door_service(th1, &door);
+   std::thread Mqtt_service(th2, &mqtt);
 
    std::string kmsg = cfg.get_mqtt_keepAliveMsg();
    std::string ktop = cfg.get_mqtt_keepAliveTopic();
@@ -57,8 +62,6 @@ int main(){
         mqtt.publish(NULL, pub.c_str(), door_state.length(), door_state.c_str());
         sleep(60);
    }
-        
-    
 
 return 1;
 }

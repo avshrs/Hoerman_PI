@@ -24,7 +24,7 @@ public:
     void pub_door_state(std::string msg);
     void pub_in_state(int out, bool sate);
     void register_horman(Hoermann_pi *hoerpi_);
-    void register_mcp_config(Config_manager* cfg_);
+    void register_config(Config_manager* cfg_);
     void client_loop_forever();
     void register_subs();
     void unregister_subs();
