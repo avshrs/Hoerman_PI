@@ -15,7 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        if(str == std::endl)
+        if(str == "endl")
           save();
         return *this;
     }
