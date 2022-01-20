@@ -16,8 +16,8 @@ class Logger
     {
         out << str;
         std::size_t found = out.str().find("\n");
-        if(out.str().length() > 100 || found != std::string::npos)
-          save();
+        if(found != std::string::npos)
+            save();
         return *this;
     }
 
