@@ -61,7 +61,7 @@ void Hoermann_pi::run_loop(void)
                             
                             serial.serial_send(tx_buf);
 
-                            // Logger::log() << "-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
+                            Logger::log() << "-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             break;
                             
                         }
