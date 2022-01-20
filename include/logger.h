@@ -15,7 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        if(str == static_cast<std::string>("endl"))
+        if(out > 100)
           save();
         return *this;
     }
