@@ -23,10 +23,11 @@ void Logger::flush()
 
 void Logger::save()
 {
-    auto now = std::chrono::system_clock::now();
-    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    
     auto handle = std::ofstream(fileName, std::ios_base::app);
-    handle << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d %X") << " | " << out.str() << "\n";
+    handle << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") << " | " << out.str() << "\n";
     out.clear();
 }
 
