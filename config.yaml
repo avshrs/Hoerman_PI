@@ -27,5 +27,5 @@ mqtt:
 
 hoermann:
     boudrate: 19200
-    serial_file: /dev/ttyUSB2
+    serial_file: /dev/ttyUSB1
     remove_lead_zero: 1

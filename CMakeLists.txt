@@ -15,6 +15,6 @@ set(INCLUDE_HEADER_FILES "include/*.h" )
 file(GLOB mSOURCES  "src/*.cpp" )
 
 
-add_executable(Hoerman_bus_at_pi "src/hoer_read_status.cpp" ${mSOURCES})
+add_executable(Hoerman_bus_at_pi "src/main.cpp" ${mSOURCES})
 target_link_libraries(Hoerman_bus_at_pi  ${libs})
 
