@@ -12,6 +12,14 @@
 #include <stdlib.h>
 #include <sstream> // stringstream
 
+std::string date(){
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    std::stringstream ss; 
+    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    return ss.str();
+}
+
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
@@ -431,10 +439,3 @@ void Hoermann_pi::register_cfg(Config_manager *cfg_){
 }
 
 
-std::string date(){
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);      
-    std::stringstream ss; 
-    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
-    return ss.str();
-}
