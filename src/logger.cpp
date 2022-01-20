@@ -1,7 +1,7 @@
 #include "logger.h"
 Logger* Logger::instance = nullptr; // or NULL, or nullptr in c++11
 
-Logger& Logger::get()
+Logger& Logger::log()
 {
     if(!Logger::instance)
         Logger::instance = new Logger();

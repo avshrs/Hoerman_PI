@@ -21,14 +21,13 @@ void Hoermann_pi::run_loop(void)
     auto start = timer.now();
     RX_Buffer rx_buf;
     TX_Buffer tx_buf;
-    Logger::get() << "Send time excited\n";
+    
     while (true)
-    { Logger::get() << "Send time excited\n";
+    { 
         rx_buf.buf.clear();
         tx_buf.buf.clear();
         serial.serial_read(rx_buf);
-Logger::get() << "Send time excited\n";
-                                Logger::get().flush();
+
         start = timer.now();
         if(is_frame_corect(rx_buf))
         {     
@@ -52,18 +51,17 @@ Logger::get() << "Send time excited\n";
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                Logger::get() << "Send time excited\n";
-                                Logger::get().flush();
+                                Logger::log() << "Send time excited\n";
+                                Logger::log().flush();
                                 break;
                             }
-                            std::cout << "--------------\n";
+                            
                             print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
                             print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             
                             serial.serial_send(tx_buf);
 
-                            auto deltaTime2 = std::chrono::duration_cast<mi>(timer.now() - start).count();
-                            std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            Logger::log() << "-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             break;
                             
                         }
@@ -83,18 +81,14 @@ Logger::get() << "Send time excited\n";
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                std::cout << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
+                                Logger::log() << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
                                 break;
                             }
-                            // std::cout << "--------------\n";
-                            // print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
-                            // print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
-                            // std::cout << "--------------\n\n";
+                            Logger::log()  << "--------------\n";
+                            print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
+                            print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             serial.serial_send(tx_buf);
-                            // auto check2 = timer.now();
-                            // auto deltaTime2 = std::chrono::duration_cast<mi>(check2 - start).count();
-                            
-                            // std::cout << "-------"<<deltaTime2 <<"-------\n";
+                            Logger::log()  << "-------"<< std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             
                             
                             break;
@@ -252,14 +246,14 @@ void Hoermann_pi::pub_thread()
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 {   
-    std::cout << "Len: "<< std::dec <<len << "|";
+    Logger::log() << "Len: "<< std::dec <<len << "|";
     for(int i = 0; i < len  ; i++)
         {
-        std::cout << " 0x" << std::setw(2);
-        std::cout << std::setfill('0') << std::hex;
-        std::cout << static_cast<int>(buf[i]);
+        Logger::log() << " 0x" << std::setw(2);
+        Logger::log() << std::setfill('0') << std::hex;
+        Logger::log() << static_cast<int>(buf[i]);
         }
-    std::cout<<" | "<<std::endl;
+    Logger::log() <<" | \n";
 }
 
 uint8_t Hoermann_pi::get_master_address()
@@ -356,27 +350,27 @@ void Hoermann_pi::set_state(std::string action)
 {
     if(action == cfg->set_stop_string())
     {
-      std::cout<<"Executing RESPONSE_STOP"<<std::endl;
+      Logger::log()<<"Executing RESPONSE_STOP\n";
       slave_respone_data = RESPONSE_STOP;
     }
     else if(action == cfg->set_open_string())
     {
       slave_respone_data = RESPONSE_OPEN;
-      std::cout<<"Executing RESPONSE_OPEN"<<std::endl;
+      Logger::log()<<"Executing RESPONSE_OPEN\n";
     }
     else if(action == cfg->set_close_string())
     {
-      std::cout<<"Executing RESPONSE_CLOSE"<<std::endl;
+      Logger::log()<<"Executing RESPONSE_CLOSE\n";
       slave_respone_data = RESPONSE_CLOSE;
     }
     else if(action == cfg->set_venting_string())
     {
-      std::cout<<"Executing RESPONSE_VENTING"<<std::endl;
+      Logger::log()<<"Executing RESPONSE_VENTING\n";
       slave_respone_data = RESPONSE_VENTING;
     }
     else if(action == cfg->toggle_Light_string())
     {
-      std::cout<<"Executing RESPONSE_TOGGLE_LIGHT"<<std::endl;
+      Logger::log()<<"Executing RESPONSE_TOGGLE_LIGHT\n";
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
     }
     
@@ -399,7 +393,7 @@ uint8_t crc = CRC8_INITIAL_VALUE;
             }
         }
     }
-    //std::cout << " 0x"<<std::setw(2) << std::setfill('0')<<std::hex << static_cast<int>(crc);
+    
     return(crc);
 }
 

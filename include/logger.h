@@ -7,7 +7,7 @@
 class Logger
 {
   public:
-    static Logger& get();
+    static Logger& log();
     
     void flush();
     
