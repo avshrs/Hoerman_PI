@@ -6,16 +6,13 @@
 #include <iostream>
 
 
+
 class Logger {
     private:
         std::ostringstream oss;
     public:
-        // template <typename T>
-        //     Logger& Logger::operator<<(T a) {
-        //         oss << a;
-        //         return *this;
-        //     }
-
+        template <typename T>
+        Logger& operator<<(T a);
 
     Logger& operator<<( std::ostream&(*f)(std::ostream&) )
     {
@@ -27,4 +24,3 @@ class Logger {
         return *this;
     }
 };
-
