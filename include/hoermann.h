@@ -56,7 +56,7 @@ class Hoermann_pi{
         Config_manager *cfg;
 
     private:
-
+        std::string date();
         std::chrono::high_resolution_clock timer;
         using mi = std::chrono::duration<float, std::micro>;
         uint8_t tx_length = 0;

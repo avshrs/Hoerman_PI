@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <sstream> // stringstream
 
-std::string date(){
+std::string Hoermann_pi::date(){
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);      
     std::stringstream ss; 

@@ -20,7 +20,7 @@ public:
 
     Hoermann_pi *hoerpi;
     Config_manager *cfg;
-
+    std::string date();
     void pub_door_state(std::string msg);
     void pub_in_state(int out, bool sate);
     void register_horman(Hoermann_pi *hoerpi_);

@@ -6,7 +6,7 @@
 #include <iomanip>
 #include <ctime>
 
-std::string date(){
+std::string Config_manager::date(){
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);      
     std::stringstream ss; 

@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 
-std::string date(){
+std::string Mqtt_Client::date(){
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);      
     std::stringstream ss; 

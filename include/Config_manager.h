@@ -9,7 +9,7 @@ class Config_manager{
 
     public:
         void read_config();
-
+        std::string date();
         std::string get_mqtt_ClientId();
         std::string get_mqtt_ip();
         int         get_mqtt_port();
