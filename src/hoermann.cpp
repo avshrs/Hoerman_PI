@@ -8,7 +8,10 @@
 #include <algorithm>    // std::fill
 #include "Mosquitto.h"
 #include <thread>
-#include "logger.h"
+#include <ctime>   // localtime
+#include <stdlib.h>
+#include <sstream> // stringstream
+
 
 void Hoermann_pi::init(const char* serial_name, int boudrate, uint8_t lead_zero)
 {
@@ -51,17 +54,13 @@ void Hoermann_pi::run_loop(void)
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                Logger::log() << "Send time excited\n";
-                                
+                                std::cout << date() << "Send time excited\n";
                                 break;
                             }
-                            
-                            print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
-                            print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
-                            
                             serial.serial_send(tx_buf);
+                            print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
 
-                            Logger::log() << "-------"<<std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
+                            std::cout << date()  << "Time delta: "<< std::chrono::duration_cast<mi>(timer.now() - start).count() <<"\n";
                             break;
                             
                         }
@@ -81,14 +80,15 @@ void Hoermann_pi::run_loop(void)
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                Logger::log() << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
+                                std::cout << date()<< " STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
+
                                 break;
                             }
                            
                             // print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
                             // print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             serial.serial_send(tx_buf);
-                            // Logger::log()  << "-------"<< std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
+                            // std::cout   << "-------"<< std::chrono::duration_cast<mi>(timer.now() - start).count() <<"-------\n";
                             
                             
                             break;
@@ -246,14 +246,14 @@ void Hoermann_pi::pub_thread()
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 {   
-    Logger::log() << "Len: "<< std::dec <<len << "|";
+    std::cout << date()<< "Len: "<< std::dec <<len << "|";
     for(int i = 0; i < len  ; i++)
         {
-        Logger::log() << " 0x" << std::setw(2);
-        Logger::log() << std::setfill('0') << std::hex;
-        Logger::log() << static_cast<int>(buf[i]);
+        std::cout << " 0x" << std::setw(2);
+        std::cout << std::setfill('0') << std::hex;
+        std::cout << static_cast<int>(buf[i]);
         }
-    Logger::log() <<" | \n";
+    std::cout <<" | \n";
 }
 
 uint8_t Hoermann_pi::get_master_address()
@@ -350,27 +350,27 @@ void Hoermann_pi::set_state(std::string action)
 {
     if(action == cfg->set_stop_string())
     {
-      Logger::log()<<"Executing RESPONSE_STOP\n";
+      std::cout<< date() <<"Executing RESPONSE_STOP\n";
       slave_respone_data = RESPONSE_STOP;
     }
     else if(action == cfg->set_open_string())
     {
       slave_respone_data = RESPONSE_OPEN;
-      Logger::log()<<"Executing RESPONSE_OPEN\n";
+      std::cout << date()<<"Executing RESPONSE_OPEN\n";
     }
     else if(action == cfg->set_close_string())
     {
-      Logger::log()<<"Executing RESPONSE_CLOSE\n";
+      std::cout << date()<<"Executing RESPONSE_CLOSE\n";
       slave_respone_data = RESPONSE_CLOSE;
     }
     else if(action == cfg->set_venting_string())
     {
-      Logger::log()<<"Executing RESPONSE_VENTING\n";
+      std::cout << date()<<"Executing RESPONSE_VENTING\n";
       slave_respone_data = RESPONSE_VENTING;
     }
     else if(action == cfg->toggle_Light_string())
     {
-      Logger::log()<<"Executing RESPONSE_TOGGLE_LIGHT\n";
+      std::cout<< date() <<"Executing RESPONSE_TOGGLE_LIGHT\n";
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
     }
     
@@ -428,4 +428,13 @@ void Hoermann_pi::register_mqtt(Mqtt_Client *mqtt_){
 
 void Hoermann_pi::register_cfg(Config_manager *cfg_){
     cfg = cfg_;
+}
+
+
+std::string date(){
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    std::stringstream ss; 
+    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    return ss.str();
 }

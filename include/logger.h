@@ -7,7 +7,7 @@
 class Logger
 {
   public:
-    static Logger& log();
+    static void log();
     
     void flush();
     
@@ -15,10 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        std::size_t found = out.str().find("\n");
-        if(found != std::string::npos)
-            save();
-        return *this;
+        return this.log();
     }
 
     
@@ -28,7 +25,6 @@ class Logger
 
   private:
     const std::string fileName = "Hoermann.log";
-    static Logger* instance;
     std::ostringstream out;
 
 };
