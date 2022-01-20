@@ -15,7 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        out.seekg(0, ios::end);
+        out.seekp(0, ios::end);
         int size = oss.tellg();
         if(oss.tellg() > 100)
           save();
