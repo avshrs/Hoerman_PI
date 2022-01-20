@@ -25,9 +25,11 @@ void Logger::save()
 {
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);      
-    
+    std::ostringstream out2;
+    out2 << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    out2 << out.str() ;
     auto handle = std::ofstream(fileName, std::ios_base::app);
-    handle << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") << " | " << out.str() << "\n";
+    handle << out2.str() << "\n";
     out.clear();
 }
 
