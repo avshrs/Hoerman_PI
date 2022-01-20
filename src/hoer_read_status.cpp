@@ -3,11 +3,19 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
-
+#include <iomanip>
+#include <ctime>
 #include "Mosquitto.h"
 
 
 
+std::string date(){
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    std::stringstream ss; 
+    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    return ss.str();
+}
 
 void th1(Hoermann_pi *door){
    door->run_loop();    
@@ -44,7 +52,7 @@ int main(){
    while (true)
    {
         std::string door_state = door.get_state();
-        std::cout<< "door status: "  << door_state << std::endl;
+        std::cout<< date() << "door status: "  << door_state << std::endl;
         mqtt.publish(NULL, ktop.c_str(), kmsg.length(), kmsg.c_str());
         mqtt.publish(NULL, pub.c_str(), door_state.length(), door_state.c_str());
         sleep(60);

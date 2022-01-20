@@ -4,13 +4,21 @@
 #include <string>
 #include <algorithm>
 
+std::string date(){
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    std::stringstream ss; 
+    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    return ss.str();
+}
+
 void Config_manager::read_config(){
     YAML::Node config = YAML::LoadFile("config.yaml");
-    std::cout << "outputs settings loading" << std::endl;
+    
 
   
     
-    std::cout << "Mqtt settings loading" << std::endl;
+    std::cout << date() << "Loading Settings" << std::endl;
     mqtt_config.ClientId = config["mqtt"]["ClientId"].as<std::string>();
     mqtt_config.ServerIp = config["mqtt"]["ServerIp"].as<std::string>();
     mqtt_config.username = config["mqtt"]["username"].as<std::string>();
@@ -39,7 +47,7 @@ void Config_manager::read_config(){
     h_config.serial_file = config["hoermann"]["serial_file"].as<std::string>();
     h_config.boudrate = config["hoermann"]["boudrate"].as<int>();
     h_config.remove_lead_zero = config["hoermann"]["remove_lead_zero"].as<int>();
-
+    std::cout << date() << "Settings Loaded" << std::endl;
 }
     
 

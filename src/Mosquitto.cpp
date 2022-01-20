@@ -7,6 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+std::string date(){
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);      
+    std::stringstream ss; 
+    ss << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ") ;
+    return ss.str();
+}
+
+
 Mqtt_Client::Mqtt_Client(const char *id, const char *host, int port, const char *username, const char *password) : mosquittopp(id)
 {
     int keepalive = 60;
@@ -23,22 +33,22 @@ void Mqtt_Client::client_loop_forever(){
 
 void Mqtt_Client::register_subs()
 {
-    std::cout<<"register_subs1"<<std::endl;
+    std::cout<< date() <<"register_subs1"<<std::endl;
     std::string sub = cfg->get_mqtt_Substring();
-    std::cout<<"register_subs2"<<std::endl;
+    std::cout<< date() <<"register_subs2"<<std::endl;
     subscribe(NULL, sub.c_str());
 }
 
 void Mqtt_Client::unregister_subs()
 {
-    std::cout<<"unregister_subs1"<<std::endl;
+    std::cout<< date() <<"unregister_subs1"<<std::endl;
     std::string sub = cfg->get_mqtt_Substring();
-    std::cout<<"unregister_subs2"<<std::endl;
+    std::cout<< date() <<"unregister_subs2"<<std::endl;
     unsubscribe(NULL, sub.c_str());
 }
 
 void Mqtt_Client::on_error() {
-    std::cout<<"onerror"<<std::endl;
+    std::cout<< date() <<"onerror"<<std::endl;
     return;
     }
 
@@ -47,10 +57,7 @@ void Mqtt_Client::on_connect(int rc)
 {
     if (!rc)
     {
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);      
-        std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
-        std::cout << "Connected with code " << rc << std::endl;
+        std::cout << date() << "Connected with code " << rc << std::endl;
         // unregister_subs();
         register_subs();
     }
@@ -60,27 +67,18 @@ void Mqtt_Client::on_connect(int rc)
 
 void Mqtt_Client::on_disconnect(int rc){
     if (!rc){
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);      
-        std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
-        std::cout << "disconnected - code " << rc << std::endl;
-    
+        std::cout << date() << "disconnected - code " << rc << std::endl;
     }
 }
 
 void Mqtt_Client::on_unsubscribe(int mid){
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);      
-        std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
-        std::cout << "Subscription succeeded. " << " mid: " << mid <<  std::endl;
+        std::cout<< date()  << "Subscription succeeded. " << " mid: " << mid <<  std::endl;
 }
 
 
 void Mqtt_Client::on_subscribe(int mid, int qos_count, const int *granted_qos){
-        auto t = std::time(nullptr);
-        auto tm = *std::localtime(&t);      
-        std::cout << std::put_time(&tm, "%d-%m-%Y %H-%M-%S | ");
-        std::cout << "Subscription succeeded. " << " mid: " << mid << " qos_count: "<< qos_count << " qos_granted: "<< granted_qos << std::endl;
+
+        std::cout<< date()  << "Subscription succeeded. " << " mid: " << mid << " qos_count: "<< qos_count << " qos_granted: "<< granted_qos << std::endl;
 }
 
 
@@ -104,37 +102,37 @@ void Mqtt_Client::on_message(const struct mosquitto_message *message){
         std::string message_topic(message->topic);
         std::string message_payload(static_cast<char*>(message->payload));
         std::string substring = cfg->get_mqtt_Substring();
-        std::cout <<"get instruction: " << message_payload << std::endl;
+        std::cout << date() <<"get instruction: " << message_payload << std::endl;
         if(!message_payload.empty() && message_topic == substring){
             if(message_payload == cfg->set_open_string())
             {
-                std::cout <<"door_open: " << message_payload << std::endl;
+                std::cout << date() <<"door_open: " << message_payload << std::endl;
                 hoerpi->door_open();
             }
             else if(message_payload == cfg->set_close_string())
             {
-                std::cout <<"door_close: " << message_payload << std::endl;
+                std::cout << date() <<"door_close: " << message_payload << std::endl;
                 hoerpi->door_close();
             }
             else if(message_payload == cfg->set_stop_string())
             {   
-                std::cout <<"door_stop: " << message_payload << std::endl;
+                std::cout << date() <<"door_stop: " << message_payload << std::endl;
                 hoerpi->door_stop();
             }
             else if(message_payload == cfg->set_venting_string())
             {   
-                std::cout <<"door_venting: " << message_payload << std::endl;
+                std::cout << date() <<"door_venting: " << message_payload << std::endl;
                 hoerpi->door_venting();
             }
             else if(message_payload == cfg->toggle_Light_string())
             {
-                std::cout <<"door_toggle_light: " << message_payload << std::endl;
+                std::cout << date() <<"door_toggle_light: " << message_payload << std::endl;
                 hoerpi->door_toggle_light();
             }
             else    
-                std::cout<< "Bad payload message" << std::endl;
+                std::cout<< date() << "Bad payload message" << std::endl;
           }
     }
-    catch(...){std::cout << "Received Empty Payload" << std:: endl;}
+    catch(...){std::cout << date() << "Received Empty Payload" << std:: endl;}
 }
 
