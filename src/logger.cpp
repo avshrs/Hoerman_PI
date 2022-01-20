@@ -16,7 +16,7 @@ void Logger::flush()
 
 void Logger::save()
 {
-    auto handle = std::ofstream("fileName");
+    auto handle = std::ofstream(fileName);
     handle <<__FILE__ << __LINE__ << __PRETTY_FUNCTION__ << out.str();
     out.clear();
 }
