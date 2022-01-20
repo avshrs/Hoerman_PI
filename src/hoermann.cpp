@@ -21,8 +21,9 @@ void Hoermann_pi::run_loop(void)
     auto start = timer.now();
     RX_Buffer rx_buf;
     TX_Buffer tx_buf;
+    Logger::get() << "Send time excited\n";
     while (true)
-    { 
+    { Logger::get() << "Send time excited\n";
         rx_buf.buf.clear();
         tx_buf.buf.clear();
         serial.serial_read(rx_buf);
