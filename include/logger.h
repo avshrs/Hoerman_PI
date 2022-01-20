@@ -15,7 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        if(out > 100)
+        if(out.size() > 100)
           save();
         return *this;
     }
