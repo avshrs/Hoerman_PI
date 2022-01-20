@@ -51,13 +51,13 @@ void Hoermann_pi::run_loop(void)
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                // Logger::log() << "Send time excited\n";
-                                // Logger::log().flush();
+                                Logger::log() << "Send time excited\n";
+                                
                                 break;
                             }
                             
-                            // print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
-                            // print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
+                            print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
+                            print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             
                             serial.serial_send(tx_buf);
 
@@ -81,10 +81,10 @@ void Hoermann_pi::run_loop(void)
                         {   
                             if(deltaTime > max_frame_delay)
                             {
-                                // Logger::log() << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
+                                Logger::log() << "STATUS RESPONCE Frame building to long "<<deltaTime <<"\n";
                                 break;
                             }
-                            // Logger::log()  << "--------------\n";
+                           
                             // print_buffer(rx_buf.buf.data(),rx_buf.buf.size());
                             // print_buffer(tx_buf.buf.data(),tx_buf.buf.size());
                             serial.serial_send(tx_buf);
@@ -246,14 +246,14 @@ void Hoermann_pi::pub_thread()
 
 void Hoermann_pi::print_buffer(uint8_t *buf, int len)
 {   
-    // Logger::log() << "Len: "<< std::dec <<len << "|";
-    // for(int i = 0; i < len  ; i++)
-    //     {
-    //     Logger::log() << " 0x" << std::setw(2);
-    //     Logger::log() << std::setfill('0') << std::hex;
-    //     Logger::log() << static_cast<int>(buf[i]);
-    //     }
-    // Logger::log() <<" | \n";
+    Logger::log() << "Len: "<< std::dec <<len << "|";
+    for(int i = 0; i < len  ; i++)
+        {
+        Logger::log() << " 0x" << std::setw(2);
+        Logger::log() << std::setfill('0') << std::hex;
+        Logger::log() << static_cast<int>(buf[i]);
+        }
+    Logger::log() <<" | \n";
 }
 
 uint8_t Hoermann_pi::get_master_address()
@@ -350,27 +350,27 @@ void Hoermann_pi::set_state(std::string action)
 {
     if(action == cfg->set_stop_string())
     {
-    //   Logger::log()<<"Executing RESPONSE_STOP\n";
+      Logger::log()<<"Executing RESPONSE_STOP\n";
       slave_respone_data = RESPONSE_STOP;
     }
     else if(action == cfg->set_open_string())
     {
       slave_respone_data = RESPONSE_OPEN;
-    //   Logger::log()<<"Executing RESPONSE_OPEN\n";
+      Logger::log()<<"Executing RESPONSE_OPEN\n";
     }
     else if(action == cfg->set_close_string())
     {
-    //   Logger::log()<<"Executing RESPONSE_CLOSE\n";
+      Logger::log()<<"Executing RESPONSE_CLOSE\n";
       slave_respone_data = RESPONSE_CLOSE;
     }
     else if(action == cfg->set_venting_string())
     {
-    //   Logger::log()<<"Executing RESPONSE_VENTING\n";
+      Logger::log()<<"Executing RESPONSE_VENTING\n";
       slave_respone_data = RESPONSE_VENTING;
     }
     else if(action == cfg->toggle_Light_string())
     {
-    //   Logger::log()<<"Executing RESPONSE_TOGGLE_LIGHT\n";
+      Logger::log()<<"Executing RESPONSE_TOGGLE_LIGHT\n";
       slave_respone_data = RESPONSE_TOGGLE_LIGHT;
     }
     
