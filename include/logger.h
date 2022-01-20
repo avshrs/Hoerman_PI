@@ -15,8 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        out.seekp(0, ios::end);
-        if(out.tellp() > 100)
+        if(out.str().length() > 100)
           save();
         return *this;
     }
