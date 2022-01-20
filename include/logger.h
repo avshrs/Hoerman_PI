@@ -3,24 +3,31 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include <iostream>
 
-
-
-class Logger {
-    private:
-        std::ostringstream oss;
-    public:
-        template <typename T>
-        Logger& operator<<(T a);
-
-    Logger& operator<<( std::ostream&(*f)(std::ostream&) )
+class Logger
+{
+  public:
+    static Logger& log();
+    
+    void flush();
+    
+    template<typename T>
+    Logger& operator<< (const T& str)
     {
-        if( f == std::endl )
-        {
-            std::cout << "12-09-2009 11:22:33" << oss.str() << std::endl;   
-            oss.str("");
-        }
+        out << str;
+        if(out.str().length() > 100 || out.str().find("\n"))
+          save();
         return *this;
     }
+
+    
+
+  private:
+    void save();
+
+  private:
+    const std::string fileName = "Hoermann.log";
+    static Logger* instance;
+    std::ostringstream out;
+
 };
