@@ -15,7 +15,7 @@ class Logger
     Logger& operator<< (const T& str)
     {
         out << str;
-        std::size_t found = str.find("\n");
+        std::size_t found = out.str().find("\n");
         if(out.str().length() > 100 || found != std::string::npos)
           save();
         return *this;
