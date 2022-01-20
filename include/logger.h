@@ -16,8 +16,7 @@ class Logger
     {
         out << str;
         out.seekp(0, ios::end);
-        int size = oss.tellg();
-        if(oss.tellg() > 100)
+        if(out.tellg() > 100)
           save();
         return *this;
     }
