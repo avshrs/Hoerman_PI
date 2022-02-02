@@ -1,13 +1,13 @@
 mqtt:
-    ClientId: Hoermann_Door_Hose
+    ClientId: Hoermann_Door_Garage
     ServerIp: 192.168.1.111
     serverPort: 1883
     username: mqttuser
     password: mqttuser
-    keepAliveTopic: Hoermann_Door_Hose/status
+    keepAliveTopic: Hoermann_Door_Garage/status
     keepAliveMsg: Online
-    Substring: Hoermann_Door_Hose/set
-    Pubstring: Hoermann_Door_Hose/get
+    Substring: Hoermann_Door_Garage/set
+    Pubstring: Hoermann_Door_Garage/get
 
     hoermann_get_open: open
     hoermann_get_stopped: stopped # in my case also partially open 
