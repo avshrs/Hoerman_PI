@@ -24,7 +24,8 @@ void th2(Mqtt_Client *mqtt){
     mqtt->client_loop_forever();
 }
 
-int main(){
+int main()
+{
    Config_manager cfg;
    Hoermann_pi door;
 
@@ -63,7 +64,7 @@ int main(){
         sleep(60);
    }
 
-return 1;
+return 0;
 }
 
 

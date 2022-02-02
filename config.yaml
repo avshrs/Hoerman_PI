@@ -1,31 +1,32 @@
 mqtt:
-    ClientId: BramaGaraz
+    ClientId: Hoermann_Door_Hose
     ServerIp: 192.168.1.111
     serverPort: 1883
     username: mqttuser
     password: mqttuser
-    keepAliveTopic: brama_garaz_main
+    keepAliveTopic: Hoermann_Door_Hose/status
     keepAliveMsg: Online
-    Substring: brama_garaz_set
-    Pubstring: brama_garaz_get
+    Substring: Hoermann_Door_Hose/set
+    Pubstring: Hoermann_Door_Hose/get
 
-    brama_get_open: open
-    brama_get_stopped: stopped_or_par_open
-    brama_get_closed: closed
-    brama_get_opening: opening
-    brama_get_closing: closing
-    brama_get_venting: venting
-    brama_get_error: error
-    brama_get_offline: offline
+
+    hoermann_get_open: open
+    hoermann_get_stopped: stopped # in my case also partially open 
+    hoermann_get_closed: closed
+    hoermann_get_opening: opening
+    hoermann_get_closing: closing
+    hoermann_get_venting: venting
+    hoermann_get_error: error
+    hoermann_get_offline: offline
     
 
-    brama_set_open: OPEN
-    brama_set_close: CLOSE
-    brama_set_stop: STOP
-    brama_set_venting: VENTING
-    brama_toggle_Light: TOGGLE_LIGHT
+    hoermann_set_open: OPEN
+    hoermann_set_close: CLOSE
+    hoermann_set_stop: STOP
+    hoermann_set_venting: VENTING
+    hoermann_toggle_Light: TOGGLE_LIGHT
 
 hoermann:
     boudrate: 19200
     serial_file: /dev/ttyUSB1
-    remove_lead_zero: 1
+    remove_lead_zero: 1 # in my case rs485 to usb CH340 read break zero as first byte. 
