@@ -30,7 +30,8 @@ void Config_manager::read_config(){
     mqtt_config.keepAliveTopic = config["mqtt"]["keepAliveTopic"].as<std::string>();
     mqtt_config.keepAliveMsg = config["mqtt"]["keepAliveMsg"].as<std::string>();
     
-    
+    mqtt_config.Substring = config["mqtt"]["Substring"].as<std::string>();
+    mqtt_config.Pubstring = config["mqtt"]["Pubstring"].as<std::string>();
 
     h_config.get_open = config["mqtt"]["hoermann_get_open"].as<std::string>();
     h_config.get_stopped = config["mqtt"]["hoermann_get_stopped"].as<std::string>();
@@ -45,7 +46,6 @@ void Config_manager::read_config(){
     h_config.set_stop = config["mqtt"]["hoermann_set_stop"].as<std::string>();
     h_config.set_venting = config["mqtt"]["hoermann_set_venting"].as<std::string>();
     h_config.toggle_Light = config["mqtt"]["hoermann_toggle_Light"].as<std::string>();
-    
     h_config.serial_file = config["hoermann"]["serial_file"].as<std::string>();
     h_config.boudrate = config["hoermann"]["boudrate"].as<int>();
     h_config.remove_lead_zero = config["hoermann"]["remove_lead_zero"].as<int>();
