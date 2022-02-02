@@ -46,6 +46,5 @@ struct Mqtt_config{
     std::string keepAliveMsg;
     std::string Substring;
     std::string Pubstring;
-
-
 };
+
