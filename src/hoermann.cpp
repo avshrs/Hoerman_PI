@@ -107,7 +107,6 @@ void Hoermann_pi::run_loop(void)
                 }
             }
         }
-
     } 
 }       
 

@@ -9,7 +9,6 @@ mqtt:
     Substring: Hoermann_Door_Hose/set
     Pubstring: Hoermann_Door_Hose/get
 
-
     hoermann_get_open: open
     hoermann_get_stopped: stopped # in my case also partially open 
     hoermann_get_closed: closed
@@ -18,7 +17,6 @@ mqtt:
     hoermann_get_venting: venting
     hoermann_get_error: error
     hoermann_get_offline: offline
-    
 
     hoermann_set_open: OPEN
     hoermann_set_close: CLOSE
