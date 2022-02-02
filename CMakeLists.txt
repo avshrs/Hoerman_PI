@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.9)
-project(Hoermann_door_pi)
+project(Hormann_door_pi)
 add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
 
@@ -15,6 +15,6 @@ set(INCLUDE_HEADER_FILES "include/*.h" )
 file(GLOB mSOURCES  "src/*.cpp" )
 
 
-add_executable(Hoermann_door_pi "src/main.cpp" ${mSOURCES})
-target_link_libraries(Hoermann_door_pi  ${libs})
+add_executable(Hormann_door_pi "src/main.cpp" ${mSOURCES})
+target_link_libraries(Hormann_door_pi  ${libs})
 
