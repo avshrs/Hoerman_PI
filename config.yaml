@@ -26,5 +26,5 @@ mqtt:
 
 hoermann:
     boudrate: 19200
-    serial_file: /dev/ttyUSB1
+    serial_file: /dev/ttyUSB2
     remove_lead_zero: 1 # in my case rs485 to usb CH340 read break zero as first byte. 
