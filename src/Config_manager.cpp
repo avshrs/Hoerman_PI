@@ -17,9 +17,6 @@ std::string Config_manager::date(){
 void Config_manager::read_config(){
     YAML::Node config = YAML::LoadFile("config.yaml");
     
-
-  
-    
     std::cout << date() << "Loading Settings" << std::endl;
     mqtt_config.ClientId = config["mqtt"]["ClientId"].as<std::string>();
     mqtt_config.ServerIp = config["mqtt"]["ServerIp"].as<std::string>();
@@ -51,7 +48,11 @@ void Config_manager::read_config(){
     h_config.remove_lead_zero = config["hoermann"]["remove_lead_zero"].as<int>();
     std::cout << date() << "Settings Loaded" << std::endl;
 }
-    
+
+void Config_manager::register_config(std::string config_path_)
+{
+    config_path = config_path_;
+}    
 
 std::string Config_manager::get_mqtt_ClientId(){
     return  mqtt_config.ClientId;

@@ -6,9 +6,11 @@ class Config_manager{
     private:
         Mqtt_config mqtt_config;
         Hoermann_cfg h_config;
+        std::string config_path;
 
     public:
         void read_config();
+        void register_config(std::string config_path_);
         std::string date();
         std::string get_mqtt_ClientId();
         std::string get_mqtt_ip();
